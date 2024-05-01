@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {Outlet} from 'react-router-dom'
+import Sidebar from '@/components/layout/sidebar'
+import useIsCollapsed from '@/hooks/use-is-collapsed'
+import {LayoutHeader} from '@/components/layout'
+import {Search} from '@/components/custom/search'
+import ThemeSwitch from '@/components/custom/theme-switch'
+import {UserNav} from '@/components/layout/user-nav'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='relative h-full overflow-hidden bg-background'>
+      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
+      <main
+        id='content'
+        className={`overflow-x-hidden pt-16 transition-[margin] md:overflow-y-hidden md:pt-0 ${isCollapsed ? 'md:ml-14' : 'md:ml-56'} h-full`}
+      >
+        <div className={`relative w-screen h-20 overflow-x-hidden`}>
+          <LayoutHeader className='fixed z-10 border-b w-full md:top-0 lg:top-0 left-0 sm:top-20'>
+            <div className={`${isCollapsed ? 'md:ml-14' : 'md:ml-56'}`}><Search/></div>
+            <div className='ml-auto flex items-center space-x-4'>
+              <ThemeSwitch/>
+              <UserNav/>
+            </div>
+          </LayoutHeader>
+        </div>
+
+        <Outlet/>
+      </main>
+    </div>
   )
 }
-
-export default App
