@@ -1,29 +1,34 @@
-import i18n from "i18next";
+import i18next, {Callback} from "i18next";
 import {initReactI18next} from "react-i18next";
+import LanguageDetector from 'i18next-browser-languagedetector';
+import Cache from 'i18next-localstorage-cache';
 
 import enUS from "@/locale/en-US";
 import zhCN from "@/locale/zh-CN";
 
 const resources = {
-  en: {
-    translation: enUS
-  },
-  zh: {
+  'zh-CN': {
     translation: zhCN
+  },
+  'en-US': {
+    translation: enUS
   },
 };
 
-i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .init({
-    resources,
-    lng: "zh", // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
-    // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
-    // if you're using a language detector, do not define the lng option
+i18next
+    .use(Cache)
+    .use(new LanguageDetector(null, {lookupLocalStorage: "mqshop-lng"}))
+    .use(initReactI18next)
+    .init({
+      // debug: true,
+      resources: resources,
+      fallbackLng: 'en-US',
+      interpolation: {
+        escapeValue: false
+      },
+    } as Callback)
+    .then((t) => {
+      t('menu.welcome');
+    });
 
-    interpolation: {
-      escapeValue: false // react already safes from xss
-    }
-  });
-
-export default i18n;
+export default i18next;
