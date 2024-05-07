@@ -54,6 +54,12 @@ export const sideLinks: SideLink[] = [
         href: '/brands',
         icon: <IconMessages size={18}/>,
       },
+      {
+        title: 'menu.attrs.list',
+        label: '',
+        href: '/attrs',
+        icon: <IconMessages size={18}/>,
+      },
     ]
   },
   {
@@ -73,6 +79,20 @@ export const sideLinks: SideLink[] = [
         label: '',
         href: '/delivery',
         icon: <IconApps size={18}/>,
+      },
+    ],
+  },
+  {
+    title: 'menu.invoice',
+    label: '',
+    href: '/invoice',
+    icon: <IconMenuOrder size={18}/>,
+    sub: [
+      {
+        title: 'menu.invoice.index',
+        label: '',
+        href: '/index',
+        icon: <IconMessages size={18}/>,
       },
     ],
   },

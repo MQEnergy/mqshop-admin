@@ -12,6 +12,7 @@ export default {
   'menu.order.list': '订单管理',
   /* invoice */
   'menu.invoice': '发票',
+  'menu.invoice.index': '发票管理',
   /* settings */
   'menu.settings': '设置管理',
   'menu.order.delivery': '配送管理',
