@@ -104,7 +104,7 @@ function NavLink({
                 variant: checkIsActive(href) ? 'secondary' : 'ghost',
                 size: 'default',
               }),
-              'h-12 justify-start text-wrap secondary shadow-none px-6 mx-4',
+              'h-12 justify-start text-wrap secondary shadow-none px-6 mx-2',
               subLink && 'h-12 w-full mx-0 pl-8'
           )}
           aria-current={checkIsActive(href) ? 'page' : undefined}
@@ -130,7 +130,7 @@ function NavLinkDropdown({title, href, icon, label, sub, closeNav}: NavLinkProps
   const isChildActive = !!sub?.find((s) => checkIsActive(href + s.href))
 
   return (
-      <Collapsible defaultOpen={isChildActive} className={cn('mx-4')}>
+      <Collapsible defaultOpen={isChildActive} className={cn('mx-2')}>
         <CollapsibleTrigger
             className={cn(
                 buttonVariants({variant: 'ghost', size: 'default'}),

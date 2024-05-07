@@ -27,7 +27,7 @@ export function DataTableToolbar<TData>({
               onChange={(event) =>
                   table.getColumn('title')?.setFilterValue(event.target.value)
               }
-              className='h-9 w-[150px] lg:w-[250px]'
+              className='h-10 w-[150px] lg:w-[250px]'
           />
           <div className='flex gap-x-2'>
             {table.getColumn('status') && (

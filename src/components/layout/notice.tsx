@@ -16,7 +16,7 @@ export default function Notice() {
           <Button
               size='icon'
               variant='ghost'
-              className='relative h-8 w-8 rounded-full'
+              className='rounded-full'
           >
             <BellRing size={20} />
           </Button>

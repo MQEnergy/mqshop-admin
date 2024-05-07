@@ -32,7 +32,7 @@ export default function Language() {
           <Button
               size='icon'
               variant='ghost'
-              className='relative h-8 w-8 rounded-full'
+              className='rounded-full'
           >
             <Languages size={20}/>
           </Button>

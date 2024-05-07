@@ -1,12 +1,19 @@
 export default {
   'menu.welcome': '欢迎',
   'menu.dashboard': '仪表盘',
-  'menu.product': '商品管理',
-  'menu.product.list': '商品列表',
-  'menu.cate.list': '分类列表',
-  'menu.brand.list': '品牌列表',
-  'menu.order': '订单管理',
-  'menu.order.list': '订单列表',
+  /* products */
+  'menu.product': '商品',
+  'menu.product.list': '商品管理',
+  'menu.cate.list': '分类管理',
+  'menu.brand.list': '品牌管理',
+  'menu.attrs.list': '商品属性',
+  /* orders */
+  'menu.order': '订单',
+  'menu.order.list': '订单管理',
+  /* invoice */
+  'menu.invoice': '发票',
+  /* settings */
+  'menu.settings': '设置管理',
   'menu.order.delivery': '配送管理',
   'menu.order.settings': '配置管理',
   'menu.user': '用户管理',
@@ -15,5 +22,4 @@ export default {
   'menu.exception.404': '页面不存在',
   'menu.exception.500': '服务器内部错误',
   'menu.exception.503': '服务不可用',
-  'menu.settings': '设置管理',
 }

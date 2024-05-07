@@ -19,7 +19,7 @@ export default function Tasks() {
         <LayoutBody className='flex flex-col'>
           <div className='flex-1 md:m-auto lg:m-auto lg:flex-row space-y-5 md:w-10/12 lg:w-10/12'>
             <SingleBreadcrumb breadList={breadList}></SingleBreadcrumb>
-            <SearchBar className='shadow-gray-200 shadow-md border-0'/>
+            <SearchBar />
             <DataTable data={tasks} columns={columns}/>
           </div>
         </LayoutBody>

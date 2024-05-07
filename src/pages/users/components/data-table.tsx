@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
   })
 
   return (
-      <Card className='shadow-gray-200 shadow-md border-0'>
+      <Card>
         <CardHeader>
           <CardTitle>
             <DataTableToolbar table={table}/>
