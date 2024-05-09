@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     lazy: async () => {
       return {Component: (await import('./App')).default}
     },
-    errorElement: <Exception404 onErrorCapture={e => console.log(e)}/>,
+    errorElement: <Exception404 />,
     children: [
       {
         index: true,
@@ -40,6 +40,39 @@ const router = createBrowserRouter([
               Component: (await import('./pages/products')).default,
             }),
           },
+          {
+            path: 'cates',
+            lazy: async () => ({
+              Component: (await import('./pages/products')).default,
+            }),
+          },
+          {
+            path: 'brands',
+            lazy: async () => ({
+              Component: (await import('./pages/products')).default,
+            }),
+          },
+          {
+            path: 'attrs',
+            lazy: async () => ({
+              Component: (await import('./pages/products')).default,
+            }),
+          },
+        ]
+      },
+      {
+        path: '/orders',
+        lazy: async () => ({
+          Component: (await import('./pages/products')).default,
+        }),
+        children: [
+          {
+            index: true,
+            path: 'index',
+            lazy: async () => ({
+              Component: (await import('./pages/products')).default,
+            })
+          }
         ]
       },
       {

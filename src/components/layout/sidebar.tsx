@@ -42,7 +42,7 @@ export default function Sidebar2({
 
       <Layout>
         {/* Header */}
-        <LayoutHeader className='sticky top-0 justify-between px-4 py-3 md:px-4'>
+        <LayoutHeader className='sticky top-0 justify-between px-4 py-3 md:px-4 bg-background'>
           <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
             <svg
               xmlns='http://www.w3.org/2000/svg'

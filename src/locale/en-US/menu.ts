@@ -11,12 +11,23 @@ export default {
   'menu.order': 'Orders',
   'menu.order.list': 'List',
   /* invoice */
-  'menu.invoice': 'Invoice',
-  /* settings */
-  'menu.settings': 'Settings',
-  'menu.order.delivery': 'Delivery List',
-  'menu.order.settings': 'Settings',
+  'menu.invoice': 'Invoices',
+  'menu.invoice.list': 'List',
+  /* users */
   'menu.user': 'Users',
+  'menu.user.list': 'List',
+  /* system */
+  'menu.system': 'System',
+  'menu.system.permission': 'Permissions',
+  'menu.system.permission.resource': 'Resources',
+  'menu.system.permission.role': 'Roles',
+  'menu.system.permission.member': 'Members',
+  'menu.system.settings': 'Settings',
+  'menu.system.settings.attach': 'Attachments',
+  'menu.system.settings.banner': 'Banners',
+  'menu.system.plugin': 'Plugins',
+  'menu.system.plugin.list': 'List',
+  /* exception */
   'menu.exception': 'Error Pages',
   'menu.exception.401': 'Not Authentication',
   'menu.exception.404': 'Not Found',

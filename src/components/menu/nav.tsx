@@ -22,7 +22,7 @@ import {
 import {cn} from '@/lib/utils'
 import useCheckActiveNav from '@/hooks/use-check-active-nav'
 import {SideLink} from './sidelinks'
-import {ChevronDown} from "lucide-react";
+import {ChevronRight} from "lucide-react";
 import {useTranslation} from "react-i18next";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -146,10 +146,10 @@ function NavLinkDropdown({title, href, icon, label, sub, closeNav}: NavLinkProps
           )}
           <span
               className={cn(
-                  'ml-auto transition-all group-data-[state="open"]:-rotate-180'
+                  'ml-auto transition-all group-data-[state="open"]:rotate-90'
               )}
           >
-          <ChevronDown size={18} className='text-muted-foreground'/>
+          <ChevronRight size={18}/>
         </span>
         </CollapsibleTrigger>
         <CollapsibleContent className='collapsibleDropdown' asChild>
@@ -187,7 +187,7 @@ function NavLinkIcon({title, icon, label, href}: NavLinkProps) {
               )}
           >
             {icon}
-            <span className='sr-only'>{t(title)}</span>
+            <span className='sr-only'>{t(title)}12312</span>
           </Link>
         </TooltipTrigger>
         <TooltipContent side='right' className='flex items-center gap-4'>
@@ -228,10 +228,7 @@ function NavLinkIconDropdown({title, href, icon, label, sub}: NavLinkProps) {
             {label && (
                 <span className='ml-auto text-muted-foreground'>{label}</span>
             )}
-            <ChevronDown
-                size={18}
-                className='-rotate-90 text-muted-foreground'
-            />
+            <ChevronRight size={16}/>
           </TooltipContent>
         </Tooltip>
         <DropdownMenuContent side='right' align='start' sideOffset={12}>
@@ -239,7 +236,7 @@ function NavLinkIconDropdown({title, href, icon, label, sub}: NavLinkProps) {
             {t(title)} {label ? `(${label})` : ''}
           </DropdownMenuLabel>
           <DropdownMenuSeparator/>
-            {sub!.map((sublink) => {
+          {sub!.map((sublink) => {
                 const childLink = href + sublink.href;
                 return (
                     <DropdownMenuItem key={`${sublink.title}-${sublink.href}`} asChild>
