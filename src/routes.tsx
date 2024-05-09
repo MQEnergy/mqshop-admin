@@ -78,14 +78,15 @@ const router = createBrowserRouter([
       {
         path: '/users',
         lazy: async () => ({
-          Component: Exception404,
+          Component: (await import('./pages/users')).default,
         }),
+        errorElement: <Exception404 />,
         children: [
           {
             index: true,
             path: 'index',
             lazy: async () => ({
-              Component: (await import('./pages/users')).default,
+              Component: (await import('./pages/users/list')).default,
             })
           }
         ]
