@@ -1,5 +1,6 @@
 import {Input} from '@/components/ui/input'
 import {cn} from "@/lib/utils";
+import {useTranslation} from "react-i18next";
 
 
 interface SearchProps {
@@ -8,17 +9,18 @@ interface SearchProps {
   className?: string;
 }
 
-function Search(props: SearchProps) {
+function SearchInput(props: SearchProps) {
   const {type, placeholder, className} = props
+  const {t} = useTranslation()
   return (
-      <div>
+      <div className='relative'>
         <Input
             type={type || 'search'}
-            placeholder={placeholder}
+            placeholder={placeholder || t('settings.search.placeholder')}
             className={cn('h-9 md:w-[200px] lg:w-[300px]', className)}
         />
       </div>
   )
 }
 
-export {Search}
+export {SearchInput}

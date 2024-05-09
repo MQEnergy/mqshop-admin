@@ -3,7 +3,7 @@ import {DataTable} from './components/data-table'
 import {columns} from './components/columns'
 import {tasks} from './data/tasks'
 import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadcrumb";
-import SearchBar from "@/pages/products/components/search-bar";
+import SearchBar from "@/pages/products/list/components/search-bar";
 
 export default function Tasks() {
   const breadList: BreadListItem[] = [{

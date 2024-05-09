@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {MoreHorizontal} from "lucide-react";
-import ToolBar from "@/pages/products/components/tool-bar";
-import {DataTablePagination} from "@/pages/products/components/data-table-pagination";
+import ToolBar from "@/pages/products/list/components/tool-bar";
+import {DataTablePagination} from "@/pages/products/list/components/data-table-pagination";
 
 interface DataTablesProps extends React.HTMLAttributes<HTMLDivElement> {
 

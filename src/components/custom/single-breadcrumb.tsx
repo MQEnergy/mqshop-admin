@@ -22,7 +22,7 @@ const SingleBreadcrumb = React.forwardRef<HTMLDivElement, BreadcrumbProps>((
       <BreadcrumbList>
         {breadList.map((val, idx) => (
                 <>
-                  <BreadcrumbItem key={'bread1-'+val.name}>
+                  <BreadcrumbItem key={'bread1-'+idx}>
                     <BreadcrumbLink asChild>
                       {val.link ? <a href={val.link}>{val.name}</a> : <a>{val.name}</a>}
                     </BreadcrumbLink>

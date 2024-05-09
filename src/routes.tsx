@@ -16,9 +16,9 @@ const router = createBrowserRouter([
   // Main routes
   {
     path: '/',
-    lazy: async () => {
-      return {Component: (await import('./App')).default}
-    },
+    lazy: async () => ({
+      Component: (await import('./App')).default,
+    }),
     errorElement: <Exception404 />,
     children: [
       {
@@ -28,22 +28,23 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: '/products',
+        path: 'products',
         lazy: async () => ({
           Component: (await import('./pages/products')).default,
         }),
+        errorElement: <Exception404 />,
         children: [
           {
             index: true,
             path: 'index',
             lazy: async () => ({
-              Component: (await import('./pages/products')).default,
+              Component: (await import('./pages/products/list')).default,
             }),
           },
           {
             path: 'cates',
             lazy: async () => ({
-              Component: (await import('./pages/products')).default,
+              Component: (await import('./pages/products/cate')).default,
             }),
           },
           {
@@ -61,14 +62,13 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: '/orders',
+        path: 'orders',
         lazy: async () => ({
-          Component: (await import('./pages/products')).default,
+          Component: Exception404,
         }),
         children: [
           {
             index: true,
-            path: 'index',
             lazy: async () => ({
               Component: (await import('./pages/products')).default,
             })
@@ -78,8 +78,17 @@ const router = createBrowserRouter([
       {
         path: '/users',
         lazy: async () => ({
-          Component: (await import('./pages/users')).default,
+          Component: Exception404,
         }),
+        children: [
+          {
+            index: true,
+            path: 'index',
+            lazy: async () => ({
+              Component: (await import('./pages/users')).default,
+            })
+          }
+        ]
       },
     ],
   },
