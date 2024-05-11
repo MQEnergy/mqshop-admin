@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "test": "vite --mode test",
+    "prod": "vite --mode production",
     "build": "tsc && vite build",
-    "lint": "eslint mqshop-admin --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "ts": "tsc --noEmit",
+    "lint": "eslint src --fix --ext ts,tsx,js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "plugin-build": "esbuild src/plugins/demo/router.tsx --bundle --outdir=dist --define:process.env.NODE_ENV='production'"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
@@ -24,9 +28,12 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tabler/icons-react": "^3.2.0",
     "@tanstack/react-table": "^8.16.0",
+    "ahooks": "^3.7.11",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "esbuild": "^0.21.1",
     "i18next": "^23.11.3",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-localstorage-cache": "^1.1.1",
@@ -38,6 +45,7 @@
     "recharts": "^2.12.6",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "vite-plugin-top-level-await": "^1.4.1",
     "zod": "^3.23.6"
   },
   "devDependencies": {

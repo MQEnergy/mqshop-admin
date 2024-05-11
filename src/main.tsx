@@ -11,9 +11,9 @@ import {I18nextProvider} from "react-i18next";
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <I18nextProvider i18n={i18next} defaultNS={'translation'}>
-        <ThemeProvider defaultTheme='dark' storageKey='mqshop-ui-theme'>
+        <ThemeProvider defaultTheme='system' storageKey='mqshop-ui-theme'>
           <RouterProvider router={router}/>
         </ThemeProvider>
       </I18nextProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
 )

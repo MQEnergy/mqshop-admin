@@ -1,18 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "esModuleInterop": true, // 允许使用 import 引入使用 export 导出
 
     /* Alias */
     "baseUrl": ".",

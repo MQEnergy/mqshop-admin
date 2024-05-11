@@ -68,10 +68,9 @@ export function DataTablePagination<TData>({
 
 export function PaginationPage<TData>({table}: DataTablePaginationProps<TData>) {
   // 循环获取分页显示
-  let pageList: (string | number)[] = [];
+  const pageList: (string | number)[] = [];
   const total = table.getPageCount();
   const currentPage = table.getState().pagination.pageIndex + 1;
-  console.log(currentPage)
   if (total <= 6) {
     for (let i = 1; i <= total; i++) {
       pageList.push(i);

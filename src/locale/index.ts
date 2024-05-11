@@ -16,7 +16,6 @@ const resources = {
   },
 };
 
-// @ts-ignore
 i18next
     .use(Cache)
     .use(new LanguageDetector(null, {lookupLocalStorage: "mqshop-lng"}))

@@ -1,12 +1,12 @@
-import { IconMoon, IconSun } from '@tabler/icons-react'
-import { useTheme } from './theme-provider'
-import { Button } from '@/components/ui/button'
-import { useEffect } from 'react'
+import {IconMoon, IconSun} from '@tabler/icons-react'
+import {useTheme} from './theme-provider'
+import {Button} from '@/components/ui/button'
+import {useEffect} from 'react'
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
-import {Moon, Sun} from "lucide-react";
+import {Moon, Sun, SunMoon} from "lucide-react";
 
 export default function ThemeSwitch() {
-  const { theme, setTheme } = useTheme()
+  const {theme, setTheme} = useTheme()
 
   /* Update theme-color meta tag
    * when theme is updated */
@@ -17,38 +17,39 @@ export default function ThemeSwitch() {
   }, [theme])
 
   return (
-    <Button
-      size='icon'
-      variant='ghost'
-      className='rounded-full'
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-    >
-      {theme === 'light' ? <IconMoon size={20} /> : <IconSun size={20} />}
-    </Button>
+      <Button
+          size='icon'
+          variant='ghost'
+          className='rounded-full'
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      >
+        {theme === 'light' ? <IconMoon size={20}/> : <IconSun size={20}/>}
+      </Button>
   )
 }
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme()
+  const {theme, setTheme} = useTheme()
 
   return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className='rounded-full'>
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            {theme === 'light' && <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>}
+            {theme === 'dark' && <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>}
+            {theme === 'system' && <SunMoon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>}
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setTheme("light")}>
-            Light
+        <DropdownMenuContent align="center">
+          <DropdownMenuItem className={'cursor-pointer'} onClick={() => setTheme("light")}>
+            <Sun size={16}/><span className={'pl-2'}>Light</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>
-            Dark
+          <DropdownMenuItem className={'cursor-pointer'} onClick={() => setTheme("dark")}>
+            <Moon size={16}/><span className={'pl-2'}>Dark</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>
-            System
+          <DropdownMenuItem className={'cursor-pointer'} onClick={() => setTheme("system")}>
+            <SunMoon size={16}/><span className={'pl-2'}>System</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

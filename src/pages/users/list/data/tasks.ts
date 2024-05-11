@@ -1,4 +1,4 @@
-export let tasks = [
+export const tasks = [
   {
     id: 'TASK-8782',
     url: 'https://uko-react.vercel.app/static/products/airbud-4.png',

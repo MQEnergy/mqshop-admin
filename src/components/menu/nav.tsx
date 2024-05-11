@@ -24,6 +24,7 @@ import useCheckActiveNav from '@/hooks/use-check-active-nav'
 import {SideLink} from './sidelinks'
 import {ChevronRight} from "lucide-react";
 import {useTranslation} from "react-i18next";
+import React from "react";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean
