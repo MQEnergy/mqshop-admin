@@ -1,5 +1,3 @@
-"use client"
-
 import {Button} from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -19,7 +17,7 @@ export default function Language() {
   });
   const {i18n} = useTranslation();
 
-  const changeLanguage = (lng) => {
+  const changeLanguage = (lng: string) => {
     setLang(lng);
     i18n.changeLanguage(lng).then((t) => {
       t('menu.welcome');

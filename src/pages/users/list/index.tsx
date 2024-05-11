@@ -24,6 +24,7 @@ export default function Tasks() {
     link: '/users/index'
   }];
   const {t} = useTranslation();
+  const tasksList = [...tasks, ...tasks]
 
   return (
     <>
@@ -50,7 +51,7 @@ export default function Tasks() {
           </Select>
         ))}
       </DataTableSearchbar>
-      <DataTable data={tasks} columns={columns}/>
+      <DataTable data={tasksList} columns={columns}/>
     </>
   )
 }

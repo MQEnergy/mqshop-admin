@@ -31,7 +31,8 @@ export function useStorage<T>({
   })
 
   useEffect(() => {
-    localStorage.setItem(key, value)
+    // @ts-ignore
+    return localStorage.setItem(key, value)
   }, [value, key])
 
   return [value, setValue] as const

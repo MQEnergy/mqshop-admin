@@ -37,4 +37,5 @@ const SingleBreadcrumb = React.forwardRef<HTMLDivElement, BreadcrumbProps>((
 
 SingleBreadcrumb.displayName = 'SingleBreadcrumb';
 
-export {BreadListItem, SingleBreadcrumb}
+export {SingleBreadcrumb};
+export type { BreadListItem };

@@ -1,6 +1,7 @@
-import i18next, {Callback} from "i18next";
+import i18next from "i18next";
 import {initReactI18next} from "react-i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
+// @ts-ignore
 import Cache from 'i18next-localstorage-cache';
 
 import enUS from "@/locale/en-US";
@@ -15,6 +16,7 @@ const resources = {
   },
 };
 
+// @ts-ignore
 i18next
     .use(Cache)
     .use(new LanguageDetector(null, {lookupLocalStorage: "mqshop-lng"}))
@@ -26,7 +28,7 @@ i18next
       interpolation: {
         escapeValue: false
       },
-    } as Callback)
+    })
     .then((t) => {
       t('menu.welcome');
     });

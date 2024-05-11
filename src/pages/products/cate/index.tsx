@@ -1,7 +1,3 @@
-"use client"
-
-import * as React from "react"
-
 import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadcrumb";
 import DataTableSearchbar from "@/pages/products/cate/components/data-table-searchbar";
 import DataTables from "@/pages/products/cate/components/data-table";

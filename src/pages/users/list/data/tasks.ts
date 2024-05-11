@@ -1,4 +1,4 @@
-export const tasks = [
+export let tasks = [
   {
     id: 'TASK-8782',
     url: 'https://uko-react.vercel.app/static/products/airbud-4.png',
@@ -841,6 +841,42 @@ export const tasks = [
         'Use the back-end SQL firewall, then you can connect the neural hard drive!',
     status: 'done',
     label: 'feature',
+    priority: 'low',
+  },
+  {
+    id: 'TASK-2007',
+    url: 'https://uko-react.vercel.app/static/products/airbud-4.png',
+    title:
+        "I'll input the back-end USB protocol, that should bandwidth the PCI system!",
+    status: 'backlog',
+    label: 'bug',
+    priority: 'high',
+  },
+  {
+    id: 'TASK-7516',
+    url: 'https://uko-react.vercel.app/static/products/airbud-4.png',
+    title:
+        'Use the primary SQL program, then you can generate the auxiliary transmitter!',
+    status: 'done',
+    label: 'documentation',
+    priority: 'medium',
+  },
+  {
+    id: 'TASK-6906',
+    url: 'https://uko-react.vercel.app/static/products/airbud-4.png',
+    title:
+        'Try to back up the DRAM system, maybe it will reboot the online transmitter!',
+    status: 'done',
+    label: 'feature',
+    priority: 'high',
+  },
+  {
+    id: 'TASK-5207',
+    url: 'https://uko-react.vercel.app/static/products/airbud-4.png',
+    title:
+        'The SMS interface is down, copy the bluetooth bus so we can quantify the VGA card!',
+    status: 'in progress',
+    label: 'bug',
     priority: 'low',
   },
   {

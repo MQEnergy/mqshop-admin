@@ -50,7 +50,7 @@ export function DataTableToolbar<TData>({
         <div className='flex gap-x-2'>
           {isFiltered && (
               <Button
-                  variant='outlinecancel'
+                  variant='outline'
                   onClick={() => table.resetColumnFilters()}
               >
                 <Cross2Icon className='mr-1 h-4 w-4'/>
