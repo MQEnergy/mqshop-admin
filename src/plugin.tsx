@@ -5,6 +5,7 @@ const pluginRouters = () => {
   // for (const [key, value] of Object.entries(manifestJson)) {
   //   routers.push((await import(`@/plugins/${key}/${value}.tsx`)).default)
   // }
+  // @ts-ignore
   const modules = import.meta.glob('@/plugins/*/router.tsx');
   Object.keys(modules).forEach(async (key) => {
     console.log(modules[key])
