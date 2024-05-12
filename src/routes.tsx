@@ -35,13 +35,16 @@ const staticRoutes = [
     ],
   },
 ];
-const Routers = async () => {
-  const pRoutes = await pluginRouters();
+const Routers = () => {
+  const pRoutes = pluginRouters();
+  console.log(JSON.stringify(pRoutes))
   return [
-      ...staticRoutes,
-      ...pRoutes,
+    ...staticRoutes,
+    ...pRoutes,
   ];
 }
-const router = createBrowserRouter((await Routers()))
+console.log(Routers())
+
+const router = createBrowserRouter((Routers()))
 
 export default router

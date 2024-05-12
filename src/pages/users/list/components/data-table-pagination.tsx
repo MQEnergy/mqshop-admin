@@ -122,22 +122,6 @@ export function PaginationPage<TData>({table}: DataTablePaginationProps<TData>) 
                 </PaginationItem>
             )
           })}
-          {/*<PaginationItem>*/}
-          {/*  <PaginationLink href="#" size={'sm'}>1</PaginationLink>*/}
-          {/*</PaginationItem>*/}
-          {/*<PaginationItem>*/}
-          {/*  <PaginationLink href="#" size={'sm'} isActive>*/}
-          {/*    2*/}
-          {/*  </PaginationLink>*/}
-          {/*</PaginationItem>*/}
-          {/*<PaginationItem>*/}
-          {/*  <PaginationLink href="#" size={'sm'}>3</PaginationLink>*/}
-          {/*</PaginationItem>*/}
-          {/*<PaginationItem>*/}
-          {/*  <PaginationEllipsis/>*/}
-          {/*</PaginationItem>*/}
-          {/* 循环分页 */}
-
           {/* next */}
           <PaginationItem>
             <Button

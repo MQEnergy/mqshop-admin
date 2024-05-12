@@ -1,10 +1,12 @@
 import {Outlet} from "react-router-dom";
 import {Layout, LayoutBody} from "@/components/layout";
 import {useRequest} from "ahooks";
-import {getList} from "@/apis/user.ts";
+import {getList} from "@/apis/user";
 
 export default function Users() {
-  useRequest(getList, {defaultParams: [{id: 2}]})
+  const {data, loading, error} = useRequest(getList, {defaultParams: [{id: 2}]});
+  console.log(data, loading, error);
+  console.log('ok');
   return (
       <Layout fixedHeight>
         <LayoutBody className='flex flex-col'>

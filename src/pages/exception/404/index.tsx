@@ -9,7 +9,9 @@ interface Exception404Props extends React.HTMLAttributes<HTMLDivElement> {
 export default function Exception404({className, ...props}: Exception404Props) {
   const navigate = useNavigate()
   const error = useRouteError()
-  console.log(error)
+  if (error !== null) {
+    console.log(error)
+  }
   return (
       <div className={cn('h-svh ', className)} {...props}>
         <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>

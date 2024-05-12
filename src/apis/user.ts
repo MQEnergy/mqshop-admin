@@ -1,6 +1,6 @@
 import HttpClient from '@/lib/request';
-import type { ListParams, ListModel } from './models/userModel';
+import {ListReq, ListResp} from './models/userModel';
 
-export const getList = (params: ListParams) => {
-  return HttpClient.get<ListModel>('/backend/user/list', { params });
+export const getList = (params: ListReq) => {
+  return HttpClient.get<ListResp>('/backend/user/list', {params});
 };
