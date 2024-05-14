@@ -28,16 +28,17 @@ export function UserNav() {
       useUserInfoStore.setState({userInfo: null})
       window.location.href = `/login?redirect=${window.location.pathname}`
     }).finally(() => updateState(draft => {
-      draft.isLoading = true;
+      draft.isLoading = false
     }))
   }
   const handleDialog = () => updateState(draft => {
     draft.isOpen = !draft.isOpen
+    draft.isLoading = false
   })
 
   return (
       <>
-        <ConfirmDialog open={state.isOpen} loading={state.isLoading} onCancel={handleDialog} onSubmit={handleLogout}/>
+        <ConfirmDialog open={state.isOpen} description={'你确定要退出登录吗？'} loading={state.isLoading} onCancel={handleDialog} onSubmit={handleLogout}/>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
