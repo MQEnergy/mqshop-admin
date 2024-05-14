@@ -4,7 +4,8 @@ import Product from "@/routes/product";
 import Order from "@/routes/order";
 import Exception from "@/routes/exception";
 import User from "@/routes/user";
-import {pluginRouters} from "@/plugin";
+// import {pluginRouters} from "@/plugin";
+import Permission from "@/routes/permission";
 
 const staticRoutes = [
   // 静态的路由配置
@@ -31,19 +32,20 @@ const staticRoutes = [
       Product,
       Order,
       User,
+      Permission,
       ...Exception,
     ],
   },
 ];
 const Routers = () => {
-  const pRoutes = pluginRouters();
-  console.log(JSON.stringify(pRoutes))
+  // const pRoutes = pluginRouters();
+  // console.log(JSON.stringify(pRoutes))
   return [
     ...staticRoutes,
-    ...pRoutes,
+    // ...pRoutes,
   ];
 }
-console.log(Routers())
+// console.log(Routers())
 
 const router = createBrowserRouter((Routers()))
 

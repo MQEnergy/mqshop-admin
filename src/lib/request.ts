@@ -1,4 +1,3 @@
-// src/utils/request.ts
 import axios from 'axios'
 import type {
   AxiosInstance,
@@ -7,12 +6,20 @@ import type {
   CreateAxiosDefaults,
   InternalAxiosRequestConfig,
 } from 'axios'
-import { useUserInfoStore } from '@/stores'
+import useUserInfoStore from '@/stores/user-info'
+import {toast} from "@/components/ui/use-toast";
+
+interface ApiResult<T = any> {
+  errcode: number
+  message: string
+  requestid: string
+  data: T
+}
 
 class Request {
-  private instance: AxiosInstance
+  public instance: AxiosInstance
   // 存放取消请求控制器Map
-  private abortControllerMap: Map<string, AbortController>
+  private readonly abortControllerMap: Map<string, AbortController>
 
   constructor(config: CreateAxiosDefaults) {
     this.instance = axios.create(config)
@@ -23,38 +30,38 @@ class Request {
     this.instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if (config.url !== '/login') {
         const token = useUserInfoStore.getState().userInfo?.token
-        if (token) config.headers!['x-token'] = token
+        if (token) config.headers['Authorization'] = "Bearer " + token
       }
 
       const controller = new AbortController()
       const url = config.url || ''
       config.signal = controller.signal
       this.abortControllerMap.set(url, controller)
-
       return config
+
     }, Promise.reject)
 
     // 响应拦截器
     this.instance.interceptors.response.use(
-      (response: AxiosResponse) => {
-        const url = response.config.url || ''
-        this.abortControllerMap.delete(url)
-
-        if (response.data.code !== 1000) {
-          return Promise.reject(response.data)
+        (response: AxiosResponse) => {
+          const url = response.config.url || ''
+          this.abortControllerMap.delete(url)
+          if (response.data.errcode !== 0) {
+            return Promise.reject(response.data)
+          }
+          return response.data
+        },
+        (err) => {
+          if (err.response?.status === 401) {
+            useUserInfoStore.setState({userInfo: null})
+            window.location.href = `/login?redirect=${window.location.pathname}`
+          }
+          toast({
+            variant: "destructive",
+            description: err.response?.data.message || err.message || '',
+          })
+          return Promise.reject(err)
         }
-
-        return response.data
-      },
-      (err) => {
-        if (err.response?.status === 401) {
-          // 登录态失效，清空userInfo，跳转登录页
-          useUserInfoStore.setState({ userInfo: null })
-          window.location.href = `/login?redirect=${window.location.pathname}`
-        }
-
-        return Promise.reject(err)
-      }
     )
   }
 
@@ -75,20 +82,21 @@ class Request {
     }
   }
 
-  request<T>(config: AxiosRequestConfig): Promise<T> {
+  request<T = any>(config: AxiosRequestConfig): Promise<ApiResult<T>> {
     return this.instance.request(config)
   }
 
-  get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResult<T>> {
     return this.instance.get(url, config)
   }
 
-  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResult<T>> {
     return this.instance.post(url, data, config)
   }
 }
 
-export const httpClient = new Request({
-  timeout: 20 * 1000,
-  baseURL: import.meta.env.VITE_API_URL,
+
+export const HttpClient = new Request({
+  timeout: 30 * 1000,
+  baseURL: import.meta.env.VITE_BASE_URL,
 })

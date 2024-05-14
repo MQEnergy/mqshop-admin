@@ -8,8 +8,14 @@ import {UserNav} from '@/components/layout/user-nav'
 import Notice from "@/components/layout/notice";
 import Language from "@/components/layout/language";
 import {useTranslation} from "react-i18next";
+import useUserInfoStore from "@/stores/user-info";
 
 export default function App() {
+  const token = useUserInfoStore.getState().userInfo?.token || '';
+  if (token === '') {
+    window.location.href = `/login?redirect=${window.location.pathname}`
+    return
+  }
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   const {t} = useTranslation()
 
