@@ -1,8 +1,6 @@
-import {DataTable} from './components/data-table'
 import {columns} from './components/columns'
-import {tasks} from './data/tasks'
+import {tasks} from './data/tasks.ts'
 import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadcrumb";
-import DataTableSearchbar from "@/components/custom/datatable/data-table-searchbar.tsx";
 import {SearchInput} from "@/components/custom/search";
 import {
   Select,
@@ -14,6 +12,8 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import {useTranslation} from "react-i18next";
+import DataTableSearchBar from "@/components/custom/datatable/data-table-searchbar";
+import {DataTable} from "@/components/custom/datatable/data-table";
 
 export default function Tasks() {
   const breadList: BreadListItem[] = [{
@@ -31,7 +31,7 @@ export default function Tasks() {
       {/* 面包屑 */}
       <SingleBreadcrumb breadList={breadList} />
       {/* 搜索 */}
-      <DataTableSearchbar>
+      <DataTableSearchBar>
         <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'} type={'search'}/>
         {[1, 2, 3].map((index) => (
           <Select key={'search-' + index}>
@@ -50,8 +50,9 @@ export default function Tasks() {
             </SelectContent>
           </Select>
         ))}
-      </DataTableSearchbar>
-      <DataTable data={tasksList} columns={columns}/>
+      </DataTableSearchBar>
+      {/* 列表 */}
+      <DataTable data={tasksList} columns={columns} />
     </>
   )
 }

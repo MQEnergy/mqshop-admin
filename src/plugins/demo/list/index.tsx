@@ -1,6 +1,6 @@
 import DataTables from "@/pages/products/list/components/data-table";
 import {SingleBreadcrumb, BreadListItem} from "@/components/custom/single-breadcrumb";
-import DataTableSearchbar from "@/components/custom/data-table-searchbar";
+import DataTableSearchbar from "@/components/custom/datatable/data-table-searchbar.tsx";
 import {
   Select,
   SelectContent,

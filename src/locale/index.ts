@@ -22,6 +22,7 @@ i18next
     .use(initReactI18next)
     .init({
       // debug: true,
+      lng: 'zh-CN',
       resources: resources,
       fallbackLng: 'en-US',
       interpolation: {
