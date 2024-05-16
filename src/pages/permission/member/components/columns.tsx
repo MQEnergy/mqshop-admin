@@ -1,14 +1,15 @@
 import {ColumnDef} from '@tanstack/react-table'
 
-import {Badge} from '@/components/ui/badge.tsx'
 import {Checkbox} from '@/components/ui/checkbox.tsx'
 
-import {labels, priorities, statuses} from '../data/data.tsx'
-import {Task, taskSchema} from '../data/schema.ts'
+import {statuses} from '../data/data.tsx'
+import {Member, memberSchema} from '../data/schema.ts'
 import {DataTableColumnHeader} from "@/components/custom/datatable/data-table-column-header.tsx";
 import {DataTableRowActions} from "@/components/custom/datatable/data-table-row-actions.tsx";
+import dayjs from "dayjs";
+import ViteLogo from "@/assets/react.svg";
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<Member>[] = [
   {
     id: 'select',
     header: ({table}) => (
@@ -36,55 +37,60 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'id',
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title='商品'/>
+        <DataTableColumnHeader column={column} title='ID'/>
     ),
-    cell: ({row}) => <div className='w-[80px]'>{row.getValue('id')}</div>,
+    cell: ({row}) => <div className='w-[40px]'>{row.getValue('id')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'url',
-    header: ({column}) => (
-        <DataTableColumnHeader column={column} title='Url'/>
-    ),
-    cell: ({row}) => <div className='w-[80px]'>
-      <img className='rounded-md object-cover h-[60px] w-[60px]' src={row.getValue('url')}/>
-    </div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'title',
-    header: ({column}) => (
-        <DataTableColumnHeader column={column} title='Title'/>
-    ),
+    accessorKey: 'avatar',
+    header: '头像',
     cell: ({row}) => {
-      const label = labels.find((label) => label.value === row.original.label)
-
+      const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
       return (
-          <div className='flex space-x-2'>
-            {label && <Badge variant='outline'>{label.label}</Badge>}
+          <div className='w-[80px]'>
+            <img className='rounded-md object-cover h-[60px] w-[60px] border'
+                 src={row.getValue('avatar') ? resourceUrl + row.getValue('avatar') : ViteLogo}
+                 alt={row.getValue('real_name')}/>
+          </div>
+      )
+    },
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'account',
+    header: '账号',
+    cell: ({row}) => {
+      return (
+          <div className='flex space-x-2'>x
             <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-[31rem]'>
-            {row.getValue('title')}
-          </span>
+              {row.getValue('account')}
+            </span>
           </div>
       )
     },
   },
   {
+    accessorKey: 'real_name',
+    header: '姓名'
+  },
+  {
+    accessorKey: 'phone',
+    header: '手机号'
+  },
+  {
     accessorKey: 'status',
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title='Status'/>
+        <DataTableColumnHeader column={column} title='状态'/>
     ),
     cell: ({row}) => {
       const status = statuses.find(
           (status) => status.value === row.getValue('status')
       )
-
       if (!status) {
         return null
       }
-
       return (
           <div className='flex w-[100px] items-center'>
             {status.icon && (
@@ -95,38 +101,20 @@ export const columns: ColumnDef<Task>[] = [
       )
     },
     filterFn: (row, id, value) => {
+      console.log(row, id, value)
       return value.includes(row.getValue(id))
     },
   },
   {
-    accessorKey: 'priority',
-    header: ({column}) => (
-        <DataTableColumnHeader column={column} title='Priority'/>
-    ),
+    accessorKey: 'created_at',
+    header: '创建时间',
     cell: ({row}) => {
-      const priority = priorities.find(
-          (priority) => priority.value === row.getValue('priority')
-      )
-
-      if (!priority) {
-        return null
-      }
-
-      return (
-          <div className='flex items-center'>
-            {priority.icon && (
-                <priority.icon className='mr-2 h-4 w-4 text-muted-foreground'/>
-            )}
-            <span>{priority.label}</span>
-          </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
+      return dayjs(row.getValue('created_at')).format('YYYY-MM-DD HH:mm:ss');
+    }
   },
   {
     id: 'actions',
-    cell: ({row}) => <DataTableRowActions row={row} labels={labels} schemas={taskSchema}/>,
+    header: '操作',
+    cell: ({row}) => <DataTableRowActions row={row} schemas={memberSchema}/>,
   },
 ]

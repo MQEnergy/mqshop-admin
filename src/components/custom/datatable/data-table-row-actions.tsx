@@ -6,35 +6,19 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu.tsx'
 
-import * as React from "react";
 import {ZodObject} from "zod";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
-  labels: {
-    label: string
-    value: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
   schemas: ZodObject<any>
 }
 
-export function DataTableRowActions<TData>({
-                                             row,
-                                             labels,
-                                             schemas
-                                           }: DataTableRowActionsProps<TData>) {
-  const task = schemas.parse(row.original)
+export function DataTableRowActions<TData>({}: DataTableRowActionsProps<TData>) {
 
   return (
       <DropdownMenu>
@@ -51,19 +35,6 @@ export function DataTableRowActions<TData>({
           <DropdownMenuItem>Edit</DropdownMenuItem>
           <DropdownMenuItem>Make a copy</DropdownMenuItem>
           <DropdownMenuItem>Favorite</DropdownMenuItem>
-          <DropdownMenuSeparator/>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup value={task.label}>
-                {labels.map((label) => (
-                    <DropdownMenuRadioItem key={label.value} value={label.value}>
-                      {label.label}
-                    </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
           <DropdownMenuSeparator/>
           <DropdownMenuItem>
             Delete
