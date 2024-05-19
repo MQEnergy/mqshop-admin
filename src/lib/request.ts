@@ -52,14 +52,14 @@ class Request {
           return response.data
         },
         (err) => {
-          if (err.response?.status === 401) {
-            useUserInfoStore.setState({userInfo: null})
-            window.location.href = `/login?redirect=${window.location.pathname}`
-          }
           toast({
             variant: "destructive",
             description: err.response?.data.message || err.message || '',
           })
+          if (err.response?.status === 401 || err.response?.status === 403) {
+            useUserInfoStore.setState({userInfo: null})
+            window.location.href = `/login?redirect=${window.location.pathname}`
+          }
           return Promise.reject(err)
         }
     )

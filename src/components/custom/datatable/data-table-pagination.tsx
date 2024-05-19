@@ -10,10 +10,12 @@ import PaginationPage from "@/components/custom/datatable/data-table-pagination-
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
+  sizes: number[]
 }
 
 function DataTablePagination<TData>({
                                       table,
+                                      sizes
                                     }: DataTablePaginationProps<TData>) {
   return (
       <div className='flex items-center justify-between overflow-auto px-2'>
@@ -34,7 +36,7 @@ function DataTablePagination<TData>({
                 <SelectValue placeholder={table.getState().pagination.pageSize}/>
               </SelectTrigger>
               <SelectContent side='top'>
-                {[10, 20, 30, 40, 50].map((pageSize) => (
+                {sizes.map((pageSize) => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
                     </SelectItem>
