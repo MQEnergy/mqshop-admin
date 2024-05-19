@@ -31,7 +31,7 @@ export function DataTableViewOptions<TData>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-[150px]'>
-          <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+          <DropdownMenuLabel>切换列</DropdownMenuLabel>
           <DropdownMenuSeparator/>
           {table
               .getAllColumns()
@@ -40,16 +40,18 @@ export function DataTableViewOptions<TData>({
                       typeof column.accessorFn !== 'undefined' && column.getCanHide()
               )
               .map((column) => {
-                return (
-                    <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className='capitalize'
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                )
+                if (typeof column.columnDef.header === 'string') {
+                  return <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className='capitalize'
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.columnDef.header}
+                  </DropdownMenuCheckboxItem>
+                } else {
+                  return <></>
+                }
               })}
         </DropdownMenuContent>
       </DropdownMenu>

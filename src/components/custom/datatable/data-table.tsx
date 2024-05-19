@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,7 +19,7 @@ import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {DataTableToolbar} from "./data-table-toolbar";
 import DataTablePagination from "./data-table-pagination";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -31,13 +30,10 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({columns, data, pageCount, onPage}: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] =
-      React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-      []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [rowSelection, setRowSelection] = useState({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
     data,
@@ -63,9 +59,9 @@ export function DataTable<TData, TValue>({columns, data, pageCount, onPage}: Dat
   })
 
   useEffect(() => {
-    console.log("pagination.pageIndex + 1", table.getState().pagination.pageIndex)
+    console.log("pagination.pageIndex", table.getState().pagination.pageIndex + 1)
     onPage(table.getState().pagination.pageIndex + 1)
-  }, [table.getState().pagination.pageIndex + 1])
+  }, [table.getState().pagination.pageIndex])
 
   return (
       <Card className={'shadow-none'}>
