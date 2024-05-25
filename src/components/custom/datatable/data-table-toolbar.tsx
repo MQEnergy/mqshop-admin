@@ -9,19 +9,21 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
   loading: boolean
   onRefresh: () => void
+  onOpen: () => void
 }
 
 export function DataTableToolbar<TData>({
                                           table,
                                           loading,
-                                          onRefresh
+                                          onRefresh,
+                                          onOpen
                                         }: DataTableToolbarProps<TData>) {
 
   return (
       <div className='flex items-center justify-between'>
         <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
           {/* 添加按钮等 */}
-          <Button size={'sm'}>
+          <Button size={'sm'} onClick={onOpen}>
             <Plus size={18} className='mr-1'/>
             添加
           </Button>

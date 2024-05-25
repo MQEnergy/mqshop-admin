@@ -45,7 +45,6 @@ const Routers = () => {
     // ...pRoutes,
   ];
 }
-// console.log(Routers())
 
 const router = createBrowserRouter((Routers()))
 

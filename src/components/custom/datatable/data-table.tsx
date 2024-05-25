@@ -20,6 +20,7 @@ import {DataTableToolbar} from "./data-table-toolbar";
 import DataTablePagination from "./data-table-pagination";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
 import {useState} from "react";
+import {AddForm} from "@/pages/permission/member/add-form.tsx";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -77,10 +78,20 @@ export function DataTable<TData, TValue>({
     onPaginationChange: onPaginationChange,
   })
 
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const handleOpenDrawer = () => {
+    console.log("OK")
+    setIsOpen(true)
+    console.log(isOpen)
+  }
+  const handleClose = () => {
+    setIsOpen(false)
+  }
   return (
       <Card className={'shadow-none'}>
         <CardHeader>
-          <DataTableToolbar table={table} onRefresh={onRefresh} loading={loading}/>
+          <DataTableToolbar table={table} onOpen={handleOpenDrawer} onRefresh={onRefresh} loading={loading}/>
+          <AddForm isOpen={isOpen} onSubmit={handleClose} onClose={handleClose}/>
         </CardHeader>
         <CardContent className={'pb-0'}>
           <ScrollArea className="md:h-[calc(100svh-400px)] lg:h-[calc(100svh-400px)] rounded-md border">

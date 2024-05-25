@@ -17,13 +17,13 @@ export default {
     {
       path: 'role',
       lazy: async () => ({
-        Component: (await import('@/pages/permission/member')).default,
+        Component: (await import('@/pages/permission/role')).default,
       }),
     },
     {
       path: 'resource',
       lazy: async () => ({
-        Component: (await import('@/pages/permission/member')).default,
+        Component: (await import('@/pages/permission/resource')).default,
       }),
     },
   ]

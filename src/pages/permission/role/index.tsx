@@ -20,13 +20,13 @@ import {MemberIndexReq} from "@/apis/models/permission-model.ts";
 import {SkeletonList} from "@/components/custom/skeleton-list.tsx";
 import {columns} from './columns'
 
-export default function Member() {
+export default function Role() {
   const breadList: BreadListItem[] = [{
     name: "首页",
     link: '/'
   }, {
-    name: "用户管理",
-    link: '/permissions/member'
+    name: "角色管理",
+    link: '/permissions/role'
   }];
   const {t} = useTranslation();
   const {onPaginationChange, page, limit, pagination} = usePagination();
