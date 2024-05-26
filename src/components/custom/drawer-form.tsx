@@ -63,7 +63,7 @@ const DrawerForm = (props: DrawerFormProps) => {
             </div>
           </DrawerHeader>
           <ScrollArea className="md:h-[calc(100svh-120px)] lg:h-[calc(100svh-120px)]">
-            <div className="p-4 w-full">
+            <div className="p-8 w-full">
               {props.children}
             </div>
           </ScrollArea>

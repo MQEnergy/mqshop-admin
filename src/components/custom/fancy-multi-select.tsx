@@ -53,7 +53,7 @@ export function FancyMultiSelect(props: MultiSelectProps) {
   }
 
   return (
-    <Command onKeyDown={handleKeyDown} className="overflow-visible bg-background">
+    <Command onKeyDown={handleKeyDown} className="h-auto overflow-visible bg-background">
       <div
         className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
       >
@@ -92,7 +92,7 @@ export function FancyMultiSelect(props: MultiSelectProps) {
           />
         </div>
       </div>
-      <div className="relative mt-2">
+      <div className={`relative ${open ? "mt-2" : ''}`}>
         {open ?
           <div
             className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">

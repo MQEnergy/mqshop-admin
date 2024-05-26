@@ -77,7 +77,6 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
   })
 
   useEffect(() => {
-    console.log('onRefresh')
     table.resetRowSelection()
   }, [props.onRefresh])
 

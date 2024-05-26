@@ -74,8 +74,8 @@ export function AvatarUploader(props: ImageUploaderProps) {
   }
 
   return (
-    <div className='flex flex-col relative'>
-      {props.preview && <CircleX size={16} className='text-red-500 absolute top-1 right-1' onClick={handleClose}/>}
+    <div className='flex flex-col relative w-[80px]'>
+      {props.preview && <CircleX size={16} className='text-gray-600 cursor-pointer absolute -top-1 -right-1' onClick={handleClose}/>}
       <div
         {...getRootProps()}
         className={`flex cursor-pointer overflow-hidden flex-col items-center justify-center rounded-lg border-2 border-dashed w-[80px] h-[80px] ${fileRejections.length !== 0 && 'border-red-500'}`}
