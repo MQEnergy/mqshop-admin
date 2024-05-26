@@ -7,9 +7,9 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios'
 import useUserInfoStore from '@/stores/user-info'
-import {toast} from "@/components/ui/use-toast";
+import {toast} from "react-hot-toast";
 
-interface ApiResult<T = any> {
+export interface ApiResult<T = any> {
   errcode: number
   message: string
   requestid: string
@@ -52,11 +52,8 @@ class Request {
           return response.data
         },
         (err) => {
-          toast({
-            variant: "destructive",
-            description: err.response?.data.message || err.message || '',
-          })
           if (err.response?.status === 401 || err.response?.status === 403) {
+            toast.error(err.response?.data.message || err.message || 'Request Error');
             useUserInfoStore.setState({userInfo: null})
             window.location.href = `/login?redirect=${window.location.pathname}`
           }

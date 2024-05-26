@@ -9,14 +9,12 @@ import {
 import {Button} from "@/components/custom/button.tsx";
 
 interface DialogAlertProps extends AlertDialogProps {
-  onCancel(): void
-
-  onSubmit(): void
-
   loading: boolean
   title?: string
   description?: string
   submitBtn?: string
+  onCancel: () => void
+  onSubmit: () => void
 }
 
 function ConfirmDialog(props: DialogAlertProps) {
@@ -29,7 +27,7 @@ function ConfirmDialog(props: DialogAlertProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button size={'sm'} variant={'outline'} onClick={props.onCancel}>{props.title || '取消'}</Button>
-          <Button size={'sm'} loading={props.loading} onClick={props.onSubmit}>{props.submitBtn || '退出登录'}</Button>
+          <Button size={'sm'} loading={props.loading} onClick={props.onSubmit}>{props.submitBtn || '确定'}</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

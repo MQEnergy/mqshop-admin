@@ -1,3 +1,5 @@
+import {CacheReq} from "@/apis/models/base-model";
+
 interface PageReq {
   page: number; // 页码
   limit: number; // 每页数量
@@ -6,28 +8,30 @@ interface PageReq {
 interface ViewReq {
   id: number;
 }
-interface MemberReq {
+export interface MemberReq {
   account: string;
   real_name: string;
   password: string;
   phone: string;
   avatar: string;
   status: number;
+  role_ids: string;
 }
-export interface MemberIndexReq extends PageReq {}
-export interface MemberUpdateReq extends ViewReq, MemberReq {}
-export interface MemberDeleteReq extends ViewReq {}
-export interface MemberCreateReq extends MemberReq {}
+export interface MemberIndexReq extends PageReq, CacheReq {}
+export interface MemberUpdateReq extends ViewReq, MemberReq, CacheReq {}
+export interface MemberDeleteReq extends ViewReq, CacheReq {}
+export interface MemberCreateReq extends MemberReq, CacheReq {}
 // ============================ role =====================================
 interface RoleReq {
   name: string;
   desc: string;
   status: number;
 }
-export interface RoleIndexReq extends PageReq {}
-export interface RoleUpdateReq extends ViewReq, RoleReq {}
-export interface RoleDeleteReq extends ViewReq {}
-export interface RoleCreateReq extends RoleReq {}
+export interface RoleIndexReq extends PageReq, CacheReq {}
+export interface RoleListReq extends CacheReq {}
+export interface RoleUpdateReq extends ViewReq, RoleReq, CacheReq {}
+export interface RoleDeleteReq extends ViewReq, CacheReq {}
+export interface RoleCreateReq extends RoleReq, CacheReq {}
 // ============================ resource =====================================
 interface ResourceReq {
   name: string;
@@ -42,7 +46,7 @@ interface ResourceReq {
   status: number;
   sort_order: number;
 }
-export interface ResourceIndexReq extends PageReq {}
-export interface ResourceUpdateReq extends ViewReq, ResourceReq {}
-export interface ResourceDeleteReq extends ViewReq {}
-export interface ResourceCreateReq extends ResourceReq {}
+export interface ResourceIndexReq extends PageReq, CacheReq {}
+export interface ResourceUpdateReq extends ViewReq, ResourceReq, CacheReq {}
+export interface ResourceDeleteReq extends ViewReq, CacheReq {}
+export interface ResourceCreateReq extends ResourceReq, CacheReq {}

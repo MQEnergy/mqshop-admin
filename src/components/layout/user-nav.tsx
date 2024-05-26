@@ -38,7 +38,7 @@ export function UserNav() {
 
   return (
       <>
-        <ConfirmDialog open={state.isOpen} description={'你确定要退出登录吗？'} loading={state.isLoading} onCancel={handleDialog} onSubmit={handleLogout}/>
+        <ConfirmDialog open={state.isOpen} description={'你确定要退出登录吗？'} submitBtn={'退出登录'} loading={state.isLoading} onCancel={handleDialog} onSubmit={handleLogout}/>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='ghost' className='relative h-8 w-8 rounded-full'>

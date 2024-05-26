@@ -2,8 +2,9 @@ import {HttpClient} from '@/lib/request';
 import {LoginReq} from './models/user-model';
 
 export const Login = (data: LoginReq) => {
-  return HttpClient.post('/backend/auth/login', data)
+  const noCache = data.noCache === true
+  return HttpClient.post(`/backend/auth/login?noCache=${noCache}`, data)
 }
 export const Logout = () => {
-  return HttpClient.post('/backend/auth/logout', {})
+  return HttpClient.post(`/backend/auth/logout?noCache=true`, {})
 }
