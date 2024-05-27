@@ -111,7 +111,7 @@ export function PaginationPage<TData>({table}: DataTablePaginationProps<TData>) 
           </PaginationItem>
           {pageList.map((p) => {
             return (
-                <PaginationItem>
+                <PaginationItem key={'page-' + p.toString()}>
                   {p === '...' ? <PaginationEllipsis/> :
                       <PaginationLink
                           size={'sm'}
