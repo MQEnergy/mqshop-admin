@@ -88,7 +88,7 @@ export function FancyMultiSelect(props: MultiSelectProps) {
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
             placeholder="请选择..."
-            className={cn('bg-transparent outline-none placeholder:text-muted-foreground', props.selected.length > 0 && 'w-[50px]')}
+            className={cn('bg-transparent outline-none placeholder:text-muted-foreground', props.selected.length > 0 && 'w-[60px]')}
           />
         </div>
       </div>

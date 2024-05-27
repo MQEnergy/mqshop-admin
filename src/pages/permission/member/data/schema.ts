@@ -13,7 +13,10 @@ export const memberSchema = z.object({
   password: z.string(),
   created_at: z.number(),
   role_ids: z.string(),
-  role_list: z.any(),
+  role_list: z.array(z.object({
+    id: z.number(),
+    name: z.string()
+  })),
   is_super: z.number(),
 })
 

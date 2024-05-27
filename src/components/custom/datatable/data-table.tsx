@@ -19,8 +19,9 @@ import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {DataTableToolbar} from "./data-table-toolbar";
 import DataTablePagination from "./data-table-pagination";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {SkeletonList} from "@/components/custom/skeleton-list";
+import {GlobalContext} from "@/context";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -38,7 +39,6 @@ interface DataTableProps<TData, TValue> {
     pageSize: number
   }
   onPaginationChange: any
-  onRefresh: () => void
   onOpen: (isOpen: boolean) => void
   onDelete: (values: Row<TData>[]) => void
 }
@@ -48,6 +48,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
+  const {onRefresh} = useContext(GlobalContext);
 
   const table = useReactTable({
     data: props.data,
@@ -78,14 +79,13 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
 
   useEffect(() => {
     table.resetRowSelection()
-  }, [props.onRefresh])
+  }, [onRefresh])
 
   return (
     <Card className={'border-none shadow'}>
       <CardHeader>
         <DataTableToolbar table={table}
                           onOpen={props.onOpen}
-                          onRefresh={props.onRefresh}
                           reLoading={props.reLoading}
                           deLoading={props.deLoading}
                           onDelete={() => props.onDelete(table.getSelectedRowModel().rows)}/>

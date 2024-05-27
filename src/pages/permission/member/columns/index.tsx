@@ -14,23 +14,23 @@ export const columns: ColumnDef<Member>[] = [
   {
     id: 'select',
     header: ({table}) => (
-        <Checkbox
-            checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && 'indeterminate')
-            }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label='Select all'
-            className='translate-y-[2px]'
-        />
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Select all'
+        className='translate-y-[2px]'
+      />
     ),
     cell: ({row}) => (
-        <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label='Select row'
-            className='translate-y-[2px]'
-        />
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+        className='translate-y-[2px]'
+      />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -38,10 +38,10 @@ export const columns: ColumnDef<Member>[] = [
   {
     accessorKey: 'id',
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title='ID'/>
+      <DataTableColumnHeader column={column} title='ID'/>
     ),
     cell: ({row}) => <div className='w-[40px]'>{row.getValue('id')}</div>,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: false,
   },
   {
@@ -50,11 +50,11 @@ export const columns: ColumnDef<Member>[] = [
     cell: ({row}) => {
       const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
       return (
-          <div className='w-[50px]'>
-            <img className='rounded-md object-cover h-[50px] w-[50px] border'
-                 src={row.getValue('avatar') ? resourceUrl + row.getValue('avatar') : ReactLogo}
-                 alt={row.getValue('real_name')}/>
-          </div>
+        <div className='w-[50px]'>
+          <img className='rounded-md object-cover h-[50px] w-[50px] border'
+               src={row.getValue('avatar') ? resourceUrl + row.getValue('avatar') : ReactLogo}
+               alt={row.getValue('real_name')}/>
+        </div>
       )
     },
     enableHiding: false,
@@ -64,11 +64,11 @@ export const columns: ColumnDef<Member>[] = [
     header: '账号',
     cell: ({row}) => {
       return (
-          <div className='flex space-x-2'>
+        <div className='flex space-x-2'>
             <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-[31rem]'>
               {row.getValue('account')}
             </span>
-          </div>
+        </div>
       )
     },
   },
@@ -87,28 +87,28 @@ export const columns: ColumnDef<Member>[] = [
     cell: ({row}) => {
       const roleList: any[] = row.original?.role_list || []
       return (
-          <div className='space-x-1 space-y-1 w-[200px] max-h-[60px] overflow-scroll'>
-            {roleList.map(item => <Badge variant={'outline'}>{item.name}</Badge>)}
-          </div>
+        <div className='space-x-1 space-y-1 w-[200px] max-h-[60px] overflow-scroll'>
+          {roleList.map(item => <Badge key={item.id} variant={'outline'}>{item.name}</Badge>)}
+        </div>
       )
     }
   },
   {
     accessorKey: 'status',
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title='状态'/>
+      <DataTableColumnHeader column={column} title='状态'/>
     ),
     cell: ({row}) => {
       const status = statuses.find(
-          (status) => status.value === row.getValue('status')
+        (status) => status.value === row.getValue('status')
       )
       if (!status) {
         return null
       }
       return (
-          <Badge variant={status.value == 1 ? 'secondary' : 'destructive'}>
-            <span>{status.label}</span>
-          </Badge>
+        <Badge variant={status.value == 1 ? 'secondary' : 'destructive'}>
+          <span>{status.label}</span>
+        </Badge>
       )
     },
     filterFn: (row, id, value) => {

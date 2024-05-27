@@ -5,7 +5,8 @@ import {DataTableViewOptions} from './data-table-view-options.tsx'
 
 import {ArrowDownToLine, Trash2, ListPlus, Plus, RotateCw} from 'lucide-react'
 import ConfirmDialog from "@/components/custom/confirm-dialog";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {GlobalContext} from "@/context";
 
 export interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -14,13 +15,13 @@ export interface DataTableToolbarProps<TData> {
   isExport?: boolean // is export file
   exLoading?: boolean // export file loading
   deLoading: boolean // delete loading
-  onRefresh: () => void // refresh list
   reLoading: boolean // refresh loading
   onOpen: (isOpen: boolean) => void // open add/update form dialog
   onDelete: () => void // delete record confirm
 }
 
 export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>) {
+  const {onRefresh} = useContext(GlobalContext);
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const handleDeleteDialog = () => {
@@ -59,7 +60,7 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
           <ArrowDownToLine size={18} className='mr-1'/>
           导出
         </Button>
-        <Button variant={'outline'} loading={props.reLoading} onClick={props.onRefresh} size={'sm'}>
+        <Button variant={'outline'} loading={props.reLoading} onClick={onRefresh} size={'sm'}>
           {!props.reLoading && <RotateCw size={18} className='mr-1'/>}
           刷新
         </Button>
