@@ -1,8 +1,9 @@
 import * as React from "react";
 import {Accept, FileError, useDropzone} from "react-dropzone";
 import {Input} from "@/components/ui/input";
-import {CircleX, Loader2, Plus} from "lucide-react";
+import {Loader2, Plus} from "lucide-react";
 import {ApiResult} from "@/lib/request";
+import {IconCircleXFilled} from "@tabler/icons-react";
 
 export interface ImageUploaderProps {
   preview: string | ArrayBuffer | null
@@ -74,33 +75,37 @@ export function AvatarUploader(props: ImageUploaderProps) {
   }
 
   return (
-    <div className='flex flex-col relative w-[80px]'>
-      {props.preview && <CircleX size={16} className='text-gray-600 cursor-pointer absolute -top-1 -right-1' onClick={handleClose}/>}
-      <div
-        {...getRootProps()}
-        className={`flex cursor-pointer overflow-hidden flex-col items-center justify-center rounded-lg border-2 border-dashed w-[80px] h-[80px] ${fileRejections.length !== 0 && 'border-red-500'}`}
-      >
-        {props.preview && (
-          <img
-            src={props.preview as string}
-            alt="Uploaded image"
-            className="max-h-[400px] rounded-lg"
-          />
-        )}
-        <div className={`flex flex-col items-center text-gray-500 text-sm ${props.preview ? "hidden" : "block"}`}>
-          {!props.loading ? <Plus/> : <Loader2 className='animate-spin'/>}
-          {!props.loading ? '上传' : '上传中'}
+      <div className='flex flex-col relative w-[80px] h-[80px]'>
+        {props.preview &&
+          <div className='bg-background absolute z-10 cursor-pointer -top-2 -right-2 rounded-full'
+               onClick={handleClose}>
+            <IconCircleXFilled size={18} className='text-gray-500'/>
+          </div>}
+        <div
+            {...getRootProps()}
+            className={`flex cursor-pointer relative flex-col items-center justify-center rounded-lg border-2 border-dashed w-[80px] h-[80px] ${fileRejections.length !== 0 && 'border-red-500'}`}
+        >
+          {props.preview && (
+              <img
+                  src={props.preview as string}
+                  alt="Uploaded image"
+                  className="h-[80px] w-[80px] rounded-lg"
+              />
+          )}
+          <div className={`flex flex-col items-center text-gray-500 text-sm ${props.preview ? "hidden" : "block"}`}>
+            {!props.loading ? <Plus/> : <Loader2 className='animate-spin'/>}
+            {!props.loading ? '上传' : '上传中'}
+          </div>
+          {!props.loading && <Input {...getInputProps()} type="file"/>}
         </div>
-        <Input {...getInputProps()} type="file"/>
-      </div>
 
-      <div className='flex flex-row items-end'>
-        {fileRejections.length !== 0 && (
-          errorMessage().map(item => <p key={item.code} className='text-red-500 text-sm'>
-            {item.message}
-          </p>)
-        )}
+        <div className='flex flex-row items-end'>
+          {fileRejections.length !== 0 && (
+              errorMessage().map(item => <p key={item.code} className='text-red-500 text-sm'>
+                {item.message}
+              </p>)
+          )}
+        </div>
       </div>
-    </div>
   );
 };

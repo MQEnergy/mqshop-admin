@@ -93,7 +93,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
       <CardContent className={'pb-0'}>
         <ScrollArea className="md:h-[calc(100svh-400px)] lg:h-[calc(100svh-400px)] rounded-md border">
           <Table key={'table'}>
-            <TableHeader className='bg-gray-50'>
+            <TableHeader className='bg-gray-100 dark:bg-neutral-800'>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
               {props.reLoading ?
                 <TableRow className='hover:bg-background'>
                   <TableCell colSpan={props.columns.length}>
-                    <SkeletonList count={6}/>
+                    <SkeletonList count={10}/>
                   </TableCell>
                 </TableRow>
                 :

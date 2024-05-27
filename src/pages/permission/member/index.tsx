@@ -51,6 +51,7 @@ export default function Member() {
     indexRes.run({page, limit, noCache: true})
   }
 
+  // Todo
   const handleDelete = (values: any[]) => {
     const ids = values.map(item => item.getValue('id'))
     deleteRes.runAsync({

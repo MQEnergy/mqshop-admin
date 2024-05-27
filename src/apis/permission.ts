@@ -24,6 +24,10 @@ export const MemberView = (params: MemberDeleteReq) => {
   const noCache = params.noCache === true
   return HttpClient.get(`/backend/admin/view?noCache=${noCache}`, {params});
 }
+export const MemberInfo = (params: MemberDeleteReq) => {
+  const noCache = params.noCache === true
+  return HttpClient.get(`/backend/admin/info?noCache=${noCache}`, {params});
+}
 export const MemberCreate = (data: MemberCreateReq) => {
   const noCache = data.noCache === true
   return HttpClient.post(`backend/admin/create?noCache=${noCache}`, data);

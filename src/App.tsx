@@ -9,6 +9,7 @@ import Notice from "@/components/layout/notice";
 import Language from "@/components/layout/language";
 import {useTranslation} from "react-i18next";
 import useUserInfoStore from "@/stores/user-info";
+import {Suspense} from "react";
 
 export default function App() {
   const token = useUserInfoStore.getState().userInfo?.token || '';
@@ -40,8 +41,11 @@ export default function App() {
               </div>
             </LayoutHeader>
           </div>
-
-          <Outlet/>
+          {/* Todo */}
+          <Suspense fallback={<div
+              className='text-black fixed w-[100px] h-[100px] bg-background border rounded-md top-1/2 left-1/2'>Loading...</div>}>
+            <Outlet/>
+          </Suspense>
         </main>
       </div>
   )
