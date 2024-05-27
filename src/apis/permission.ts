@@ -16,7 +16,7 @@ import {
 import {HttpClient} from "@/lib/request";
 
 // ============================ member =====================================
-export const MemberList = (params: MemberIndexReq) => {
+export const MemberIndex = (params: MemberIndexReq) => {
   const noCache = params.noCache === true
   return HttpClient.get(`/backend/admin/index?noCache=${noCache}`, {params});
 }
@@ -62,7 +62,7 @@ export const RoleDelete = (data: RoleDeleteReq) => {
   return HttpClient.post(`/backend/role/delete?noCache=${noCache}`, data);
 }
 // ============================ resource =====================================
-export const ResourceList = (params: ResourceIndexReq) => {
+export const ResourceIndex = (params: ResourceIndexReq) => {
   const noCache = params.noCache === true
   return HttpClient.get(`/backend/resource/index?noCache=${noCache}`, {params});
 }
