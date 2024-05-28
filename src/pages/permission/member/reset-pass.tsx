@@ -16,7 +16,7 @@ interface ResetPasswordProps {
   onOpen: (value: boolean) => void;
 }
 
-export function ResetPassword({...props}: ResetPasswordProps) {
+export function ResetPass({...props}: ResetPasswordProps) {
 
   const formSchema = z.object({
     new_pass: z.string().min(1, '密码不能为空').min(6, '密码不能少于6位数'),

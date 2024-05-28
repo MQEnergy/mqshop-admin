@@ -1,6 +1,6 @@
 import {Row} from '@tanstack/react-table'
 
-import {Button} from '@/components/ui/button.tsx'
+import {Button} from '@/components/custom/button.tsx'
 import {
   DropdownMenu,
   DropdownMenuContent,

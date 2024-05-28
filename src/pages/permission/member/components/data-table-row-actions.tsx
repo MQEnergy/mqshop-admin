@@ -1,6 +1,6 @@
 import {Row} from '@tanstack/react-table'
 
-import {Button} from '@/components/ui/button.tsx'
+import {Button} from '@/components/custom/button.tsx'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,7 +56,7 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
           <span className='sr-only'>Open menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-[120px]'>
+      <DropdownMenuContent align={'end'} className='w-[120px]'>
         <DropdownMenuItem onClick={() => handleEdit({__is_edit__: true})}>
           <IconPencil className="mr-2 h-4 w-4"/>
           <span>编辑信息</span>

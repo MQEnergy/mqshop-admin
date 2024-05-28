@@ -20,7 +20,8 @@ import {columns} from './columns'
 import {DataForm} from "@/pages/permission/member/data-form";
 import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
-import {ResetPassword} from "@/pages/permission/member/reset-password.tsx";
+import {ResetPass} from "@/pages/permission/member/reset-pass";
+import {AssignRole} from "@/pages/permission/member/assign-role";
 
 export default function Member() {
   const breadList: BreadListItem[] = [{
@@ -143,15 +144,14 @@ export default function Member() {
       }
       {/* reset password dialog */}
       {isResetOpen &&
-        <ResetPassword
+        <ResetPass
           row={detailInfo.info}
           open={isResetOpen}
           onOpen={setIsResetOpen}
         />}
       {/* assign role dialog */}
       {isRoleOpen &&
-        <ResetPassword
-          width={'600px'}
+        <AssignRole
           row={detailInfo.info}
           open={isRoleOpen}
           onOpen={setIsRoleOpen}

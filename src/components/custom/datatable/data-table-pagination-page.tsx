@@ -5,7 +5,7 @@ import {
   PaginationItem,
   PaginationLink
 } from "@/components/ui/pagination.tsx";
-import {Button} from "@/components/ui/button.tsx";
+import {Button} from "@/components/custom/button.tsx";
 import {ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon} from "@radix-ui/react-icons";
 import {Table} from "@tanstack/react-table";
 
@@ -63,6 +63,7 @@ function PaginationPage<TData>({table}: DataTablePaginationProps<TData>) {
                       <PaginationEllipsis/> :
                       <PaginationLink
                           size={'sm'}
+
                           className={'cursor-pointer'}
                           onClick={() => table.setPageIndex(Number(p) - 1)}
                           isActive={table.getState().pagination.pageIndex === Number(p) - 1}

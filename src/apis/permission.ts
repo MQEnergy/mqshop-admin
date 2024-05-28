@@ -3,6 +3,7 @@ import {
   MemberCreateReq,
   MemberDeleteReq,
   MemberIndexReq,
+  MemberRoleDistributionReq,
   MemberUpdateReq,
   ResourceCreateReq,
   ResourceDeleteReq,
@@ -45,6 +46,11 @@ export const MemberChangePass = (data: MemberChangePassReq) => {
   const noCache = data.noCache === true
   return HttpClient.post(`/backend/admin/change-pass?noCache=${noCache}`, data);
 }
+export const MemberRoleDistribution = (data: MemberRoleDistributionReq) => {
+  const noCache = data.noCache === true
+  return HttpClient.post(`/backend/admin/role-distribution?noCache=${noCache}`, data);
+}
+
 // ============================ role =====================================
 export const RoleIndex = (params: RoleIndexReq) => {
   const noCache = params.noCache === true
@@ -70,6 +76,7 @@ export const RoleDelete = (data: RoleDeleteReq) => {
   const noCache = data.noCache === true
   return HttpClient.post(`/backend/role/delete?noCache=${noCache}`, data);
 }
+
 // ============================ resource =====================================
 export const ResourceIndex = (params: ResourceIndexReq) => {
   const noCache = params.noCache === true

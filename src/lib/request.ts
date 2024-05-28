@@ -52,8 +52,10 @@ class Request {
           return response.data
         },
         (err) => {
+          if (err.response?.status > 400) {
+            toast.error(err.response?.data.message || err.message || 'Server Error');
+          }
           if (err.response?.status === 401 || err.response?.status === 403) {
-            toast.error(err.response?.data.message || err.message || 'Request Error');
             useUserInfoStore.setState({userInfo: null})
             window.location.href = `/login?redirect=${window.location.pathname}`
           }

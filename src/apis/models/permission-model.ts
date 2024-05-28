@@ -27,6 +27,10 @@ export interface MemberChangePassReq extends CacheReq {
   new_pass: string;
   repeat_pass: string;
 }
+export interface MemberRoleDistributionReq extends ViewReq, CacheReq {
+  role_ids: string
+}
+
 // ============================ role =====================================
 interface RoleReq {
   name: string;
@@ -38,6 +42,7 @@ export interface RoleListReq extends CacheReq {}
 export interface RoleUpdateReq extends ViewReq, RoleReq, CacheReq {}
 export interface RoleDeleteReq extends ViewReq, CacheReq {}
 export interface RoleCreateReq extends RoleReq, CacheReq {}
+
 // ============================ resource =====================================
 interface ResourceReq {
   name: string;
