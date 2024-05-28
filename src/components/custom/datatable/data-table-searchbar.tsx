@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Card, CardContent} from "@/components/ui/card.tsx";
 
-import {Button} from "@/components/ui/button.tsx";
+import {Button} from "@/components/custom/button.tsx";
 import {Trash2, Search} from "lucide-react";
 import {useTranslation} from "react-i18next";
 

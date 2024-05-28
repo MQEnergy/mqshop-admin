@@ -6,7 +6,7 @@ import {DataTableViewOptions} from './data-table-view-options.tsx'
 import {ArrowDownToLine, Trash2, ListPlus, Plus, RotateCw} from 'lucide-react'
 import ConfirmDialog from "@/components/custom/confirm-dialog";
 import {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "@/context";
+import {TableContext} from "@/context";
 
 export interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -21,7 +21,7 @@ export interface DataTableToolbarProps<TData> {
 }
 
 export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>) {
-  const {onRefresh} = useContext(GlobalContext);
+  const {onRefresh} = useContext(TableContext);
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const handleDeleteDialog = () => {
@@ -69,7 +69,7 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
       {/* delete confirm dialog */}
       <ConfirmDialog open={isOpen}
                      description={'你确定要删除这些记录吗？'}
-                     submitBtn={props.deLoading ? '删除中' : '确定删除'}
+                     submitTitle={props.deLoading ? '删除中' : '确定删除'}
                      loading={props.deLoading}
                      onCancel={handleDeleteDialog}
                      onSubmit={props.onDelete}/>

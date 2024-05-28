@@ -8,7 +8,7 @@ import {DataTableColumnHeader} from "../components/data-table-column-header.tsx"
 import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import ReactLogo from "@/assets/react.svg";
-import {Badge} from "@/components/ui/badge.tsx";
+import {Badge} from "@/components/custom/badge.tsx";
 
 export const columns: ColumnDef<Member>[] = [
   {
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Member>[] = [
       const roleList: any[] = row.original?.role_list || []
       return (
         <div className='space-x-1 space-y-1 w-[200px] max-h-[60px] overflow-scroll'>
-          {roleList.map(item => <Badge key={item.id} variant={'outline'}>{item.name}</Badge>)}
+          {roleList.map(item => <Badge key={item.id} variant={'blue'}>{item.name}</Badge>)}
         </div>
       )
     }
@@ -106,7 +106,7 @@ export const columns: ColumnDef<Member>[] = [
         return null
       }
       return (
-        <Badge variant={status.value == 1 ? 'secondary' : 'destructive'}>
+        <Badge variant={status.value == 1 ? 'green' : 'red'}>
           <span>{status.label}</span>
         </Badge>
       )

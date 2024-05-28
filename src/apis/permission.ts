@@ -1,4 +1,5 @@
 import {
+  MemberChangePassReq,
   MemberCreateReq,
   MemberDeleteReq,
   MemberIndexReq,
@@ -39,6 +40,10 @@ export const MemberUpdate = (data: MemberUpdateReq) => {
 export const MemberDelete = (data: MemberDeleteReq) => {
   const noCache = data.noCache === true
   return HttpClient.post(`/backend/admin/delete?noCache=${noCache}`, data);
+}
+export const MemberChangePass = (data: MemberChangePassReq) => {
+  const noCache = data.noCache === true
+  return HttpClient.post(`/backend/admin/change-pass?noCache=${noCache}`, data);
 }
 // ============================ role =====================================
 export const RoleIndex = (params: RoleIndexReq) => {

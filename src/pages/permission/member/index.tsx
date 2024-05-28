@@ -19,7 +19,8 @@ import {useRequest} from "ahooks";
 import {columns} from './columns'
 import {DataForm} from "@/pages/permission/member/data-form";
 import {toast} from "react-hot-toast";
-import {GlobalContext} from '@/context';
+import {TableContext} from '@/context';
+import {ResetPassword} from "@/pages/permission/member/reset-password.tsx";
 
 export default function Member() {
   const breadList: BreadListItem[] = [{
@@ -31,6 +32,8 @@ export default function Member() {
   }];
   const {t} = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isResetOpen, setIsResetOpen] = useState<boolean>(false)
+  const [isRoleOpen, setIsRoleOpen] = useState<boolean>(false)
   const {onPaginationChange, page, limit, pagination} = usePagination();
   const [detailInfo, setDetailInfo] = useState({
     title: '',
@@ -79,11 +82,19 @@ export default function Member() {
       title: '编辑操作',
       info: values
     })
-    setIsOpen(true)
+    if (typeof values.__is_edit__ !== 'undefined' && typeof values.__is_edit__ === 'boolean') {
+      setIsOpen(values.__is_edit__)
+    }
+    if (typeof values.__is_reset_pass__ !== 'undefined' && typeof values.__is_reset_pass__ === 'boolean') {
+      setIsResetOpen(values.__is_reset_pass__)
+    }
+    if (typeof values.__is_assign_role__ !== 'undefined' && typeof values.__is_assign_role__ === 'boolean') {
+      setIsRoleOpen(values.__is_assign_role__)
+    }
   }
 
   return (
-    <GlobalContext.Provider value={{setInfo: handleInfo, onRefresh: handleRefresh}}>
+    <TableContext.Provider value={{setInfo: handleInfo, onRefresh: handleRefresh}}>
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
@@ -123,13 +134,28 @@ export default function Member() {
 
       {/* data create / update form */}
       {isOpen &&
-          <DataForm
-              title={detailInfo.title}
-              data={detailInfo.info}
-              open={isOpen}
-              onOpenChange={handleOpen}
-          />
+        <DataForm
+          title={detailInfo.title}
+          data={detailInfo.info}
+          open={isOpen}
+          onOpenChange={handleOpen}
+        />
       }
-    </GlobalContext.Provider>
+      {/* reset password dialog */}
+      {isResetOpen &&
+        <ResetPassword
+          row={detailInfo.info}
+          open={isResetOpen}
+          onOpen={setIsResetOpen}
+        />}
+      {/* assign role dialog */}
+      {isRoleOpen &&
+        <ResetPassword
+          width={'600px'}
+          row={detailInfo.info}
+          open={isRoleOpen}
+          onOpen={setIsRoleOpen}
+        />}
+    </TableContext.Provider>
   )
 }

@@ -50,8 +50,9 @@ export interface DrawerFormProps extends Omit<React.ComponentProps<typeof Drawer
 const DrawerForm = (props: DrawerFormProps) => {
   return (
     <Drawer open={props.open || false} direction={props.direction || 'right'} onClose={props.onClose}>
-      <DrawerContent className={cn('top-0 right-0 left-auto md:w-[500px] mt-0 rounded-none overflow-hidden', props.className)}
-                     showBar={props.showBar}>
+      <DrawerContent
+        className={cn('top-0 right-0 left-auto md:w-[500px] mt-0 rounded-none overflow-hidden', props.className)}
+        showBar={props.showBar}>
         <div className='mx-auto w-full overflow-y-scroll overflow-x-hidden h-screen'>
           <DrawerHeader className='border-b flex justify-between'>
             <div className='flex flex-row space-x-1'>

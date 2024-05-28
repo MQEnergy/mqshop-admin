@@ -17,10 +17,16 @@ export interface MemberReq {
   status: number;
   role_ids: string;
 }
+
 export interface MemberIndexReq extends PageReq, CacheReq {}
 export interface MemberUpdateReq extends ViewReq, MemberReq, CacheReq {}
 export interface MemberDeleteReq extends ViewReq, CacheReq {}
 export interface MemberCreateReq extends MemberReq, CacheReq {}
+export interface MemberChangePassReq extends CacheReq {
+  uuid: string;
+  new_pass: string;
+  repeat_pass: string;
+}
 // ============================ role =====================================
 interface RoleReq {
   name: string;

@@ -8,26 +8,33 @@ import {
 } from "@/components/ui/alert-dialog.tsx";
 import {Button} from "@/components/custom/button.tsx";
 
-interface DialogAlertProps extends AlertDialogProps {
+export interface DialogAlertProps extends AlertDialogProps {
+  width?: string;
+  height?: string;
   loading: boolean
   title?: string
   description?: string
-  submitBtn?: string
+  closeTitle?: string
+  submitTitle?: string
   onCancel: () => void
-  onSubmit: () => void
+  onSubmit: (values: any) => void
 }
 
-function ConfirmDialog(props: DialogAlertProps) {
+function ConfirmDialog({...props}: DialogAlertProps) {
   return (
     <AlertDialog open={props.open}>
-      <AlertDialogContent className={'w-[400px]'}>
+      <AlertDialogContent className='min-w-[400px]' style={{
+        width: props.width || '400px',
+        maxWidth: props.width || '400px',
+        height: props.height || 'auto'
+      }}>
         <AlertDialogHeader>
           <AlertDialogTitle>{props.title || '提示'}</AlertDialogTitle>
-          <AlertDialogDescription>{props.description || '您确定要这样操作吗？'}</AlertDialogDescription>
+          {props.description && <AlertDialogDescription>{props.description}</AlertDialogDescription>}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button size={'sm'} variant={'outline'} onClick={props.onCancel}>{props.title || '取消'}</Button>
-          <Button size={'sm'} loading={props.loading} onClick={props.onSubmit}>{props.submitBtn || '确定'}</Button>
+          <Button size={'sm'} loading={props.loading} onClick={props.onSubmit}>{props.submitTitle || '确定'}</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

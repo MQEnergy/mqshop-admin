@@ -18,7 +18,7 @@ import {AvatarUploader} from "@/components/custom/avatar-uploader";
 import {AttachmentUpload} from "@/apis/common";
 import {Member} from "@/pages/permission/member/data/schema.ts";
 import ReactLogo from "@/assets/react.svg";
-import {GlobalContext} from "@/context";
+import {TableContext} from "@/context";
 
 interface DataFormProps<TData> extends DrawerFormProps {
   data?: TData
@@ -26,14 +26,14 @@ interface DataFormProps<TData> extends DrawerFormProps {
 
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
 
-  const {onRefresh} = useContext(GlobalContext);
+  const {onRefresh} = useContext(TableContext);
 
   const formSchema = z.object({
     id: z.number().default(0),
     uuid: z.string(),
-    account: z.string().min(1, '账号不能为空').min(5, '账号最小为5个字符'),
+    account: z.string().min(1, '账号不能为空').min(5, '账号不能小于5个字符'),
     real_name: z.string(),
-    password: z.string().min(1, '密码不能为空').min(6, '密码最小为6位数'),
+    password: z.string().min(1, '密码不能为空').min(6, '密码不能少于6位数'),
     phone: z.string().min(1, '手机号不能为空'),
     avatar: z.string().min(1, '头像不能为空'),
     status: z.boolean(),
@@ -184,10 +184,10 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
 
   return (
     <DrawerForm title={props.title} open={props.open} onClose={handleClose} onSubmit={form.handleSubmit(onSubmit)}
-                loading={createRes.loading}
+                loading={updateRes.loading || createRes.loading}
                 className='rounded-tl-lg rounded-bl-lg'>
       <Form {...form}>
-        <div className='flex grid space-y-6 items-center'>
+        <div className='grid space-y-6 items-center'>
           <FormField
             control={form.control}
             name='avatar'

@@ -22,6 +22,8 @@ const buttonVariants = cva(
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
+        indigo: 'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+        'deep-gray': 'inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-slate-900 text-white hover:bg-slate-700'
       },
       size: {
         default: 'h-10 px-4 py-2',
@@ -31,7 +33,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: 'indigo',
       size: 'default',
     },
   }

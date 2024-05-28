@@ -1,6 +1,12 @@
 import { createContext } from 'react';
 
-export const GlobalContext = createContext<{
+// table context
+export const TableContext = createContext<{
   setInfo?: (values: any) => void; // set detail info
-  onRefresh?: () => void; // refresh page
+  onRefresh?: () => void;
+}>({})
+
+export const MemberContext = createContext<{
+  onResetPassword?: () => void;
 }>({});
+
