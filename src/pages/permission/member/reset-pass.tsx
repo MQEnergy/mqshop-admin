@@ -63,6 +63,7 @@ export function ResetPass({...props}: ResetPasswordProps) {
   return (
     <FormDialog
       title="重置密码"
+      submitTitle={'确定重置'}
       loading={changePassRes.loading}
       width={props.width}
       open={props.open}

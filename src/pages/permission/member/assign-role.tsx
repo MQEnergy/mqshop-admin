@@ -109,7 +109,8 @@ export function AssignRole({...props}: AssignRoleProps) {
   }
   return (
     <FormDialog
-      title="重置密码"
+      title="角色分配"
+      submitTitle={'确定分配'}
       loading={changeRoleRes.loading}
       width={props.width}
       open={props.open}

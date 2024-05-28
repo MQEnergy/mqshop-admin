@@ -16,6 +16,7 @@ export interface DialogAlertProps extends AlertDialogProps {
   description?: string
   closeTitle?: string
   submitTitle?: string
+  isDelete?: boolean
   onCancel: () => void
   onSubmit: (values: any) => void
 }
@@ -34,7 +35,12 @@ function ConfirmDialog({...props}: DialogAlertProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button size={'sm'} variant={'outline'} onClick={props.onCancel}>{props.title || '取消'}</Button>
-          <Button size={'sm'} loading={props.loading} onClick={props.onSubmit}>{props.submitTitle || '确定'}</Button>
+          {props.isDelete ?
+            <Button variant={'destructive'} size={'sm'} loading={props.loading}
+                    onClick={props.onSubmit}>{props.submitTitle || '确定'}</Button>
+            :
+            <Button size={'sm'} loading={props.loading}
+                    onClick={props.onSubmit}>{props.submitTitle || '确定'}</Button>}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

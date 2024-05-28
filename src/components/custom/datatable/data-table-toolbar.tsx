@@ -68,6 +68,7 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
       </div>
       {/* delete confirm dialog */}
       <ConfirmDialog open={isOpen}
+                     isDelete={true}
                      description={'你确定要删除这些记录吗？'}
                      submitTitle={props.deLoading ? '删除中' : '确定删除'}
                      loading={props.deLoading}
