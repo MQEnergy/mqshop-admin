@@ -3,7 +3,7 @@ import {UserAuthForm} from "@/pages/auth/components/user-auth-form.tsx";
 import {useTranslation} from "react-i18next";
 import useUserInfoStore from "@/stores/user-info.ts";
 
-export default function Index() {
+export default function Login() {
   const {t} = useTranslation();
   const token = useUserInfoStore.getState().userInfo?.token || '';
   if (token !== '') {
