@@ -10,8 +10,8 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import {useTranslation} from "react-i18next";
-import DataTableSearchBar from "@/components/custom/datatable/data-table-searchbar";
-import {DataTable} from "@/components/custom/datatable/data-table";
+import DataTableSearchBar from "@/components/custom/data-table/data-table-searchbar";
+import {DataTable} from "@/components/custom/data-table/data-table";
 import {ResourceDelete, ResourceIndex} from "@/apis/permission";
 import {useEffect, useState} from "react";
 import {usePagination} from "@/hooks/use-pagination";
@@ -19,6 +19,7 @@ import {useRequest} from "ahooks";
 import {columns} from './columns'
 import {toast} from "react-hot-toast";
 import {DataForm} from "@/pages/permission/member/data-form.tsx";
+import {TableContext} from "@/context.tsx";
 
 export default function Resource() {
   const breadList: BreadListItem[] = [{
@@ -63,48 +64,46 @@ export default function Resource() {
   }
 
   return (
-      <>
-        {/* 面包屑 */}
-        <SingleBreadcrumb breadList={breadList}/>
-        {/* 搜索 */}
-        <DataTableSearchBar className={'shadow-none'}>
-          <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'}
-                       type={'search'}/>
-          {[1, 2, 3].map((index) => (
-              <Select key={'search-' + index}>
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="请选择..."/>
-                </SelectTrigger>
-                <SelectContent className='max-h-[200px]'>
-                  <SelectGroup>
-                    <SelectLabel>状态</SelectLabel>
-                    <SelectItem value="apple">Apple</SelectItem>
-                    <SelectItem value="banana">Banana</SelectItem>
-                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                    <SelectItem value="grapes">Grapes</SelectItem>
-                    <SelectItem value="pineapple">Pineapple</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-          ))}
-        </DataTableSearchBar>
-        {/* data table list */}
-        <DataTable data={indexRes.data?.data?.list || []}
-                   columns={columns}
-                   pageCount={indexRes.data?.data?.last_page || 0}
-                   rowCount={indexRes.data?.data?.total || 0}
-                   pagination={pagination}
-                   onPaginationChange={onPaginationChange}
-                   reLoading={indexRes.loading}
-                   deLoading={deleteRes.loading}
-                   onRefresh={handleRefresh}
-                   onOpen={setIsOpen}
-                   onDelete={handleDelete}/>
+    <TableContext.Provider value={{onRefresh: handleRefresh}}>
+      {/* 面包屑 */}
+      <SingleBreadcrumb breadList={breadList}/>
+      {/* 搜索 */}
+      <DataTableSearchBar className={'shadow-none'} onClick={() => {}} onReset={() => {}}>
+        <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'}
+                     type={'search'}/>
+        {[1, 2, 3].map((index) => (
+          <Select key={'search-' + index}>
+            <SelectTrigger className="h-9">
+              <SelectValue placeholder="请选择..."/>
+            </SelectTrigger>
+            <SelectContent className='max-h-[200px]'>
+              <SelectGroup>
+                <SelectLabel>状态</SelectLabel>
+                <SelectItem value="apple">Apple</SelectItem>
+                <SelectItem value="banana">Banana</SelectItem>
+                <SelectItem value="blueberry">Blueberry</SelectItem>
+                <SelectItem value="grapes">Grapes</SelectItem>
+                <SelectItem value="pineapple">Pineapple</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        ))}
+      </DataTableSearchBar>
+      {/* data table list */}
+      <DataTable data={indexRes.data?.data?.list || []}
+                 columns={columns}
+                 pageCount={indexRes.data?.data?.last_page || 0}
+                 rowCount={indexRes.data?.data?.total || 0}
+                 pagination={pagination}
+                 onPaginationChange={onPaginationChange}
+                 reLoading={indexRes.loading}
+                 deLoading={deleteRes.loading}
+                 onOpen={setIsOpen}
+                 onDelete={handleDelete}/>
 
-        {/* data create / update form */}
-        <DataForm open={isOpen}
-                  onOpenChange={setIsOpen}
-                  onRefresh={handleRefresh}/>
-      </>
+      {/* data create / update form */}
+      <DataForm open={isOpen}
+                onOpenChange={setIsOpen}/>
+    </TableContext.Provider>
   )
 }

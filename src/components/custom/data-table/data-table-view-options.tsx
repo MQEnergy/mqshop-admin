@@ -1,5 +1,4 @@
 import {DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu'
-import {MixerHorizontalIcon} from '@radix-ui/react-icons'
 import {Table} from '@tanstack/react-table'
 
 import {Button} from '@/components/custom/button.tsx'
@@ -10,6 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu.tsx'
+import {Settings} from "lucide-react";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
@@ -26,8 +26,7 @@ export function DataTableViewOptions<TData>({
           variant='outline'
           className='ml-auto hidden lg:flex'
         >
-          <MixerHorizontalIcon className='mr-2 h-4 w-4'/>
-          View
+          <Settings size={16}/>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[150px]'>
@@ -45,7 +44,7 @@ export function DataTableViewOptions<TData>({
                 key={'table-view-' + column.id}
                 className='capitalize'
                 checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                onCheckedChange={(value) => column.toggleVisibility(value)}
               >
                 {column.columnDef.header}
               </DropdownMenuCheckboxItem>

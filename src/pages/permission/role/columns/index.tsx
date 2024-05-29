@@ -4,8 +4,8 @@ import {Checkbox} from '@/components/ui/checkbox.tsx'
 
 import {statuses} from '../data/data.tsx'
 import {Member, memberSchema} from '../data/schema.ts'
-import {DataTableColumnHeader} from "@/components/custom/datatable/data-table-column-header.tsx";
-import {DataTableRowActions} from "@/components/custom/datatable/data-table-row-actions.tsx";
+import {DataTableColumnHeader} from "@/components/custom/data-table/data-table-column-header.tsx";
+import {DataTableRowActions} from "@/components/custom/data-table/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import ViteLogo from "@/assets/react.svg";
 

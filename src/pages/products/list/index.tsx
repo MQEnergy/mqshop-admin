@@ -1,6 +1,6 @@
 import DataTables from "@/pages/products/list/components/data-table";
 import {SingleBreadcrumb, BreadListItem} from "@/components/custom/single-breadcrumb";
-import DataTableSearchbar from "@/components/custom/datatable/data-table-searchbar.tsx";
+import DataTableSearchbar from "@/components/custom/data-table/data-table-searchbar.tsx";
 import {
   Select,
   SelectContent,
@@ -28,7 +28,7 @@ export default function Products() {
         {/* 面包屑 */}
         <SingleBreadcrumb breadList={breadList}/>
         {/* 搜索 */}
-        <DataTableSearchbar>
+        <DataTableSearchbar onReset={() => {}} onClick={() => {}}>
           <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'} type={'search'}/>
           {[1, 2, 3].map((index) => (
               <Select key={'search-' + index}>

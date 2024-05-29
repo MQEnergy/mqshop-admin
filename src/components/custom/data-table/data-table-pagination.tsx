@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx'
-import PaginationPage from "@/components/custom/datatable/data-table-pagination-page.tsx";
+import PaginationPage from "@/components/custom/data-table/data-table-pagination-page.tsx";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>

@@ -1,17 +1,5 @@
 import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadcrumb";
-import {SearchInput} from "@/components/custom/search";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-import {useTranslation} from "react-i18next";
-import DataTableSearchBar from "@/components/custom/datatable/data-table-searchbar";
-import {DataTable} from "@/components/custom/datatable/data-table";
+import {DataTable} from "@/components/custom/data-table/data-table";
 import {MemberDelete, MemberIndex} from "@/apis/permission";
 import {useEffect, useState} from "react";
 import {usePagination} from "@/hooks/use-pagination";
@@ -22,6 +10,7 @@ import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
 import {ResetPass} from "@/pages/permission/member/reset-pass";
 import {AssignRole} from "@/pages/permission/member/assign-role";
+import {DataTableSearchbar} from "@/pages/permission/member/components/data-table-searchbar.tsx";
 
 export default function Member() {
   const breadList: BreadListItem[] = [{
@@ -31,7 +20,6 @@ export default function Member() {
     name: "用户管理",
     link: '/permissions/member'
   }];
-  const {t} = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isResetOpen, setIsResetOpen] = useState<boolean>(false)
   const [isRoleOpen, setIsRoleOpen] = useState<boolean>(false)
@@ -93,34 +81,15 @@ export default function Member() {
       setIsRoleOpen(values.__is_assign_role__)
     }
   }
+  const handleSearch = () => {
 
+  }
   return (
     <TableContext.Provider value={{setInfo: handleInfo, onRefresh: handleRefresh}}>
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
-      <DataTableSearchBar className={'border-none shadow'}>
-        <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'}
-                     type={'search'}/>
-        {[1, 2, 3].map((index) => (
-          <Select key={'search-' + index}>
-            <SelectTrigger className="h-9">
-              <SelectValue placeholder="Please select..."/>
-            </SelectTrigger>
-            <SelectContent className='max-h-[200px]'>
-              <SelectGroup>
-                <SelectLabel>状态</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        ))}
-      </DataTableSearchBar>
-
+      <DataTableSearchbar info={detailInfo.info} onSearch={handleSearch}/>
       {/* data table list */}
       <DataTable data={indexRes.data?.data?.list || []}
                  columns={columns}
@@ -132,7 +101,6 @@ export default function Member() {
                  deLoading={deleteRes.loading}
                  onOpen={handleOpen}
                  onDelete={handleDelete}/>
-
       {/* data create / update form */}
       {isOpen &&
         <DataForm
@@ -145,6 +113,7 @@ export default function Member() {
       {/* reset password dialog */}
       {isResetOpen &&
         <ResetPass
+          width={'450px'}
           row={detailInfo.info}
           open={isResetOpen}
           onOpen={setIsResetOpen}
@@ -152,6 +121,7 @@ export default function Member() {
       {/* assign role dialog */}
       {isRoleOpen &&
         <AssignRole
+          width={'450px'}
           row={detailInfo.info}
           open={isRoleOpen}
           onOpen={setIsRoleOpen}

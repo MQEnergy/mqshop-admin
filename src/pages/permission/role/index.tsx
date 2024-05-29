@@ -10,8 +10,8 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import {useTranslation} from "react-i18next";
-import DataTableSearchBar from "@/components/custom/datatable/data-table-searchbar";
-import {DataTable} from "@/components/custom/datatable/data-table";
+import DataTableSearchBar from "@/components/custom/data-table/data-table-searchbar";
+import {DataTable} from "@/components/custom/data-table/data-table";
 import {RoleDelete, RoleIndex} from "@/apis/permission";
 import {useEffect, useState} from "react";
 import {usePagination} from "@/hooks/use-pagination";
@@ -67,7 +67,7 @@ export default function Role() {
         {/* 面包屑 */}
         <SingleBreadcrumb breadList={breadList}/>
         {/* 搜索 */}
-        <DataTableSearchBar className={'shadow-none'}>
+        <DataTableSearchBar className={'shadow-none'} onClick={() => {}} onReset={() => {}}>
           <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'}
                        type={'search'}/>
           {[1, 2, 3].map((index) => (
@@ -97,14 +97,12 @@ export default function Role() {
                    onPaginationChange={onPaginationChange}
                    reLoading={indexRes.loading}
                    deLoading={deleteRes.loading}
-                   onRefresh={handleRefresh}
                    onOpen={setIsOpen}
                    onDelete={handleDelete}/>
 
         {/* data create / update form */}
         <DataForm open={isOpen}
-                  onOpenChange={setIsOpen}
-                  onRefresh={handleRefresh}/>
+                  onOpenChange={setIsOpen} />
       </>
   )
 }

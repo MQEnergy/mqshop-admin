@@ -40,29 +40,27 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
       <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
         {/* 添加按钮等 */}
         <Button size={'sm'} onClick={() => props.onOpen(true)}>
-          <Plus size={18} className='mr-1'/>
-          添加
+          <Plus size={16} className='mr-1'/>
+          新增
         </Button>
         {props.isImport && <Button size={'sm'} variant={'outline'}>
-            <ListPlus size={18} className='mr-1'/>
-            批量导入
+          <ListPlus size={16} className='mr-1'/>
+          批量导入
         </Button>
         }
         {props.table.getSelectedRowModel().rows.length > 0 &&
-            <Button size={'sm'} variant={'outline-cancel'} onClick={handleDeleteDialog}>
-                <Trash2 size={18} className='mr-1'/>
-                批量删除
-            </Button>
+          <Button size={'sm'} variant={'outline-cancel'} onClick={handleDeleteDialog}>
+            <Trash2 size={16} className='mr-1'/>
+            批量删除
+          </Button>
         }
       </div>
       <div className='flex gap-x-2'>
-        <Button size={'sm'}>
-          <ArrowDownToLine size={18} className='mr-1'/>
-          导出
+        <Button variant={'outline'} size={'sm'}>
+          <ArrowDownToLine size={16} />
         </Button>
-        <Button variant={'outline'} loading={props.reLoading} onClick={onRefresh} size={'sm'}>
-          {!props.reLoading && <RotateCw size={18} className='mr-1'/>}
-          刷新
+        <Button variant={'outline'} onClick={onRefresh} size={'sm'}>
+          <RotateCw size={16} className={props.reLoading ? 'animate-spin' : ''}/>
         </Button>
         <DataTableViewOptions table={props.table}/>
       </div>
