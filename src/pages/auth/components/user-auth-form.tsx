@@ -56,8 +56,7 @@ export function UserAuthForm({className, ...props}: UserAuthFormProps) {
       {
         loading: '登录中...',
         success: (data: ApiResult<any>) => <span className='text-sm'>{data.message}</span>,
-        error: (err) => <span
-          className='text-sm'>{err.response?.data.message || err.message || 'Request Error'}</span>,
+        error: (err) => <span>{err.response?.data.message || err.message || 'Server Error'}</span>,
       }
     ).then((res) => {
       useUserInfoStore.setState({userInfo: res.data})
