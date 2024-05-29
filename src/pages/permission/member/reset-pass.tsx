@@ -67,6 +67,7 @@ export function ResetPass({...props}: ResetPasswordProps) {
       loading={changePassRes.loading}
       width={props.width}
       open={props.open}
+      onOpenChange={props.onOpen}
       onCancel={handleCancel}
       onSubmit={form.handleSubmit(onSubmit)}>
       <Form {...form}>

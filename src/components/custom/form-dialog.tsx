@@ -23,7 +23,7 @@ export interface FormDialogProps extends DialogProps {
 
 function FormDialog({...props}: FormDialogProps) {
   return (
-    <Dialog open={props.open}>
+    <Dialog defaultOpen={props.open} onOpenChange={props.onOpenChange} modal={true}>
       <DialogContent className='min-w-[400px]' style={{
         width: props.width || '400px',
         maxWidth: props.width || '400px',

@@ -10,7 +10,7 @@ import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
 import {ResetPass} from "@/pages/permission/member/reset-pass";
 import {AssignRole} from "@/pages/permission/member/assign-role";
-import {DataTableSearchbar} from "@/pages/permission/member/components/data-table-searchbar.tsx";
+import {DataTableSearchbar, SearchInfo} from "@/pages/permission/member/components/data-table-searchbar.tsx";
 
 export default function Member() {
   const breadList: BreadListItem[] = [{
@@ -81,7 +81,12 @@ export default function Member() {
       setIsRoleOpen(values.__is_assign_role__)
     }
   }
-  const handleSearch = () => {
+  const handleSearch = (values: SearchInfo) => {
+    console.log(values)
+    if (values.keyword === '' && values.status === '' && values.role_id === '') {
+      handleRefresh()
+      return
+    }
 
   }
   return (
