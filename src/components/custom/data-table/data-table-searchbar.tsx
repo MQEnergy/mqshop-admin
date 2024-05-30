@@ -7,8 +7,8 @@ import {useTranslation} from "react-i18next";
 
 export interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
-  onClick: () => void
   onReset: () => void
+  onSubmit: () => void
 }
 
 // DataTableSearchBar 搜索
@@ -24,7 +24,7 @@ const DataTableSearchBar = React.forwardRef<HTMLDivElement, SearchBarProps>(
 
             <div className="md:col-end-6 lg:col-end-6 col-span-1 justify-self-end">
               <div className="flex gap-2">
-                <Button className="gap-1" size={'sm'} onClick={props.onClick}>
+                <Button className="gap-1" size={'sm'} onClick={props.onSubmit}>
                   <Search className="h-3.5 w-3.5"/>
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       {t('settings.search.submit')}

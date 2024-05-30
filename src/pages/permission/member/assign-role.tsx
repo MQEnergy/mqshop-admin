@@ -68,10 +68,10 @@ export function AssignRole({...props}: AssignRoleProps) {
     form.reset()
     setSelected([])
     if (props.row) {
-      const roleSelected = info.role_list?.map((item: any) => {
+      const roleSelected: selectItem[] = info.role_list?.map((item: any) => {
         return {label: item.name, value: item.id}
       }) || [];
-      setSelected(roleSelected)
+      handleRoleSelect(roleSelected)
     }
   }, [props.row])
 
@@ -113,6 +113,7 @@ export function AssignRole({...props}: AssignRoleProps) {
       loading={changeRoleRes.loading}
       width={props.width}
       open={props.open}
+      onOpenChange={props.onOpen}
       onCancel={handleCancel}
       onSubmit={form.handleSubmit(onSubmit)}>
       <Form {...form}>
