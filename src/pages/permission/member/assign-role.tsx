@@ -98,9 +98,8 @@ export function AssignRole({...props}: AssignRoleProps) {
       runAsync,
       {
         loading: '提交中...',
-        success: (data: ApiResult<any>) => <span className='text-sm'>{data.message}</span>,
-        error: (err) => <span
-          className='text-sm'>{err.response?.data.message || err.message || 'Request Error'}</span>,
+        success: (data: ApiResult<any>) => data.message,
+        error: (err) => err.response?.data.message || err.message || 'Request Error'
       }
     ).then(() => {
       handleCancel()

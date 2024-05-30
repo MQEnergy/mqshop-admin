@@ -25,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ThemeProvider defaultTheme='system' storageKey='mqshop-ui-theme'>
         <RouterProvider router={router} fallbackElement={<Loading/>}/>
       </ThemeProvider>
-      <Toaster/>
+      <Toaster containerClassName={'text-sm'}/>
     </I18nextProvider>
   </React.StrictMode>
 )

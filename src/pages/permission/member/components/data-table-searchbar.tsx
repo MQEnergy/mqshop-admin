@@ -14,7 +14,7 @@ import {useState} from "react";
 
 interface DataTableSearchbarProps {
   info: null
-  onSearch: () => void
+  onSearch: (values: any) => void
 }
 
 export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
@@ -25,7 +25,7 @@ export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
     role_id: '',
   })
   const handleSearch = () => {
-    props.onSearch()
+    props.onSearch(searchInfo)
   }
   const handleReset = () => {
     setSearchInfo({

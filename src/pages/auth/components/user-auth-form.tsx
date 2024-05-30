@@ -51,12 +51,13 @@ export function UserAuthForm({className, ...props}: UserAuthFormProps) {
       password: params.password,
       noCache: true
     });
+
     toast.promise(
       runAsync,
       {
         loading: '登录中...',
-        success: (data: ApiResult<any>) => <span className='text-sm'>{data.message}</span>,
-        error: (err) => <span>{err.response?.data.message || err.message || 'Server Error'}</span>,
+        success: (data: ApiResult<any>) => data.message,
+        error: (err) => err.response?.data.message || err.message || 'Server Error',
       }
     ).then((res) => {
       useUserInfoStore.setState({userInfo: res.data})

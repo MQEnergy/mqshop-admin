@@ -11,6 +11,8 @@ import {TableContext} from '@/context';
 import {ResetPass} from "@/pages/permission/member/reset-pass";
 import {AssignRole} from "@/pages/permission/member/assign-role";
 import {DataTableSearchbar} from "@/pages/permission/member/components/data-table-searchbar.tsx";
+import BanConfirm from "@/pages/permission/member/ban-confirm.tsx";
+import DeleteConfirm from "@/pages/permission/member/delete-confirm.tsx";
 
 export default function Member() {
   const breadList: BreadListItem[] = [{
@@ -23,6 +25,8 @@ export default function Member() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isResetOpen, setIsResetOpen] = useState<boolean>(false)
   const [isRoleOpen, setIsRoleOpen] = useState<boolean>(false)
+  const [isBanOpen, setIsBanOpen] = useState<boolean>(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
   const {onPaginationChange, page, limit, pagination} = usePagination();
   const [detailInfo, setDetailInfo] = useState({
     title: '',
@@ -80,8 +84,15 @@ export default function Member() {
     if (typeof values.__is_assign_role__ !== 'undefined' && typeof values.__is_assign_role__ === 'boolean') {
       setIsRoleOpen(values.__is_assign_role__)
     }
+    if (typeof values.__is_forbidden__ !== 'undefined' && typeof values.__is_forbidden__ === 'boolean') {
+      setIsBanOpen(values.__is_forbidden__)
+    }
+    if (typeof values.__is_delete__ !== 'undefined' && typeof values.__is_delete__ === 'boolean') {
+      setIsDeleteOpen(values.__is_delete__)
+    }
   }
-  const handleSearch = () => {
+  const handleSearch = (values: any) => {
+    console.log('handleSearch', values)
 
   }
   return (
@@ -126,6 +137,10 @@ export default function Member() {
           open={isRoleOpen}
           onOpen={setIsRoleOpen}
         />}
+      {/* ban confirm */}
+      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}
+      {/* delete confirm */}
+      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={detailInfo.info}/>}
     </TableContext.Provider>
   )
 }

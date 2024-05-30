@@ -53,7 +53,7 @@ class Request {
         },
         (err) => {
           if (err.response?.status > 400) {
-            toast.error(err.response?.data.message || err.message || 'Server Error');
+            toast.error( err.response?.data.message || err.message || 'Server Error');
           }
           if (err.response?.status === 401 || err.response?.status === 403) {
             useUserInfoStore.setState({userInfo: null})

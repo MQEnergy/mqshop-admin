@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu.tsx'
 
 import {ZodObject} from "zod";
-import {IconBan, IconDots, IconKey, IconPencil, IconTrash, IconUserCheck} from "@tabler/icons-react";
+import {IconBan, IconDots, IconKey, IconLockOpen, IconPencil, IconTrash, IconUserCheck} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
 import {useRequest} from "ahooks";
 import {MemberInfo} from "@/apis/permission.ts";
@@ -36,14 +36,14 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
     if (props.isRemote) {
       viewRes.runAsync({id: original.id}).then(res => {
         const data = res.data as Member
-        setInfo?.({...data, status: data.status === 1, ...action})
+        setInfo?.({...data, status: data.status, ...action})
       })
     } else {
-      setInfo?.({...original, status: original.status === 1, ...action})
+      handleOperate(action)
     }
   }
   const handleOperate = (action: object) => {
-    setInfo?.({...original, status: original.status === 1, ...action})
+    setInfo?.({...original, status: original.status, ...action})
   }
   return (
     <DropdownMenu>
@@ -58,24 +58,24 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
       </DropdownMenuTrigger>
       <DropdownMenuContent align={'end'} className='w-[120px]'>
         <DropdownMenuItem onClick={() => handleEdit({__is_edit__: true})}>
-          <IconPencil className="mr-2 h-4 w-4"/>
+          <IconPencil size={18} className="mr-2"/>
           <span>编辑信息</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleOperate({__is_reset_pass__: true})}>
-          <IconKey className="mr-2 h-4 w-4"/>
+          <IconKey size={18} className="mr-2"/>
           <span>重置密码</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleOperate({__is_assign_role__: true})}>
-          <IconUserCheck className="mr-2 h-4 w-4"/>
+          <IconUserCheck size={18} className="mr-2"/>
           <span>分配角色</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator/>
         <DropdownMenuItem onClick={() => handleOperate({__is_forbidden__: true})}>
-          <IconBan className="mr-2 h-4 w-4"/>
-          <span>禁用</span>
+          {original.status === 1 ? <IconBan size={18} className="mr-2"/> : <IconLockOpen size={18} className="mr-2"/>}
+          <span>{original.status === 1 ? '禁用' : '开启'}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleOperate({__is_delete__: true})}>
-          <IconTrash className="mr-2 h-4 w-4"/>
+          <IconTrash size={18} className="mr-2"/>
           <span>删除</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
