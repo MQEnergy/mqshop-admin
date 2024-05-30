@@ -18,9 +18,15 @@ export interface MemberReq {
   role_ids: string;
 }
 
-export interface MemberIndexReq extends PageReq, CacheReq {}
+export interface MemberIndexReq extends PageReq, CacheReq {
+  search?: string
+}
+export interface MemberViewReq extends CacheReq {}
+export interface MemberInfoReq extends ViewReq, CacheReq {}
 export interface MemberUpdateReq extends ViewReq, MemberReq, CacheReq {}
-export interface MemberDeleteReq extends ViewReq, CacheReq {}
+export interface MemberDeleteReq extends CacheReq {
+  ids: string
+}
 export interface MemberCreateReq extends MemberReq, CacheReq {}
 export interface MemberChangePassReq extends CacheReq {
   uuid: string;

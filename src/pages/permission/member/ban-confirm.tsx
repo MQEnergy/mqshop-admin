@@ -38,9 +38,9 @@ export function BanConfirm({...props}: BanConfirmProps) {
     toast.promise(
       runAsync,
       {
-        loading: '操作中...',
+        loading: '处理中...',
         success: (data) => data.message,
-        error: (err) => err.response?.data.message || err.message || 'Request Error'
+        error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
     ).then(() => {
       props.onOpen(false)

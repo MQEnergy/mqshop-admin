@@ -2,9 +2,10 @@ import {
   MemberChangePassReq,
   MemberCreateReq,
   MemberDeleteReq,
-  MemberIndexReq,
+  MemberIndexReq, MemberInfoReq,
   MemberRoleDistributionReq,
   MemberUpdateReq,
+  MemberViewReq,
   ResourceCreateReq,
   ResourceDeleteReq,
   ResourceIndexReq,
@@ -22,11 +23,11 @@ export const MemberIndex = (params: MemberIndexReq) => {
   const noCache = params.noCache === true
   return HttpClient.get(`/backend/admin/index?noCache=${noCache}`, {params});
 }
-export const MemberView = (params: MemberDeleteReq) => {
+export const MemberView = (params: MemberViewReq) => {
   const noCache = params.noCache === true
   return HttpClient.get(`/backend/admin/view?noCache=${noCache}`, {params});
 }
-export const MemberInfo = (params: MemberDeleteReq) => {
+export const MemberInfo = (params: MemberInfoReq) => {
   const noCache = params.noCache === true
   return HttpClient.get(`/backend/admin/info?noCache=${noCache}`, {params});
 }

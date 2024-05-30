@@ -51,11 +51,14 @@ export default function Member() {
     indexRes.run({page, limit, noCache: true})
   }
 
-  // Todo
   const handleDelete = (values: any[]) => {
     const ids = values.map(item => item.getValue('id'))
+    if (ids.length == 0) {
+      toast.error('请选择要删除的数据')
+      return
+    }
     deleteRes.runAsync({
-      id: ids[0],
+      ids: ids.join(','),
       noCache: true
     }).then(res => {
       toast.success(res.data?.message || '操作成功')
@@ -97,14 +100,26 @@ export default function Member() {
       handleRefresh()
       return
     }
-
+    // 请求接口返回数据列表
+    const runAsync = indexRes.runAsync({
+      page,
+      limit,
+      search: JSON.stringify(values),
+      noCache: true
+    });
+    toast.promise(runAsync, {
+      loading: '处理中...',
+      success: (res) => res.message,
+      error: (err) => err.response?.data.message || err.message || 'Server Error',
+    }).then(() => {
+    })
   }
   return (
     <TableContext.Provider value={{setInfo: handleInfo, onRefresh: handleRefresh}}>
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
-      <DataTableSearchbar info={detailInfo.info} onSearch={handleSearch}/>
+      <DataTableSearchbar info={detailInfo.info} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
       <DataTable data={indexRes.data?.data?.list || []}
                  columns={columns}
@@ -118,29 +133,29 @@ export default function Member() {
                  onDelete={handleDelete}/>
       {/* data create / update form */}
       {isOpen &&
-        <DataForm
-          title={detailInfo.title}
-          data={detailInfo.info}
-          open={isOpen}
-          onOpenChange={handleOpen}
-        />
+          <DataForm
+              title={detailInfo.title}
+              data={detailInfo.info}
+              open={isOpen}
+              onOpenChange={handleOpen}
+          />
       }
       {/* reset password dialog */}
       {isResetOpen &&
-        <ResetPass
-          width={'450px'}
-          row={detailInfo.info}
-          open={isResetOpen}
-          onOpen={setIsResetOpen}
-        />}
+          <ResetPass
+              width={'450px'}
+              row={detailInfo.info}
+              open={isResetOpen}
+              onOpen={setIsResetOpen}
+          />}
       {/* assign role dialog */}
       {isRoleOpen &&
-        <AssignRole
-          width={'450px'}
-          row={detailInfo.info}
-          open={isRoleOpen}
-          onOpen={setIsRoleOpen}
-        />}
+          <AssignRole
+              width={'450px'}
+              row={detailInfo.info}
+              open={isRoleOpen}
+              onOpen={setIsRoleOpen}
+          />}
       {/* ban confirm */}
       {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}
       {/* delete confirm */}

@@ -97,9 +97,9 @@ export function AssignRole({...props}: AssignRoleProps) {
     toast.promise(
       runAsync,
       {
-        loading: '提交中...',
+        loading: '处理中...',
         success: (data: ApiResult<any>) => data.message,
-        error: (err) => err.response?.data.message || err.message || 'Request Error'
+        error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
     ).then(() => {
       handleCancel()

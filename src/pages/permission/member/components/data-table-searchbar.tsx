@@ -20,6 +20,7 @@ export interface SearchInfo {
 
 interface DataTableSearchbarProps {
   info: null
+  loading: boolean
   onSearch: (values: SearchInfo) => void
 }
 
@@ -41,7 +42,8 @@ export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
     })
   }
   return (
-    <DataTableSearchBar className={'border-none shadow'} onSubmit={handleSearch} onReset={handleReset}>
+    <DataTableSearchBar className={'border-none shadow'} loading={props.loading} onSubmit={handleSearch}
+                        onReset={handleReset}>
       <SearchInput type={'search'}
                    className={'md:w-full lg:w-full'}
                    placeholder={t('settings.search.placeholder')}
