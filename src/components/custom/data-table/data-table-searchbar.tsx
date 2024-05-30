@@ -31,6 +31,7 @@ const DataTableSearchBar = React.forwardRef<HTMLDivElement, SearchBarProps>(
                       {t('settings.search.submit')}
                     </span>
                 </Button>
+                <Button variant="outline" className="gap-1" size={'sm'} onClick={props.onReset}>
                   <Trash2 className="h-3.5 w-3.5"/>
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       {t('settings.search.reset')}
