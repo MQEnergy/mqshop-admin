@@ -9,8 +9,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select.tsx";
-import {useTranslation} from "react-i18next";
 import {useImmer} from "use-immer";
+import {useContext} from "react";
+import {TableContext} from "@/context.tsx";
 
 export interface SearchInfo {
   keyword: string;
@@ -20,12 +21,12 @@ export interface SearchInfo {
 
 interface DataTableSearchbarProps {
   info: null
-  loading: boolean
+  loading?: boolean
   onSearch: (values: SearchInfo) => void
 }
 
 export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
-  const {t} = useTranslation();
+  const {trans} = useContext(TableContext)
   const [searchInfo, setSearchInfo] = useImmer<SearchInfo>({
     keyword: '',
     status: '',
@@ -46,7 +47,7 @@ export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
                         onReset={handleReset}>
       <SearchInput type={'search'}
                    className={'md:w-full lg:w-full'}
-                   placeholder={t('settings.search.placeholder')}
+                   placeholder={trans?.t('settings.search.placeholder')}
                    value={searchInfo.keyword}
                    onKeyword={(val) => setSearchInfo(draft => {
                      draft.keyword = val

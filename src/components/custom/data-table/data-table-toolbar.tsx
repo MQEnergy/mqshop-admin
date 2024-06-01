@@ -21,7 +21,7 @@ export interface DataTableToolbarProps<TData> {
 }
 
 export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>) {
-  const {onRefresh} = useContext(TableContext);
+  const {trans, onRefresh} = useContext(TableContext);
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const handleDeleteDialog = () => {
@@ -38,26 +38,25 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
   return (
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
-        {/* 添加按钮等 */}
         <Button size={'sm'} onClick={() => props.onOpen(true)}>
           <Plus size={16} className='mr-1'/>
-          新增
+          {trans?.t('settings.table.add')}
         </Button>
         {props.isImport && <Button size={'sm'} variant={'outline'}>
           <ListPlus size={16} className='mr-1'/>
-          批量导入
+          {trans?.t('settings.table.multi.import')}
         </Button>
         }
         {props.table.getSelectedRowModel().rows.length > 0 &&
           <Button size={'sm'} variant={'outline-cancel'} onClick={handleDeleteDialog}>
             <Trash2 size={16} className='mr-1'/>
-            批量删除
+            {trans?.t('settings.table.multi.delete')}
           </Button>
         }
       </div>
       <div className='flex gap-x-2'>
         <Button variant={'outline'} size={'sm'}>
-          <ArrowDownToLine size={16} />
+          <ArrowDownToLine size={16}/>
         </Button>
         <Button variant={'outline'} onClick={onRefresh} size={'sm'}>
           <RotateCw size={16} className={props.reLoading ? 'animate-spin' : ''}/>
@@ -67,8 +66,8 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
       {/* delete confirm dialog */}
       <ConfirmDialog open={isOpen}
                      isDelete={true}
-                     description={'你确定要删除这些记录吗？'}
-                     submitTitle={props.deLoading ? '删除中' : '确定删除'}
+                     description={trans?.t('settings.table.delete.desc')}
+                     submitTitle={props.deLoading ? trans?.t('settings.table.delete.loading') : trans?.t('settings.table.delete.confirm')}
                      loading={props.deLoading}
                      onCancel={handleDeleteDialog}
                      onSubmit={props.onDelete}/>

@@ -10,6 +10,8 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu.tsx'
 import {Settings} from "lucide-react";
+import {useContext} from "react";
+import {TableContext} from "@/context.tsx";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
@@ -18,6 +20,7 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
                                               table,
                                             }: DataTableViewOptionsProps<TData>) {
+  const {trans} = useContext(TableContext)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,7 +33,7 @@ export function DataTableViewOptions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[150px]'>
-        <DropdownMenuLabel>切换列</DropdownMenuLabel>
+        <DropdownMenuLabel>{trans?.t('settings.table.view.option.title')}</DropdownMenuLabel>
         <DropdownMenuSeparator/>
         {table
           .getAllColumns()

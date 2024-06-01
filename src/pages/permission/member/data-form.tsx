@@ -25,9 +25,8 @@ interface DataFormProps<TData> extends DrawerFormProps {
 }
 
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
-
-  const {onRefresh} = useContext(TableContext);
-
+  // =========================== Params ======================================
+  const {trans, onRefresh} = useContext(TableContext);
   const formSchema = z.object({
     id: z.number().default(0),
     uuid: z.string(),
@@ -36,10 +35,10 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     password: z.string().min(1, '密码不能为空').min(6, '密码不能少于6位数'),
     phone: z.string().min(1, '手机号不能为空'),
     avatar: z.string().min(1, '头像不能为空'),
-    status: z.boolean(),
+    _status: z.boolean(),
+    status: z.string(),
     role_ids: z.string().min(1, '角色不能为空')
   })
-
   const defaultValues = {
     id: 0,
     uuid: '',
@@ -49,28 +48,60 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     phone: '',
     avatar: '',
     role_ids: '',
-    status: true
+    status: 1,
+    _status: true
   }
-
-  const info = props.data as Member || null
-
+  const info = props.data as Member
+  const defaultInfo = Object.assign({}, info, {status: info?.status === 1})
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: info ? info as DefaultValues<any> : defaultValues
+    defaultValues: info ? defaultInfo as DefaultValues<any> : defaultValues
   })
+  const [roleList, setRoleList] = useState<selectItem[]>([])
+  const [selected, setSelected] = React.useState<selectItem[]>([]);
+  const [preview, setPreview] = useState<string | ArrayBuffer | null>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
+  // =========================== Params ======================================
+
+  // =========================== API request ======================================
   const createRes = useRequest(MemberCreate, {
     manual: true,
   });
   const updateRes = useRequest(MemberUpdate, {
     manual: true,
   });
+  const roleRes = useRequest(RoleList, {
+    manual: true
+  })
+  // =========================== API request ======================================
+  useEffect(() => {
+    if (props.open) {
+      initRoleData()
+    }
 
+  }, [props.open])
+  useEffect(() => {
+    if (form.getValues('role_ids') === '') {
+      setSelected([])
+    }
+  }, [form.getValues('role_ids')])
+
+  useEffect(() => {
+    form.reset()
+    setSelected([])
+    if (props.data) {
+      handlePreview(info.avatar ? import.meta.env.VITE_RESOURCE_URL + info.avatar : ReactLogo)
+      const roleSelected = info.role_list?.map((item: any) => {
+        return {label: item.name, value: item.id}
+      }) || [];
+      setSelected(roleSelected)
+    }
+  }, [props.data])
+  // =========================== Method ======================================
   const handleRefresh = () => {
     onRefresh?.()
   }
-
-  // 提交
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const params = {
       account: values.account,
@@ -90,7 +121,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     toast.promise(
       runAsync,
       {
-        loading: '处理中...',
+        loading: trans?.t('settings.table.action.processing.title') || 'loading...',
         success: (data: ApiResult<any>) => data.message,
         error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
@@ -105,13 +136,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     setPreview(null)
     setIsLoading(false)
   }
-
-  // 获取角色列表
-  const [roleList, setRoleList] = useState<selectItem[]>([])
-  const [selected, setSelected] = React.useState<selectItem[]>([]);
-  const roleRes = useRequest(RoleList, {
-    manual: true
-  })
   const initRoleData = () => {
     roleRes.runAsync({noCache: false}).then(r => {
       const _roleList = r.data.map((item: any) => {
@@ -120,35 +144,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       setRoleList(_roleList || [])
     });
   }
-
-  useEffect(() => {
-    if (props.open) {
-      initRoleData()
-    }
-
-  }, [props.open])
-
-  useEffect(() => {
-    if (form.getValues('role_ids') === '') {
-      setSelected([])
-    }
-  }, [form.getValues('role_ids')])
-
-  useEffect(() => {
-    form.reset()
-    setSelected([])
-    if (props.data) {
-      handlePreview(info.avatar ? import.meta.env.VITE_RESOURCE_URL + info.avatar : ReactLogo)
-      const roleSelected = info.role_list?.map((item: any) => {
-        return {label: item.name, value: item.id}
-      }) || [];
-      setSelected(roleSelected)
-    }
-  }, [props.data])
-
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
   const onAvatarSubmit = (file: File) => {
     setIsLoading(true)
     const formData = new FormData()
@@ -180,9 +175,11 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       })
     }
   }
+  // =========================== Method ======================================
 
   return (
-    <DrawerForm title={props.title} open={props.open} onClose={handleClose} onSubmit={form.handleSubmit(onSubmit)}
+    <DrawerForm title={props.title} open={props.open}
+                onClose={handleClose} onSubmit={form.handleSubmit(onSubmit)}
                 loading={updateRes.loading || createRes.loading}
                 className='rounded-tl-lg rounded-bl-lg'>
       <Form {...form}>
@@ -292,7 +289,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
           />
           <FormField
             control={form.control}
-            name='status'
+            name='_status'
             render={({field}) => (
               <FormItem className='flex items-center space-y-0'>
                 <FormLabel className='w-[60px] text-foreground'>状态</FormLabel>

@@ -12,6 +12,8 @@ import {
 import {ZodObject} from "zod";
 import {IconBan, IconDots, IconKey, IconPencil, IconTrash, IconUserCheck} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
+import {useContext} from "react";
+import {TableContext} from "@/context.tsx";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
   row: Row<TData>
@@ -19,6 +21,7 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
 }
 
 export function DataTableRowActions<TData>({}: DataTableRowActionsProps<TData>) {
+  const {trans} = useContext(TableContext)
 
   return (
       <DropdownMenu>
@@ -34,24 +37,24 @@ export function DataTableRowActions<TData>({}: DataTableRowActionsProps<TData>) 
         <DropdownMenuContent className='w-[120px]'>
           <DropdownMenuItem>
             <IconPencil className="mr-2 h-4 w-4"/>
-            <span>编辑信息</span>
+            <span>{trans?.t('settings.table.action.edit.title')}</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <IconKey className="mr-2 h-4 w-4"/>
-            <span>重置密码</span>
+            <span>{trans?.t('settings.table.action.pass.title')}</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <IconUserCheck className="mr-2 h-4 w-4"/>
-            <span>分配角色</span>
+            <span>{trans?.t('settings.table.action.role.title')}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator/>
           <DropdownMenuItem>
             <IconBan className="mr-2 h-4 w-4"/>
-            <span>禁用</span>
+            <span>{trans?.t('settings.table.action.ban.title')}</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <IconTrash className="mr-2 h-4 w-4"/>
-            <span>删除</span>
+            <span>{trans?.t('settings.table.action.delete.title')}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

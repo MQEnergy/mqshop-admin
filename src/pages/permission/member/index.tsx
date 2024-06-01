@@ -13,15 +13,14 @@ import {AssignRole} from "@/pages/permission/member/assign-role";
 import BanConfirm from "@/pages/permission/member/ban-confirm.tsx";
 import DeleteConfirm from "@/pages/permission/member/delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "@/pages/permission/member/components/data-table-searchbar.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function Member() {
-  const breadList: BreadListItem[] = [{
-    name: "首页",
-    link: '/'
-  }, {
-    name: "用户管理",
-    link: '/permissions/member'
-  }];
+  // =========================== Params ======================================
+  const breadList: BreadListItem[] = [
+    {name: "首页", link: '/'},
+    {name: "用户管理", link: '/permissions/member'}
+  ];
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isResetOpen, setIsResetOpen] = useState<boolean>(false)
   const [isRoleOpen, setIsRoleOpen] = useState<boolean>(false)
@@ -32,25 +31,27 @@ export default function Member() {
     title: '',
     info: null
   })
-  // member list
+  // =========================== Params ======================================
+
+  // =========================== API request ======================================
   const indexRes = useRequest(MemberIndex, {
     loadingDelay: 100, // Can delay the loading to true time, effectively prevent flicker
     retryCount: 3, // error retry
     manual: true
   });
-  // member delete
   const deleteRes = useRequest(MemberDelete, {
     manual: true
   })
+  // =========================== API request ======================================
 
   useEffect(() => {
     indexRes.run({page, limit})
   }, [page, limit]);
 
+  // =========================== Method ======================================
   const handleRefresh = () => {
     indexRes.run({page, limit, noCache: true})
   }
-
   const handleDelete = (values: any[]) => {
     const ids = values.map(item => item.getValue('id'))
     if (ids.length == 0) {
@@ -65,13 +66,12 @@ export default function Member() {
       handleRefresh()
     })
   }
-
   const handleOpen = (value: boolean) => {
+    setIsOpen(value)
     setDetailInfo({
       title: '新增操作',
       info: null
     })
-    setIsOpen(value)
   }
   const handleInfo = (values: any) => {
     setDetailInfo({
@@ -95,7 +95,6 @@ export default function Member() {
     }
   }
   const handleSearch = (values: SearchInfo) => {
-    console.log(values)
     if (values.keyword === '' && values.status === '' && values.role_id === '') {
       handleRefresh()
       return
@@ -105,7 +104,6 @@ export default function Member() {
       page,
       limit,
       search: JSON.stringify(values),
-      noCache: true
     });
     toast.promise(runAsync, {
       loading: '处理中...',
@@ -114,8 +112,10 @@ export default function Member() {
     }).then(() => {
     })
   }
+  // =========================== Method ======================================
+
   return (
-    <TableContext.Provider value={{setInfo: handleInfo, onRefresh: handleRefresh}}>
+    <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
@@ -126,36 +126,36 @@ export default function Member() {
                  pageCount={indexRes.data?.data?.last_page || 0}
                  rowCount={indexRes.data?.data?.total || 0}
                  pagination={pagination}
-                 onPaginationChange={onPaginationChange}
                  reLoading={indexRes.loading}
                  deLoading={deleteRes.loading}
                  onOpen={handleOpen}
-                 onDelete={handleDelete}/>
+                 onDelete={handleDelete}
+                 onPaginationChange={onPaginationChange}/>
       {/* data create / update form */}
       {isOpen &&
-          <DataForm
-              title={detailInfo.title}
-              data={detailInfo.info}
-              open={isOpen}
-              onOpenChange={handleOpen}
-          />
+        <DataForm
+          title={detailInfo.title}
+          data={detailInfo.info}
+          open={isOpen}
+          onOpenChange={handleOpen}
+        />
       }
       {/* reset password dialog */}
       {isResetOpen &&
-          <ResetPass
-              width={'450px'}
-              row={detailInfo.info}
-              open={isResetOpen}
-              onOpen={setIsResetOpen}
-          />}
+        <ResetPass
+          width={'450px'}
+          row={detailInfo.info}
+          open={isResetOpen}
+          onOpen={setIsResetOpen}
+        />}
       {/* assign role dialog */}
       {isRoleOpen &&
-          <AssignRole
-              width={'450px'}
-              row={detailInfo.info}
-              open={isRoleOpen}
-              onOpen={setIsRoleOpen}
-          />}
+        <AssignRole
+          width={'450px'}
+          row={detailInfo.info}
+          open={isRoleOpen}
+          onOpen={setIsRoleOpen}
+        />}
       {/* ban confirm */}
       {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}
       {/* delete confirm */}

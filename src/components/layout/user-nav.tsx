@@ -24,7 +24,6 @@ export function UserNav() {
   });
   // 通过zustand获取userinfo信息
   const userInfo = useUserInfoStore(state => state.userInfo)
-  console.log(userInfo)
   // 获取userInfo中的info信息
   const {info} = userInfo || {}
 

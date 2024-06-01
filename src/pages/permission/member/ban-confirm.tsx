@@ -13,7 +13,7 @@ interface BanConfirmProps {
 
 export function BanConfirm({...props}: BanConfirmProps) {
   // 使用TableContext 获取onRefresh
-  const {onRefresh} = React.useContext(TableContext)
+  const {trans, onRefresh} = React.useContext(TableContext)
 
   const banRes = useRequest(MemberUpdate, {
     manual: true,
