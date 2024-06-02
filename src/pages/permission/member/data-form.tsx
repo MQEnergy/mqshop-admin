@@ -16,29 +16,18 @@ import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {AvatarUploader} from "@/components/custom/avatar-uploader";
 import {AttachmentUpload} from "@/apis/common";
-import {Member} from "@/pages/permission/member/data/schema.ts";
+import {formSchema, MemberForm} from "@/pages/permission/member/data/schema.ts";
 import ReactLogo from "@/assets/react.svg";
 import {TableContext} from "@/context";
 
 interface DataFormProps<TData> extends DrawerFormProps {
-  data?: TData
+  data: TData
 }
 
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
-  const formSchema = z.object({
-    id: z.number().default(0),
-    uuid: z.string(),
-    account: z.string().min(1, '账号不能为空').min(5, '账号不能小于5个字符'),
-    real_name: z.string(),
-    password: z.string().min(1, '密码不能为空').min(6, '密码不能少于6位数'),
-    phone: z.string().min(1, '手机号不能为空'),
-    avatar: z.string().min(1, '头像不能为空'),
-    _status: z.boolean(),
-    status: z.string(),
-    role_ids: z.string().min(1, '角色不能为空')
-  })
+
   const defaultValues = {
     id: 0,
     uuid: '',
@@ -51,8 +40,9 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     status: 1,
     _status: true
   }
-  const info = props.data as Member
-  const defaultInfo = Object.assign({}, info, {status: info?.status === 1})
+  const info = props.data as MemberForm
+  const defaultInfo = Object.assign({}, info, {_status: info.status === 1})
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: info ? defaultInfo as DefaultValues<any> : defaultValues
@@ -92,16 +82,14 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     setSelected([])
     if (props.data) {
       handlePreview(info.avatar ? import.meta.env.VITE_RESOURCE_URL + info.avatar : ReactLogo)
+
       const roleSelected = info.role_list?.map((item: any) => {
         return {label: item.name, value: item.id}
       }) || [];
       setSelected(roleSelected)
     }
   }, [props.data])
-  // =========================== Method ======================================
-  const handleRefresh = () => {
-    onRefresh?.()
-  }
+  // =========================== Method ========================================
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const params = {
       account: values.account,
@@ -110,7 +98,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       phone: values.phone,
       avatar: values.avatar,
       role_ids: values.role_ids,
-      status: values.status ? 1 : 2
+      status: values._status ? 1 : 2
     }
     let runAsync: Promise<ApiResult<any>>
     if (values.id) {
@@ -126,13 +114,13 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
         error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
     ).then(() => {
-      props.onOpenChange && props.onOpenChange(false)
-      handleRefresh()
+      props.onOpenChange?.(false)
+      onRefresh?.()
     })
   }
   const handleClose = () => {
     form.reset()
-    props.onOpenChange && props.onOpenChange(false)
+    props.onOpenChange?.(false)
     setPreview(null)
     setIsLoading(false)
   }
@@ -160,18 +148,15 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   const handleRoleSelect = (items: selectItem[]) => {
     const ids = items.map(item => item.value)
     form.setValue('role_ids', ids.join(','), {
-      shouldValidate: true, // trigger validation
+      shouldValidate: true,
     })
     setSelected(items)
   }
-  const onUploadError = (err: Error) => {
-    toast.error(err.message);
-  }
   const handlePreview = (preview: string | ArrayBuffer | null) => {
     setPreview(preview)
-    if (preview === null || preview === '') {
+    if (!preview) {
       form.setValue('avatar', '', {
-        shouldValidate: true, // trigger validation
+        shouldValidate: true,
       })
     }
   }
@@ -189,18 +174,19 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
             name='avatar'
             render={({}) => (
               <FormItem className='flex items-center space-y-0'>
-                <FormLabel className='w-[60px] text-foreground'>头像<span
+                <FormLabel className='w-[60px] text-foreground'>{trans?.t('')}头像<span
                   className="text-destructive"> *</span></FormLabel>
                 <div className='w-full relative'>
                   <FormControl>
                     <AvatarUploader
                       loading={isLoading}
-                      maxFiles={1}
                       onLoading={setIsLoading}
                       preview={preview}
                       onPreview={handlePreview}
                       onSuccess={onUploadSuccess}
-                      onError={onUploadError}
+                      onError={(err: Error) => {
+                        toast.error(err.message);
+                      }}
                       onUpload={onAvatarSubmit}/>
                   </FormControl>
                   <FormMessage className='text-xs absolute left-0 pt-1'/>

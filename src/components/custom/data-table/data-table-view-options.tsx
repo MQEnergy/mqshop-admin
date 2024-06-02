@@ -12,6 +12,7 @@ import {
 import {Settings} from "lucide-react";
 import {useContext} from "react";
 import {TableContext} from "@/context.tsx";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
@@ -21,16 +22,26 @@ export function DataTableViewOptions<TData>({
                                               table,
                                             }: DataTableViewOptionsProps<TData>) {
   const {trans} = useContext(TableContext)
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          size={'sm'}
-          variant='outline'
-          className='ml-auto hidden lg:flex'
-        >
-          <Settings size={16}/>
-        </Button>
+      <DropdownMenuTrigger>
+        <TooltipProvider delayDuration={1}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size={'sm'}
+                variant='outline'
+                className='ml-auto hidden lg:flex'
+              >
+                <Settings size={16}/>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{trans?.t('settings.table.view')}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[150px]'>
         <DropdownMenuLabel>{trans?.t('settings.table.view.option.title')}</DropdownMenuLabel>

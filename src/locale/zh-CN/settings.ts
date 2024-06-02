@@ -11,7 +11,10 @@ export default {
   'settings.auth.login.forget': '忘记密码?',
   // table settings
   'settings.table.add': '新增',
+  'settings.table.refresh': '刷新',
+  'settings.table.view': '切换列',
   'settings.table.multi.import': '批量导入',
+  'settings.table.multi.export': '导出',
   'settings.table.multi.delete': '批量删除',
   'settings.table.delete.desc': '你确定要删除这些记录吗？',
   'settings.table.delete.loading': '删除中',
@@ -25,4 +28,5 @@ export default {
   'settings.table.action.open.title': '开启',
   'settings.table.action.delete.title': '删除',
   'settings.table.action.processing.title': '处理中...',
+
 }

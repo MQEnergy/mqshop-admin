@@ -11,7 +11,10 @@ export default {
   'settings.auth.login.forget': 'Forgot password?',
   // table settings
   'settings.table.add': 'Add',
+  'settings.table.refresh': 'Refresh',
+  'settings.table.view': 'View Columns',
   'settings.table.multi.import': 'Multi Import',
+  'settings.table.multi.export': 'Export',
   'settings.table.multi.delete': 'Multi Delete',
   'settings.table.delete.desc': 'Do you want to delete these records?',
   'settings.table.delete.loading': 'Deleting',

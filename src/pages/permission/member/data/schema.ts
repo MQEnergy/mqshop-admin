@@ -20,4 +20,22 @@ export const memberSchema = z.object({
   is_super: z.number(),
 })
 
+export const formSchema = z.object({
+  id: z.number().default(0),
+  uuid: z.string(),
+  account: z.string().min(1, '账号不能为空').min(5, '账号不能小于5个字符'),
+  real_name: z.string(),
+  password: z.string().min(1, '密码不能为空').min(6, '密码不能少于6位数'),
+  phone: z.string().min(1, '手机号不能为空'),
+  avatar: z.string().min(1, '头像不能为空'),
+  _status: z.boolean().default(true),
+  status: z.number().default(1),
+  role_list: z.array(z.object({
+    id: z.number(),
+    name: z.string()
+  })),
+  role_ids: z.string().min(1, '角色不能为空')
+})
+
 export type Member = z.infer<typeof memberSchema>
+export type MemberForm = z.infer<typeof formSchema>

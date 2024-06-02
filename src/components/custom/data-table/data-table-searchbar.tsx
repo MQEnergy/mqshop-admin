@@ -25,7 +25,7 @@ const DataTableSearchBar = React.forwardRef<HTMLDivElement, SearchBarProps>(
 
             <div className="md:col-end-6 lg:col-end-6 col-span-1 justify-self-end">
               <div className="flex gap-2">
-                <Button className="gap-1" size={'sm'} onClick={props.onSubmit}>
+                <Button className="gap-1" size={'sm'} onClick={() => !props.loading && props.onSubmit()}>
                   {props.loading ? <Loader2 size={16} className='animate-spin'/> : <Search size={16}/>}
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       {trans?.t('settings.search.submit')}
