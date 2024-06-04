@@ -8,6 +8,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/custom/button.tsx";
+import {useTranslation} from "react-i18next";
 
 export interface FormDialogProps extends DialogProps {
   width?: string;
@@ -22,6 +23,7 @@ export interface FormDialogProps extends DialogProps {
 }
 
 function FormDialog({...props}: FormDialogProps) {
+  const {t} = useTranslation()
   return (
     <Dialog defaultOpen={props.open} onOpenChange={props.onOpenChange} modal={true}>
       <DialogContent className='min-w-[400px]' style={{
@@ -30,7 +32,7 @@ function FormDialog({...props}: FormDialogProps) {
         height: props.height || 'auto'
       }}>
         <DialogHeader>
-          <DialogTitle>{props.title || '提示'}</DialogTitle>
+          <DialogTitle>{props.title || t('settings.dialog.title')}</DialogTitle>
           {props.description && <DialogDescription>{props.description}</DialogDescription>}
         </DialogHeader>
         {props.children &&
@@ -39,8 +41,10 @@ function FormDialog({...props}: FormDialogProps) {
           </div>
         }
         <DialogFooter>
-          <Button size={'sm'} variant={'outline'} onClick={props.onCancel}>{props.closeTitle || '取消'}</Button>
-          <Button size={'sm'} loading={props.loading} onClick={props.onSubmit}>{props.submitTitle || '确定'}</Button>
+          <Button size={'sm'} variant={'outline'}
+                  onClick={props.onCancel}>{props.closeTitle || t('settings.search.cancel')}</Button>
+          <Button size={'sm'} loading={props.loading}
+                  onClick={props.onSubmit}>{props.submitTitle || t('settings.search.ok')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

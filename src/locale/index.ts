@@ -16,13 +16,15 @@ const resources = {
   },
 };
 
+const defaultLng = localStorage.getItem('mqshop-lng') || 'zh-CN'
+
 i18next
     .use(Cache)
     .use(new LanguageDetector(null, {lookupLocalStorage: "mqshop-lng"}))
     .use(initReactI18next)
     .init({
       // debug: true,
-      lng: 'zh-CN',
+      lng: defaultLng,
       resources: resources,
       fallbackLng: 'en-US',
       interpolation: {

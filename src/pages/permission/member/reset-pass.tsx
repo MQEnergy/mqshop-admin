@@ -8,6 +8,8 @@ import {Input} from "@/components/ui/input.tsx";
 import FormDialog from "@/components/custom/form-dialog.tsx";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request.ts";
+import {useContext} from "react";
+import {TableContext} from "@/context.tsx";
 
 interface ResetPasswordProps {
   row: any;
@@ -17,12 +19,12 @@ interface ResetPasswordProps {
 }
 
 export function ResetPass({...props}: ResetPasswordProps) {
-
+  // =========================== Params ==========================================
+  const {trans} = useContext(TableContext)
   const formSchema = z.object({
     new_pass: z.string().min(1, '密码不能为空').min(6, '密码不能少于6位数'),
     repeat_pass: z.string().min(1, '重复密码不能为空').min(6, '密码不能少于6位数'),
   })
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,10 +32,15 @@ export function ResetPass({...props}: ResetPasswordProps) {
       repeat_pass: '',
     }
   })
+  // =========================== Params ===========================================
 
+  // =========================== API request ======================================
   const changePassRes = useRequest(MemberChangePass, {
     manual: true,
   })
+  // =========================== API request ======================================
+
+  // =========================== Method ===========================================
   const handleCancel = () => {
     props.onOpen(false)
   }
@@ -59,10 +66,12 @@ export function ResetPass({...props}: ResetPasswordProps) {
       handleCancel()
     })
   }
+  // =========================== Method ===========================================
+
   return (
     <FormDialog
-      title="重置密码"
-      submitTitle={'确定重置'}
+      title={trans?.t('permission.member.reset')}
+      submitTitle={trans?.t('permission.member.reset.confirm')}
       loading={changePassRes.loading}
       width={props.width}
       open={props.open}

@@ -12,12 +12,17 @@ interface DeleteConfirmProps {
 }
 
 export function DeleteConfirm({...props}: DeleteConfirmProps) {
-  // 使用TableContext 获取onRefresh
-  const {onRefresh} = React.useContext(TableContext)
+  // =========================== Params ==========================================
+  const {trans, onRefresh} = React.useContext(TableContext)
+  // =========================== Params ==========================================
 
+  // =========================== API request =====================================
   const deleteRes = useRequest(MemberDelete, {
     manual: true,
   })
+  // =========================== API request =====================================
+
+  // =========================== Method ==========================================
   const handleDelete = () => {
     const runAsync = deleteRes.runAsync({
       ids: props.row.id,
@@ -26,7 +31,7 @@ export function DeleteConfirm({...props}: DeleteConfirmProps) {
     toast.promise(
       runAsync,
       {
-        loading: '处理中...',
+        loading: trans?.t('settings.table.action.processing.title') || 'loading...',
         success: (data) => data.message,
         error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
@@ -38,7 +43,8 @@ export function DeleteConfirm({...props}: DeleteConfirmProps) {
 
   return (
     <ConfirmDialog open={props.open}
-                   description={'您确定要删除吗'}
+                   isDelete={true}
+                   description={trans?.t('settings.dialog.delete.desc')}
                    loading={deleteRes.loading}
                    onCancel={() => props.onOpen(false)}
                    onSubmit={handleDelete}/>)

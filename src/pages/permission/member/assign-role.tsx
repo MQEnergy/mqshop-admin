@@ -22,7 +22,7 @@ interface AssignRoleProps {
 
 export function AssignRole({...props}: AssignRoleProps) {
 
-  const {onRefresh} = useContext(TableContext);
+  const {trans, onRefresh} = useContext(TableContext);
 
   const [roleList, setRoleList] = useState<selectItem[]>([])
   const [selected, setSelected] = React.useState<selectItem[]>([]);
@@ -108,8 +108,8 @@ export function AssignRole({...props}: AssignRoleProps) {
   }
   return (
     <FormDialog
-      title="角色分配"
-      submitTitle={'确定分配'}
+      title={trans?.t('permission.member.role')}
+      submitTitle={trans?.t('permission.member.role.confirm')}
       loading={changeRoleRes.loading}
       width={props.width}
       open={props.open}

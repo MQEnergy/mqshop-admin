@@ -16,7 +16,6 @@ import {TableContext} from "@/context.tsx";
 export interface SearchInfo {
   keyword: string;
   status: string;
-  role_id: string;
 }
 
 interface DataTableSearchbarProps {
@@ -29,8 +28,7 @@ export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
   const {trans} = useContext(TableContext)
   const [searchInfo, setSearchInfo] = useImmer<SearchInfo>({
     keyword: '',
-    status: '',
-    role_id: '',
+    status: ''
   })
   const handleSearch = () => {
     props.onSearch(searchInfo)
@@ -39,7 +37,7 @@ export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
     setSearchInfo(draft => {
       draft.keyword = ''
       draft.status = ''
-      draft.role_id = ''
+      props.onSearch(draft)
     })
   }
   return (
@@ -63,21 +61,6 @@ export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
           <SelectGroup>
             <SelectLabel>状态</SelectLabel>
             <SelectItem value="1">正常</SelectItem>
-            <SelectItem value="2">禁用</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      <Select value={searchInfo.role_id}
-              onValueChange={(val) => setSearchInfo(draft => {
-                draft.role_id = val
-              })}>
-        <SelectTrigger className="h-9">
-          <SelectValue placeholder="请选择角色"/>
-        </SelectTrigger>
-        <SelectContent className='max-h-[200px]'>
-          <SelectGroup>
-            <SelectLabel>角色</SelectLabel>
-            <SelectItem value="1">角色</SelectItem>
             <SelectItem value="2">禁用</SelectItem>
           </SelectGroup>
         </SelectContent>

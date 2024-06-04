@@ -16,7 +16,7 @@ import {DataTableSearchbar, SearchInfo} from "@/pages/permission/member/componen
 import {useTranslation} from "react-i18next";
 
 export default function Member() {
-  // =========================== Params ======================================
+  // =========================== Params ==========================================
   const breadList: BreadListItem[] = [
     {name: "首页", link: '/'},
     {name: "用户管理", link: '/permissions/member'}
@@ -27,11 +27,12 @@ export default function Member() {
   const [isBanOpen, setIsBanOpen] = useState<boolean>(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
   const {onPaginationChange, page, limit, pagination} = usePagination();
+  const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
   const [detailInfo, setDetailInfo] = useState({
     title: '',
     info: null
   })
-  // =========================== Params ======================================
+  // =========================== Params ===========================================
 
   // =========================== API request ======================================
   const indexRes = useRequest(MemberIndex, {
@@ -43,12 +44,15 @@ export default function Member() {
     manual: true
   })
   // =========================== API request ======================================
-
   useEffect(() => {
-    indexRes.run({page, limit})
-  }, [page, limit]);
+    if (searchForm) {
+      indexRes.run({page, limit, search: JSON.stringify(searchForm)})
+    } else {
+      indexRes.run({page, limit})
+    }
+  }, [page, limit, searchForm]);
 
-  // =========================== Method ======================================
+  // =========================== Method ===========================================
   const handleRefresh = () => {
     indexRes.run({page, limit, noCache: true})
   }
@@ -95,24 +99,21 @@ export default function Member() {
     }
   }
   const handleSearch = (values: SearchInfo) => {
-    if (values.keyword === '' && values.status === '' && values.role_id === '') {
+    if (values.keyword === '' && values.status === '') {
       handleRefresh()
       return
     }
-    // 请求接口返回数据列表
-    const runAsync = indexRes.runAsync({
-      page,
-      limit,
-      search: JSON.stringify(values),
-    });
-    toast.promise(runAsync, {
-      loading: '处理中...',
-      success: (res) => res.message,
-      error: (err) => err.response?.data.message || err.message || 'Server Error',
-    }).then(() => {
+    onPaginationChange({
+      ...pagination,
+      pageIndex: 0,
     })
+    if (searchForm !== values) {
+      setSearchForm(values)
+    } else {
+      indexRes.run({page, limit, search: JSON.stringify(values)})
+    }
   }
-  // =========================== Method ======================================
+  // =========================== Method ===========================================
 
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>

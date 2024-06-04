@@ -27,7 +27,6 @@ interface DataFormProps<TData> extends DrawerFormProps {
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
-
   const defaultValues = {
     id: 0,
     uuid: '',
@@ -41,18 +40,17 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     _status: true
   }
   const info = props.data as MemberForm
-  const defaultInfo = Object.assign({}, info, {_status: info.status === 1})
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: info ? defaultInfo as DefaultValues<any> : defaultValues
+    defaultValues: info ?
+      Object.assign({}, info, {_status: info.status === 1}) as DefaultValues<any> :
+      defaultValues
   })
   const [roleList, setRoleList] = useState<selectItem[]>([])
   const [selected, setSelected] = React.useState<selectItem[]>([]);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>("");
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  // =========================== Params ======================================
+  // =========================== Params ==========================================
 
   // =========================== API request ======================================
   const createRes = useRequest(MemberCreate, {
@@ -89,7 +87,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       setSelected(roleSelected)
     }
   }, [props.data])
-  // =========================== Method ========================================
+  // =========================== Method ===========================================
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const params = {
       account: values.account,
