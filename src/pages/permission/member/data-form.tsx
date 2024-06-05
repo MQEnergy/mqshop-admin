@@ -1,7 +1,6 @@
 import {DrawerForm, DrawerFormProps} from "@/components/custom/drawer-form.tsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {z} from "zod";
 import {DefaultValues, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 
@@ -27,8 +26,8 @@ interface DataFormProps<TData> extends DrawerFormProps {
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
-  const defaultValues = {
-    id: 0,
+
+  let defaultValues: DefaultValues<MemberForm> = {
     uuid: '',
     account: '',
     real_name: '',
@@ -39,12 +38,13 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     status: 1,
     _status: true
   }
-  const info = props.data as MemberForm
-  const form = useForm<z.infer<typeof formSchema>>({
+  if (props.data) {
+    const info = props.data as unknown as MemberForm;
+    defaultValues = Object.assign({}, info, {_status: info.status === 1})
+  }
+  const form = useForm<MemberForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: info ?
-      Object.assign({}, info, {_status: info.status === 1}) as DefaultValues<any> :
-      defaultValues
+    defaultValues: defaultValues
   })
   const [roleList, setRoleList] = useState<selectItem[]>([])
   const [selected, setSelected] = React.useState<selectItem[]>([]);
@@ -67,7 +67,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     if (props.open) {
       initRoleData()
     }
-
   }, [props.open])
   useEffect(() => {
     if (form.getValues('role_ids') === '') {
@@ -79,16 +78,16 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     form.reset()
     setSelected([])
     if (props.data) {
-      handlePreview(info.avatar ? import.meta.env.VITE_RESOURCE_URL + info.avatar : ReactLogo)
-
-      const roleSelected = info.role_list?.map((item: any) => {
+      handlePreview(defaultValues.avatar ? import.meta.env.VITE_RESOURCE_URL + defaultValues.avatar : ReactLogo)
+      const roleSelected = defaultValues.role_list?.map((item: any) => {
         return {label: item.name, value: item.id}
       }) || [];
       setSelected(roleSelected)
     }
   }, [props.data])
   // =========================== Method ===========================================
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: MemberForm) => {
+    console.log("values", values)
     const params = {
       account: values.account,
       real_name: values.real_name,

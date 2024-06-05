@@ -12,6 +12,7 @@ import {Button} from "@/components/custom/button.tsx";
 import {cn} from "@/lib/utils.ts";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {X} from "lucide-react";
+import {useTranslation} from "react-i18next";
 
 interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> {
   showBar?: boolean;
@@ -48,6 +49,7 @@ export interface DrawerFormProps extends Omit<React.ComponentProps<typeof Drawer
 }
 
 const DrawerForm = (props: DrawerFormProps) => {
+  const {t} = useTranslation()
   return (
     <Drawer open={props.open || false} direction={props.direction || 'right'} onClose={props.onClose}>
       <DrawerContent
@@ -70,9 +72,9 @@ const DrawerForm = (props: DrawerFormProps) => {
           </ScrollArea>
           <DrawerFooter className='w-full bg-background h-[70px] absolute bottom-0 left-0 flex-row border-t'>
             <Button loading={props.loading} onClick={props.onSubmit}
-                    className='w-[100px]'>{props.submitTitle || '提交'}</Button>
+                    className='w-[100px]'>{props.submitTitle || t('settings.table.submit.title')}</Button>
             <DrawerClose asChild>
-              <Button variant="outline" onClick={props.onClose}>取消</Button>
+              <Button variant="outline" onClick={props.onClose}>{t('settings.search.cancel')}</Button>
             </DrawerClose>
           </DrawerFooter>
         </div>
