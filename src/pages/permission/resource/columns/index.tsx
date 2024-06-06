@@ -1,35 +1,33 @@
 import {ColumnDef} from '@tanstack/react-table'
-
 import {Checkbox} from '@/components/ui/checkbox.tsx'
-
 import {statuses} from '../data/data.tsx'
-import {Member, memberSchema} from '../data/schema.ts'
-import {DataTableColumnHeader} from "@/components/custom/data-table/data-table-column-header.tsx";
-import {DataTableRowActions} from "@/components/custom/data-table/data-table-row-actions.tsx";
+import {Role, roleSchema} from '../data/schema.ts'
+import {DataTableColumnHeader} from "../components/data-table-column-header.tsx";
+import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
-import ViteLogo from "@/assets/react.svg";
+import {Badge} from "@/components/custom/badge.tsx";
 
-export const columns: ColumnDef<Member>[] = [
+export const columns: ColumnDef<Role>[] = [
   {
     id: 'select',
     header: ({table}) => (
-        <Checkbox
-            checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && 'indeterminate')
-            }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label='Select all'
-            className='translate-y-[2px]'
-        />
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Select all'
+        className='translate-y-[2px]'
+      />
     ),
     cell: ({row}) => (
-        <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label='Select row'
-            className='translate-y-[2px]'
-        />
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+        className='translate-y-[2px]'
+      />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -37,71 +35,48 @@ export const columns: ColumnDef<Member>[] = [
   {
     accessorKey: 'id',
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title='ID'/>
+      <DataTableColumnHeader column={column} title='ID'/>
     ),
     cell: ({row}) => <div className='w-[40px]'>{row.getValue('id')}</div>,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'avatar',
-    header: '头像',
-    cell: ({row}) => {
-      const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
-      return (
-          <div className='w-[80px]'>
-            <img className='rounded-md object-cover h-[60px] w-[60px] border'
-                 src={row.getValue('avatar') ? resourceUrl + row.getValue('avatar') : ViteLogo}
-                 alt={row.getValue('real_name')}/>
-          </div>
-      )
-    },
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'account',
-    header: '账号',
+    accessorKey: 'name',
+    header: '名称',
     cell: ({row}) => {
       return (
-          <div className='flex space-x-2'>x
+        <div className='flex space-x-2'>
             <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-[31rem]'>
-              {row.getValue('account')}
+              {row.getValue('name')}
             </span>
-          </div>
+        </div>
       )
     },
   },
   {
-    accessorKey: 'real_name',
-    header: '姓名'
-  },
-  {
-    accessorKey: 'phone',
-    header: '手机号'
+    accessorKey: 'desc',
+    header: '描述'
   },
   {
     accessorKey: 'status',
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title='状态'/>
+      <DataTableColumnHeader column={column} title='状态'/>
     ),
     cell: ({row}) => {
       const status = statuses.find(
-          (status) => status.value === row.getValue('status')
+        (status) => status.value === row.getValue('status')
       )
       if (!status) {
         return null
       }
       return (
-          <div className='flex w-[100px] items-center'>
-            {status.icon && (
-                <status.icon className='mr-2 h-4 w-4 text-muted-foreground'/>
-            )}
-            <span>{status.label}</span>
-          </div>
+        <Badge variant={status.value == 1 ? 'green' : 'red'}>
+          <span>{status.label}</span>
+        </Badge>
       )
     },
     filterFn: (row, id, value) => {
-      console.log(row, id, value)
       return value.includes(row.getValue(id))
     },
   },
@@ -109,12 +84,12 @@ export const columns: ColumnDef<Member>[] = [
     accessorKey: 'created_at',
     header: '创建时间',
     cell: ({row}) => {
-      return dayjs(row.getValue('created_at')).format('YYYY-MM-DD HH:mm:ss');
+      return dayjs.unix(row.getValue('created_at')).format('YYYY-MM-DD HH:mm:ss');
     }
   },
   {
     id: 'actions',
     header: '操作',
-    cell: ({row}) => <DataTableRowActions row={row} schemas={memberSchema}/>,
+    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={roleSchema}/>,
   },
 ]

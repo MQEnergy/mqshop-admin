@@ -67,5 +67,7 @@ interface ResourceReq {
 }
 export interface ResourceIndexReq extends PageReq, CacheReq {}
 export interface ResourceUpdateReq extends ViewReq, ResourceReq, CacheReq {}
-export interface ResourceDeleteReq extends ViewReq, CacheReq {}
+export interface ResourceDeleteReq extends CacheReq {
+  ids: string;
+}
 export interface ResourceCreateReq extends ResourceReq, CacheReq {}
