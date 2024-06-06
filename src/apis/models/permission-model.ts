@@ -46,7 +46,9 @@ interface RoleReq {
 export interface RoleIndexReq extends PageReq, CacheReq {}
 export interface RoleListReq extends CacheReq {}
 export interface RoleUpdateReq extends ViewReq, RoleReq, CacheReq {}
-export interface RoleDeleteReq extends ViewReq, CacheReq {}
+export interface RoleDeleteReq extends CacheReq {
+  ids: string;
+}
 export interface RoleCreateReq extends RoleReq, CacheReq {}
 
 // ============================ resource =====================================

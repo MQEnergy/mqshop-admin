@@ -21,6 +21,8 @@ export default {
   'settings.table.multi.export': '导出',
   'settings.table.multi.delete': '批量删除',
   'settings.table.delete.desc': '你确定要删除这些记录吗？',
+  'settings.table.ban.desc': '你确定要禁用这条记录吗？',
+  'settings.table.open.desc': '你确定要开启这条记录吗？',
   'settings.table.delete.loading': '删除中',
   'settings.table.delete.confirm': '确定删除',
   'settings.table.submit.title': '提交',

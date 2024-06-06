@@ -45,7 +45,6 @@ export function ResetPass({...props}: ResetPasswordProps) {
     props.onOpen(false)
   }
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(props.row.uuid, values)
     if (values.new_pass !== values.repeat_pass) {
       toast.error('两次密码不相同')
       return

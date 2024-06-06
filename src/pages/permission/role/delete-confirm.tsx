@@ -1,6 +1,6 @@
 import ConfirmDialog from "@/components/custom/confirm-dialog.tsx";
 import {useRequest} from "ahooks";
-import {MemberDelete} from "@/apis/permission.ts";
+import {RoleDelete} from "@/apis/permission.ts";
 import {toast} from "react-hot-toast";
 import * as React from "react";
 import {TableContext} from "@/context.tsx";
@@ -17,7 +17,7 @@ export function DeleteConfirm({...props}: DeleteConfirmProps) {
   // =========================== Params ==========================================
 
   // =========================== API request =====================================
-  const deleteRes = useRequest(MemberDelete, {
+  const deleteRes = useRequest(RoleDelete, {
     manual: true,
   })
   // =========================== API request =====================================

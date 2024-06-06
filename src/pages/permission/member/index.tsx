@@ -5,14 +5,14 @@ import {useEffect, useState} from "react";
 import {usePagination} from "@/hooks/use-pagination";
 import {useRequest} from "ahooks";
 import {columns} from './columns'
-import {DataForm} from "@/pages/permission/member/data-form";
+import {DataForm} from "./data-form";
 import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
-import {ResetPass} from "@/pages/permission/member/reset-pass";
-import {AssignRole} from "@/pages/permission/member/assign-role";
-import BanConfirm from "@/pages/permission/member/ban-confirm.tsx";
-import DeleteConfirm from "@/pages/permission/member/delete-confirm.tsx";
-import {DataTableSearchbar, SearchInfo} from "@/pages/permission/member/components/data-table-searchbar.tsx";
+import {ResetPass} from "./reset-pass";
+import {AssignRole} from "./assign-role";
+import BanConfirm from "./ban-confirm.tsx";
+import DeleteConfirm from "./delete-confirm.tsx";
+import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
 
 export default function Member() {

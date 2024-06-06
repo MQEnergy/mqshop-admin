@@ -15,7 +15,7 @@ import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {AvatarUploader} from "@/components/custom/avatar-uploader";
 import {AttachmentUpload} from "@/apis/common";
-import {formSchema, MemberForm} from "@/pages/permission/member/data/schema.ts";
+import {formSchema, MemberForm} from "./data/schema.ts";
 import ReactLogo from "@/assets/react.svg";
 import {TableContext} from "@/context";
 
@@ -87,7 +87,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   }, [props.data])
   // =========================== Method ===========================================
   const onSubmit = (values: MemberForm) => {
-    console.log("values", values)
     const params = {
       account: values.account,
       real_name: values.real_name,

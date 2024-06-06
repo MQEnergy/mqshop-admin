@@ -40,7 +40,7 @@ function ConfirmDialog({...props}: DialogAlertProps) {
                   onClick={props.onCancel}>{props.title || t('settings.search.cancel')}</Button>
           {props.isDelete ?
             <Button variant={'destructive'} size={'sm'} loading={props.loading}
-                    onClick={props.onSubmit}>{props.submitTitle || t('settings.search.cancel')}</Button>
+                    onClick={props.onSubmit}>{props.submitTitle || t('settings.table.delete.confirm')}</Button>
             :
             <Button size={'sm'} loading={props.loading}
                     onClick={props.onSubmit}>{props.submitTitle || t('settings.search.ok')}</Button>}

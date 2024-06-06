@@ -21,6 +21,8 @@ export default {
   'settings.table.multi.export': 'Export',
   'settings.table.multi.delete': 'Multi Delete',
   'settings.table.delete.desc': 'Do you want to delete these records?',
+  'settings.table.ban.desc': 'Are you sure you want to ban this record?',
+  'settings.table.open.desc': 'Are you sure you want to open this record?',
   'settings.table.delete.loading': 'Deleting',
   'settings.table.delete.confirm': 'Confirm Delete',
   'settings.table.submit.title': 'Submit',
