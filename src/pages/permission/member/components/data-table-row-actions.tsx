@@ -15,7 +15,7 @@ import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
 import {useRequest} from "ahooks";
 import {MemberInfo} from "@/apis/permission.ts";
 import {Fragment, useContext} from "react";
-import {Member} from "@/pages/permission/member/data/schema.ts";
+import {Member} from "../data/schema.ts";
 import {TableContext} from "@/context";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {

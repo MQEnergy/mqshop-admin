@@ -9,7 +9,7 @@ import {
   ResourceCreateReq,
   ResourceDeleteReq,
   ResourceIndexReq,
-  ResourceUpdateReq,
+  ResourceUpdateReq, ResourceViewReq,
   RoleCreateReq,
   RoleDeleteReq,
   RoleIndexReq,
@@ -68,7 +68,7 @@ export const RoleDelete = (data: RoleDeleteReq) => {
 export const ResourceIndex = (params: ResourceIndexReq) => {
   return HttpClient.get(`/backend/resource/index`, {params});
 }
-export const ResourceView = (params: ResourceDeleteReq) => {
+export const ResourceView = (params: ResourceViewReq) => {
   return HttpClient.get(`/backend/resource/view`, {params});
 }
 export const ResourceCreate = (data: ResourceCreateReq) => {

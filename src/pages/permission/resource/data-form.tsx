@@ -5,11 +5,11 @@ import {DefaultValues, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Switch} from "@/components/ui/switch";
 import {useRequest} from "ahooks";
-import {RoleCreate, RoleUpdate} from "@/apis/permission";
+import {ResourceCreate, ResourceUpdate} from "@/apis/permission";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request";
 import {useContext} from "react";
-import {formSchema, RoleForm} from "./data/schema.ts";
+import {formSchema, ResourceForm} from "./data/schema.ts";
 import {TableContext} from "@/context";
 
 interface DataFormProps<TData> extends DrawerFormProps {
@@ -20,37 +20,52 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
 
-  let defaultValues: DefaultValues<RoleForm> = {
+  let defaultValues: DefaultValues<ResourceForm> = {
     id: 0,
     name: '',
     desc: '',
+    alias: '',
+    b_url:  '',
+    f_url: '',
+    icon: '',
+    menu_type: 1,
+    sort_order: 50,
     status: 1,
     _status: true
   }
   if (props.data) {
-    const info = props.data as unknown as RoleForm;
+    const info = props.data as unknown as ResourceForm;
     defaultValues = Object.assign({}, info, {_status: info.status === 1})
   }
-  const form = useForm<RoleForm>({
+  const form = useForm<ResourceForm>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues
   })
   // =========================== Params ==========================================
 
   // =========================== API request ======================================
-  const createRes = useRequest(RoleCreate, {
+  const createRes = useRequest(ResourceCreate, {
     manual: true,
   });
-  const updateRes = useRequest(RoleUpdate, {
+  const updateRes = useRequest(ResourceUpdate, {
     manual: true,
   });
   // =========================== API request ======================================
 
   // =========================== Method ===========================================
-  const onSubmit = (values: RoleForm) => {
+  const onSubmit = (values: ResourceForm) => {
+    // Todo
     const params = {
       name: values.name,
       desc: values.desc,
+      alias: values.alias,
+      b_url: values.b_url,
+      f_url: values.f_url,
+      icon: values.icon,
+      menu_type: values.menu_type,
+      sort_order: values.sort_order,
+      parent_id: 0,
+      path: "",
       status: values._status ? 1 : 2
     }
     let runAsync: Promise<ApiResult<any>>

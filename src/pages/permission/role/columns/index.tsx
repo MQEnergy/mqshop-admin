@@ -56,7 +56,8 @@ export const columns: ColumnDef<Role>[] = [
   },
   {
     accessorKey: 'desc',
-    header: '描述'
+    header: '描述',
+    cell: ({row}) => <div className='w-[150px] overflow-scroll'>{row.getValue('desc')}</div>,
   },
   {
     accessorKey: 'status',

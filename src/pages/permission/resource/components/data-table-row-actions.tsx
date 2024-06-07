@@ -13,9 +13,9 @@ import {ZodObject} from "zod";
 import {IconBan, IconDots, IconLockOpen, IconPencil, IconTrash} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
 import {useRequest} from "ahooks";
-import {MemberInfo} from "@/apis/permission.ts";
+import {ResourceView} from "@/apis/permission.ts";
 import {Fragment, useContext} from "react";
-import {Member} from "@/pages/permission/member/data/schema.ts";
+import {ResourceItem} from "../data/schema.ts";
 import {TableContext} from "@/context";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
@@ -27,14 +27,14 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
 export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
   const {trans, setInfo} = useContext(TableContext);
 
-  const viewRes = useRequest(MemberInfo, {
+  const viewRes = useRequest(ResourceView, {
     manual: true,
   })
-  const original = props.row.original as Member
+  const original = props.row.original as ResourceItem
   const handleEdit = (action: object) => {
     if (props.isRemote) {
       viewRes.runAsync({id: original.id}).then(res => {
-        const data = res.data as Member
+        const data = res.data as ResourceItem
         setInfo?.({...data, status: data.status, ...action})
       })
     } else {

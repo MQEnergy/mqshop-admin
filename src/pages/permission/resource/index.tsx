@@ -12,10 +12,9 @@ import BanConfirm from "./ban-confirm.tsx";
 import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
-import {DataTreeTable} from "@/components/custom/data-table/data-tree-table";
-import {Card, CardContent} from "@/components/ui/card";
+import {ResourceItem} from "@/pages/permission/resource/data/schema.ts";
 
-export default function Role() {
+export default function Resource() {
   // =========================== Params ==========================================
   const {t} = useTranslation()
   const breadList: BreadListItem[] = [
@@ -113,6 +112,9 @@ export default function Role() {
       indexRes.run({page, limit, search: JSON.stringify(values)})
     }
   }
+  const getSubRows = (row: ResourceItem) => {
+    return row.children
+  }
   // =========================== Method ===========================================
 
   return (
@@ -122,12 +124,7 @@ export default function Role() {
       {/* search bar */}
       <DataTableSearchbar info={detailInfo.info} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
-      <Card className={'border-none shadow'}>
-        <CardContent className={'pb-0'}>
-          <DataTreeTable/>
-        </CardContent>
-      </Card>
-      <DataTable data={indexRes.data?.data?.list || []}
+      <DataTable data={(indexRes.data?.data || []) as ResourceItem[]}
                  columns={columns}
                  pageCount={indexRes.data?.data?.last_page || 0}
                  rowCount={indexRes.data?.data?.total || 0}
@@ -136,15 +133,16 @@ export default function Role() {
                  deLoading={deleteRes.loading}
                  onOpen={handleOpen}
                  onDelete={handleDelete}
-                 onPaginationChange={onPaginationChange}/>
+                 onPaginationChange={onPaginationChange}
+                 getSubRows={getSubRows}/>
       {/* data create / update form */}
       {isOpen &&
-          <DataForm
-              title={detailInfo.title}
-              data={detailInfo.info}
-              open={isOpen}
-              onOpenChange={handleOpen}
-          />
+        <DataForm
+          title={detailInfo.title}
+          data={detailInfo.info}
+          open={isOpen}
+          onOpenChange={handleOpen}
+        />
       }
       {/* ban confirm */}
       {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}

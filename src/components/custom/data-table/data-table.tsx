@@ -1,13 +1,16 @@
 import {
   ColumnDef,
   ColumnFiltersState,
+  ExpandedState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel, Row,
+  getSortedRowModel,
+  getExpandedRowModel,
+  Row,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -19,6 +22,7 @@ import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {DataTableToolbar} from "./data-table-toolbar";
 import DataTablePagination from "./data-table-pagination";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
+import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {SkeletonList} from "@/components/custom/skeleton-list";
 import {TableContext} from "@/context";
@@ -41,6 +45,7 @@ interface DataTableProps<TData, TValue> {
   onPaginationChange: any
   onOpen: (isOpen: boolean) => void
   onDelete: (values: Row<TData>[]) => void
+  getSubRows?: (originalRow: TData, index: number) => undefined | TData[]
 }
 
 export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValue>) {
@@ -49,6 +54,8 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
+  const [expanded, setExpanded] = React.useState<ExpandedState>({})
+
 
   const table = useReactTable({
     data: props.data,
@@ -61,7 +68,10 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
       columnVisibility,
       rowSelection,
       columnFilters,
+      expanded,
     },
+    onExpandedChange: setExpanded,
+    getSubRows: props.getSubRows,
     enableRowSelection: true,
     manualPagination: true,
     onRowSelectionChange: setRowSelection,
@@ -70,11 +80,13 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onPaginationChange: props.onPaginationChange,
+    debugTable: true,
   })
 
   useEffect(() => {
@@ -98,7 +110,9 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} colSpan={header.colSpan} className='text-foreground'>
+                      <TableHead key={header.id} colSpan={header.colSpan} className='text-foreground' style={{
+                        width: header.getSize() !== 150 ? header.getSize() : undefined
+                      }}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -119,7 +133,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
                   </TableCell>
                 </TableRow>
                 :
-                (table.getRowModel().rows.length ? (
+                (table.getRowModel().rows.length > 0 ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow
                       className={'py-2'}
@@ -127,7 +141,8 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
                       data-state={row.getIsSelected() && 'selected'}
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id} className='py-2'>
+                        <TableCell key={cell.id} className='py-2'
+                                   style={{width: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined}}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
