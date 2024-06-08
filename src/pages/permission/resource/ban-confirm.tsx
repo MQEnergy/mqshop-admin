@@ -1,6 +1,6 @@
 import ConfirmDialog from "@/components/custom/confirm-dialog.tsx";
 import {useRequest} from "ahooks";
-import {RoleUpdate} from "@/apis/permission.ts";
+import {ResourceUpdate} from "@/apis/permission.ts";
 import {toast} from "react-hot-toast";
 import * as React from "react";
 import {TableContext} from "@/context.tsx";
@@ -19,7 +19,7 @@ export function BanConfirm({...props}: BanConfirmProps) {
   // =========================== Params ======================================
 
   // =========================== API request ======================================
-  const banRes = useRequest(RoleUpdate, {
+  const banRes = useRequest(ResourceUpdate, {
     manual: true,
   })
   // =========================== API request ======================================
@@ -28,10 +28,17 @@ export function BanConfirm({...props}: BanConfirmProps) {
   const handleBan = () => {
     const runAsync = banRes.runAsync({
       id: props.row.id,
-      status: props.row.status == 1 ? 2 : 1,
       name: props.row.name,
-      desc: props.row.desc,
-      noCache: true,
+      desc: props.row.desc || '',
+      alias: props.row.alias,
+      b_url: props.row.b_url,
+      f_url: props.row.f_url,
+      icon: props.row.icon || '',
+      menu_type: props.row.menu_type,
+      sort_order: props.row.sort_order,
+      parent_id: props.row?.parent_id || 0,
+      path: props.row?.path || '',
+      status: props.row.status == 1 ? 2 : 1,
     });
     toast.promise(
       runAsync,

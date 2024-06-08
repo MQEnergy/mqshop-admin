@@ -26,6 +26,7 @@ import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {SkeletonList} from "@/components/custom/skeleton-list";
 import {TableContext} from "@/context";
+import {cn} from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -46,6 +47,7 @@ interface DataTableProps<TData, TValue> {
   onOpen: (isOpen: boolean) => void
   onDelete: (values: Row<TData>[]) => void
   getSubRows?: (originalRow: TData, index: number) => undefined | TData[]
+  noPagination?: boolean
 }
 
 export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValue>) {
@@ -103,7 +105,11 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
                           onDelete={() => props.onDelete(table.getSelectedRowModel().rows)}/>
       </CardHeader>
       <CardContent className={'pb-0'}>
-        <ScrollArea className="md:h-[calc(100svh-400px)] lg:h-[calc(100svh-400px)] rounded-md border">
+        <ScrollArea
+          className={cn(
+            `md:h-[calc(100svh-400px)] lg:h-[calc(100svh-400px)] rounded-md border`,
+            props.noPagination && 'md:h-[calc(100svh-364px)] lg:h-[calc(100svh-364px)]'
+          )}>
           <Table key={'table'}>
             <TableHeader className='bg-gray-100 dark:bg-neutral-800'>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -168,7 +174,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
         </ScrollArea>
       </CardContent>
       <div className='p-4'>
-        <DataTablePagination table={table} sizes={[10, 20, 50]}/>
+        {!props.noPagination && <DataTablePagination table={table} sizes={[10, 20, 50]}/>}
       </div>
     </Card>
   )

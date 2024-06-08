@@ -46,6 +46,7 @@ export interface DrawerFormProps extends Omit<React.ComponentProps<typeof Drawer
   onSubmit?: (params: any) => void;
   onClose?: () => void;
   className?: string;
+  noFooter?: boolean;
 }
 
 const DrawerForm = (props: DrawerFormProps) => {
@@ -58,25 +59,27 @@ const DrawerForm = (props: DrawerFormProps) => {
         <div className='mx-auto w-full overflow-y-scroll overflow-x-hidden h-screen'>
           <DrawerHeader className='border-b flex justify-between'>
             <div className='flex flex-row space-x-1'>
-              <DrawerTitle>{props.title || '新增操作'}</DrawerTitle>
+              <DrawerTitle>{props.title || t('settings.table.add')}</DrawerTitle>
               {props.desc && <DrawerDescription>{props.desc}</DrawerDescription>}
             </div>
             <div className='flex justify-end cursor-pointer' onClick={props.onClose}>
               <X size={18}/>
             </div>
           </DrawerHeader>
-          <ScrollArea className="md:h-[calc(100svh-120px)] lg:h-[calc(100svh-120px)]">
+          <ScrollArea className={`md:h-[calc(100svh-120px)] lg:h-[calc(100svh-120px)]`}>
             <div className="p-8 w-full">
               {props.children}
             </div>
           </ScrollArea>
-          <DrawerFooter className='w-full bg-background h-[70px] absolute bottom-0 left-0 flex-row border-t'>
-            <Button loading={props.loading} onClick={props.onSubmit}
-                    className='w-[100px]'>{props.submitTitle || t('settings.table.submit.title')}</Button>
-            <DrawerClose asChild>
-              <Button variant="outline" onClick={props.onClose}>{t('settings.search.cancel')}</Button>
-            </DrawerClose>
-          </DrawerFooter>
+          {!props.noFooter && (
+            <DrawerFooter className='w-full bg-background h-[70px] fixed bottom-0 left-0 flex-row border-t'>
+              <Button loading={props.loading} onClick={props.onSubmit}
+                      className='w-[100px]'>{props.submitTitle || t('settings.table.submit.title')}</Button>
+              <DrawerClose asChild>
+                <Button variant="outline" onClick={props.onClose}>{t('settings.search.cancel')}</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          )}
         </div>
       </DrawerContent>
     </Drawer>

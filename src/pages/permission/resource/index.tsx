@@ -134,7 +134,8 @@ export default function Resource() {
                  onOpen={handleOpen}
                  onDelete={handleDelete}
                  onPaginationChange={onPaginationChange}
-                 getSubRows={getSubRows}/>
+                 getSubRows={getSubRows}
+                 noPagination={true} />
       {/* data create / update form */}
       {isOpen &&
         <DataForm

@@ -96,9 +96,9 @@ export const columns: ColumnDef<ResourceItem>[] = [
     accessorKey: 'f_url',
     header: '路由',
     cell: ({row}) => <div className={'min-w-[100px] flex flex-col space-y-1 max-h-[50px] overflow-scroll'}>
-      <p className={'flex items-center'}><span className={'w-[45px]'}>前端：</span><Badge
+      <p className={'flex items-center'}><span className={'w-[45px]'}>前台：</span><Badge
         variant={'secondary'}>{row.getValue('f_url')}</Badge></p>
-      <p className={'flex items-center'}><span className={'w-[45px]'}>后端：</span><Badge
+      <p className={'flex items-center'}><span className={'w-[45px]'}>接口：</span><Badge
         variant={'secondary'}>{row.original.b_url}</Badge></p>
     </div>
   },

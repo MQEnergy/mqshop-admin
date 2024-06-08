@@ -1,4 +1,4 @@
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from "@/components/custom/date-picker";
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
