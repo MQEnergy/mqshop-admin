@@ -12,6 +12,7 @@ import {
 import {useImmer} from "use-immer";
 import {useContext} from "react";
 import {TableContext} from "@/context.tsx";
+import {ResourceItem} from "@/pages/permission/resource/data/schema.ts";
 
 export interface SearchInfo {
   keyword: string;
@@ -19,7 +20,7 @@ export interface SearchInfo {
 }
 
 interface DataTableSearchbarProps {
-  info: null
+  info: ResourceItem | null
   loading?: boolean
   onSearch: (values: SearchInfo) => void
 }

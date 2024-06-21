@@ -1,5 +1,5 @@
 export interface CacheReq {
-  noCache: boolean
+  noCache?: boolean
 }
 
 export interface PageReq {

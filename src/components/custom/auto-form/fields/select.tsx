@@ -21,13 +21,14 @@ export default function AutoFormSelect({
 }: AutoFormInputComponentProps) {
   const baseValues = getDefaultValueInZodStack(zodItem)
   let values: {label: string, value: number}[] = [];
-  values = baseValues?.map((item: any) => {
-    return {
-      label: item?.label || '',
-      value: parseInt(item.value) || 0
-    };
-  });
-
+  if (typeof baseValues === 'object') {
+    values = baseValues?.map((item: any) => {
+      return {
+        label: item?.label || '',
+        value: parseInt(item.value) || 0
+      };
+    });
+  }
   function findItem(value: any) {
     return values.find((item) => item.value === value);
   }

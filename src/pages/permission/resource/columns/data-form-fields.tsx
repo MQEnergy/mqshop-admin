@@ -9,12 +9,14 @@ import AutoFormTooltip from "@/components/custom/auto-form/common/tooltip.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {icons} from "lucide-react";
 import Icon from "@/components/custom/icon.tsx";
+import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/schema.ts";
 
 interface FieldConfigProps {
-  onOpenIcon: () => void
+  onOpenIcon: () => void;
+  resources: ResourceItem[],
 }
 
-export default function FieldConfigForm({...props}: FieldConfigProps): FieldConfig<any> {
+export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProps): FieldConfig<any> {
   return {
     name: {
       label: '名称',
@@ -32,7 +34,18 @@ export default function FieldConfigForm({...props}: FieldConfigProps): FieldConf
       },
       fieldType: ({...props}: AutoFormInputComponentProps) => {
         props.isRequired = false
-        return <AutoFormInput {...props} />
+        const _selectItems: ResourceSelect = resources?.map((item: ResourceItem) => {
+          return {
+            label: `${item.label}(${item.alias})`,
+            value: item.id
+          }
+        }) || []
+        const values = z.array(z.object({
+          label: z.string(),
+          value: z.number()
+        })).default(_selectItems)
+        props.zodItem = values as unknown as z.ZodAny
+        return <AutoFormSelect {...props} />
       },
     },
     icon: {
@@ -43,12 +56,12 @@ export default function FieldConfigForm({...props}: FieldConfigProps): FieldConf
       },
       fieldType: ({...props}: AutoFormInputComponentProps) => {
         props.isRequired = false
-        console.log(props.field.value)
         return (
           <div className={'relative'}>
             <AutoFormInput {...props} />
             {props.field.value &&
-              <div className={'flex flex-row items-center justify-center w-[40px] h-[40px] absolute bottom-0 right-0 z-10'}>
+              <div
+                className={'flex flex-row items-center justify-center w-[40px] h-[40px] absolute bottom-0 right-0 z-10'}>
                 <Icon size={18} name={props.field.value as (keyof typeof icons)}/>
               </div>}
           </div>
@@ -60,7 +73,7 @@ export default function FieldConfigForm({...props}: FieldConfigProps): FieldConf
             {children}
           </div>
           <div>
-            <Button type="button" onClick={props.onOpenIcon}>选择图标</Button>
+            <Button type="button" onClick={onOpenIcon}>选择图标</Button>
           </div>
         </div>
       ),

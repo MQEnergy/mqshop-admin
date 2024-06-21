@@ -1,7 +1,6 @@
 import {DrawerForm, DrawerFormProps} from "@/components/custom/drawer-form.tsx";
-import {DefaultValues} from "react-hook-form";
-import {useDebounce, useRequest} from "ahooks";
-import {ResourceCreate, ResourceUpdate} from "@/apis/permission";
+import {useDebounce, useRequest, useSetState} from "ahooks";
+import {ResourceCreate, ResourceList, ResourceUpdate} from "@/apis/permission";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request";
 import {lazy, Suspense, useContext, useEffect, useMemo, useState} from "react";
@@ -16,8 +15,8 @@ import {icons} from "lucide-react";
 import {IconFidgetSpinner} from "@tabler/icons-react";
 import {SearchInput} from "@/components/custom/search-input.tsx";
 
-interface DataFormProps<TData> extends DrawerFormProps {
-  data: TData
+interface DataFormProps extends DrawerFormProps {
+  data: ResourceItem | null
 }
 
 const IconsComponentLazy = lazy(() => import('@/components/custom/icon-list.tsx'));
@@ -31,58 +30,59 @@ const Loading = () => {
   );
 };
 
-export function DataForm<TData>({...props}: DataFormProps<TData>) {
+export function DataForm({...props}: DataFormProps) {
   // ============================= Params =========================================
   const {trans, onRefresh} = useContext(TableContext);
   const [isOpenIcon, setIsOpenIcon] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState('');
-  const [info, setInfo] = useState<DefaultValues<ResourceItem>>({
-    id: 0,
-    name: '',
-    desc: '',
-    alias: '',
-    b_url: '',
-    f_url: '',
-    icon: '',
-    menu_type: 1,
-    sort_order: 50,
-    path: '',
-    _status: true
-  })
+  const [info, setInfo] = useSetState<ResourceItem>({})
   const [iconKeys, setIconKeys] = useState<string[]>([]);
   const [IconsComponent, setIconsComponent] = useState<any>(IconsComponentLazy);
   const [keyword, setKeyword] = useState<string>('');
-  const debouncedValue = useDebounce(keyword, {wait: 100});
-  // ============================= Params =========================================
-  useEffect(() => {
-    if (props.data) {
-      const row = props.data as ResourceItem
-      setInfo(Object.assign({}, row, {_status: row.status === 1}))
-      setSelectedIcon(row.icon)
-    }
-  }, [props.data]);
+  const debouncedKeyword = useDebounce(keyword, {wait: 100});
 
+  // ============================= Params =========================================
+
+  // =========================== API request ======================================
+  const createRes = useRequest(ResourceCreate, {manual: true});
+  const updateRes = useRequest(ResourceUpdate, {manual: true});
+  const parentListRes = useRequest(ResourceList, {manual: true});
   const memoizedIconsComponent = useMemo(() => (
     <IconsComponent iconKeys={iconKeys} size={18} selectedIcon={selectedIcon} onSelectIcon={setSelectedIcon}/>
   ), [iconKeys, selectedIcon]);
 
+  // =========================== API request ======================================
   useEffect(() => {
-    if (debouncedValue) {
+    const row = (props.data || {
+      id: 0,
+      name: '',
+      parent_id: 0,
+      desc: '',
+      alias: '',
+      b_url: '',
+      f_url: '',
+      icon: '',
+      menu_type: 1,
+      sort_order: 50,
+      path: '',
+      status: 1
+    }) as ResourceItem
+    const updatedInfo = Object.assign({}, row, {_status: row.status === 1})
+    setInfo(updatedInfo)
+    // console.log('updatedInfo', updatedInfo, info)
+    setSelectedIcon(row.icon)
+    parentListRes.run({id: row.id})
+
+  }, [props.data]);
+
+  useEffect(() => {
+    if (debouncedKeyword) {
       const keys = Object.keys(icons).filter((name: string) => name.toLowerCase().includes(keyword.toLowerCase()));
       setIconKeys(keys)
     } else {
       setIconKeys(Object.keys(icons))
     }
-
-  }, [debouncedValue]);
-  // =========================== API request ======================================
-  const createRes = useRequest(ResourceCreate, {
-    manual: true,
-  });
-  const updateRes = useRequest(ResourceUpdate, {
-    manual: true,
-  });
-  // =========================== API request ======================================
+  }, [debouncedKeyword]);
 
   // =========================== Method ===========================================
   const onSubmit = (formValues: ResourceForm) => {
@@ -100,7 +100,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       status: formValues._status ? 1 : 2
     }
     let runAsync: Promise<ApiResult<any>>
-    if (info.id) {
+    if (info && info.id) {
       runAsync = updateRes.runAsync({id: info.id, ...params});
     } else {
       runAsync = createRes.runAsync(params);
@@ -145,8 +145,10 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
         <AutoForm
           onSubmit={onSubmit}
           formSchema={formSchema}
-          values={info}
+          values={info as ResourceForm}
+          onValuesChange={(values: any) => setInfo(values)}
           fieldConfig={FieldConfigForm({
+            resources: parentListRes.data?.data as ResourceItem[],
             onOpenIcon: handleOpenIcon
           })}>
           <DrawerFooter className='w-full bg-background h-[70px] fixed bottom-0 left-0 flex-row border-t'>

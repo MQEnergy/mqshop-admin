@@ -53,7 +53,7 @@ export const columns: ColumnDef<ResourceItem>[] = [
     header: ({table}) => (
       <div className={'flex items-center cursor-pointer w-[180px]'} onClick={table.getToggleAllRowsExpandedHandler()}>
         {table.getIsAllRowsExpanded() ?
-          <IconSquareRoundedMinusFilled className={'text-gray-500'} size={18}/> :
+          <IconSquareRoundedMinusFilled className={'text-red-500'} size={18}/> :
           <IconSquareRoundedPlusFilled className={'text-indigo-500'} size={18}/>}
         <span className={'ml-2'}>名称</span>
       </div>
@@ -69,7 +69,7 @@ export const columns: ColumnDef<ResourceItem>[] = [
               }}
             >
               {row.getIsExpanded() ?
-                <IconSquareRoundedMinusFilled className={'text-gray-500'} size={18}/> :
+                <IconSquareRoundedMinusFilled className={'text-red-500'} size={18}/> :
                 <IconSquareRoundedPlusFilled className={'text-indigo-500'} size={18}/>
               }
             </button>

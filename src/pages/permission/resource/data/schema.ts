@@ -2,6 +2,7 @@ import {z} from 'zod'
 
 export const resourceSchema: z.ZodObject<any> = z.object({
   id: z.number(),
+  parent_id: z.number(),
   name: z.string(),
   desc: z.string(),
   alias: z.string(),
@@ -11,6 +12,7 @@ export const resourceSchema: z.ZodObject<any> = z.object({
   menu_type: z.number(),
   sort_order: z.number(),
   children: z.array(z.lazy(() => resourceSchema)),
+  path: z.string(),
   status: z.number(),
   created_at: z.number(),
 })
@@ -27,6 +29,11 @@ export const formSchema = z.object({
   sort_order: z.number().default(50),
   _status: z.boolean().default(true),
 })
+export const selectValuesSchema = z.array(z.object({
+  label: z.string(),
+  value: z.number()
+}))
 
 export type ResourceItem = z.infer<typeof resourceSchema>
 export type ResourceForm = z.infer<typeof formSchema>
+export type ResourceSelect = z.infer<typeof selectValuesSchema>
