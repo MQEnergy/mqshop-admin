@@ -1,13 +1,6 @@
-import {CacheReq} from "@/apis/models/base-model";
+import {CacheReq, PageReq, ViewReq} from "@/apis/models/base-model";
 
-interface PageReq {
-  page: number; // 页码
-  limit: number; // 每页数量
-  search?: any // 搜索
-}
-interface ViewReq {
-  id: number;
-}
+// ============================ member =====================================
 export interface MemberReq {
   account: string;
   real_name: string;
@@ -17,17 +10,14 @@ export interface MemberReq {
   status: number;
   role_ids: string;
 }
-
-export interface MemberIndexReq extends PageReq, CacheReq {
-  search?: string
-}
+export interface MemberIndexReq extends PageReq, CacheReq {}
 export interface MemberViewReq extends CacheReq {}
 export interface MemberInfoReq extends ViewReq, CacheReq {}
 export interface MemberUpdateReq extends ViewReq, MemberReq, CacheReq {}
+export interface MemberCreateReq extends MemberReq, CacheReq {}
 export interface MemberDeleteReq extends CacheReq {
   ids: string
 }
-export interface MemberCreateReq extends MemberReq, CacheReq {}
 export interface MemberChangePassReq extends CacheReq {
   uuid: string;
   new_pass: string;
