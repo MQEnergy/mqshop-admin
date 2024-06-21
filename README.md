@@ -14,6 +14,7 @@
 <img src="screenshot/dashboard.png" />
 <img src="screenshot/list.png" />
 <img src="screenshot/list1.png" />
+<img src="screenshot/list2.png" />
 <img src="screenshot/sider.png" />
 </p>
 
