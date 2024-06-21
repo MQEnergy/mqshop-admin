@@ -2,7 +2,6 @@ import {Input, InputProps} from '@/components/ui/input'
 import {cn} from "@/lib/utils";
 import {useTranslation} from "react-i18next";
 
-
 interface SearchProps extends InputProps {
   type?: string;
   placeholder?: string;
@@ -13,6 +12,7 @@ interface SearchProps extends InputProps {
 function SearchInput(props: SearchProps) {
   const {type, placeholder, className} = props
   const {t} = useTranslation()
+
   return (
     <div className='relative'>
       <Input

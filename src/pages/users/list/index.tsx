@@ -3,7 +3,7 @@ import {columns} from './components/columns'
 import {tasks} from './data/tasks'
 import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadcrumb";
 import DataTableSearchbar from "@/components/custom/data-table/data-table-searchbar.tsx";
-import {SearchInput} from "@/components/custom/search";
+import {SearchInput} from "@/components/custom/search-input.tsx";
 import {
   Select,
   SelectContent,
@@ -29,10 +29,14 @@ export default function Tasks() {
   return (
     <>
       {/* 面包屑 */}
-      <SingleBreadcrumb breadList={breadList} />
+      <SingleBreadcrumb breadList={breadList}/>
       {/* 搜索 */}
-      <DataTableSearchbar onReset={() => {}} onClick={() => {}}>
-        <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'} type={'search'}/>
+      <DataTableSearchbar onReset={() => {
+      }} onClick={() => {
+      }} onSubmit={() => {
+      }}>
+        <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'} type={'search'}
+                     onKeyword={() => {}}/>
         {[1, 2, 3].map((index) => (
           <Select key={'search-' + index}>
             <SelectTrigger className="h-9">

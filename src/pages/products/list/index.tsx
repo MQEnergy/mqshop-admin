@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import {SearchInput} from "@/components/custom/search";
+import {SearchInput} from "@/components/custom/search-input.tsx";
 import {useTranslation} from "react-i18next";
 
 export default function Products() {
@@ -28,8 +28,8 @@ export default function Products() {
         {/* 面包屑 */}
         <SingleBreadcrumb breadList={breadList}/>
         {/* 搜索 */}
-        <DataTableSearchbar onReset={() => {}} onClick={() => {}}>
-          <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'} type={'search'}/>
+        <DataTableSearchbar onReset={() => {}} onClick={() => {}} onSubmit={() => {}}>
+          <SearchInput placeholder={t('settings.search.placeholder')} className={'md:w-full lg:w-full'} type={'search'} onKeyword={() => {}}/>
           {[1, 2, 3].map((index) => (
               <Select key={'search-' + index}>
                 <SelectTrigger className="h-9">

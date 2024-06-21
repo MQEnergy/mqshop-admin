@@ -11,6 +11,7 @@ import {Button} from "@/components/custom/button.tsx";
 import {useTranslation} from "react-i18next";
 
 export interface FormDialogProps extends DialogProps {
+  className?: string;
   width?: string;
   height?: string;
   loading: boolean
@@ -25,8 +26,8 @@ export interface FormDialogProps extends DialogProps {
 function FormDialog({...props}: FormDialogProps) {
   const {t} = useTranslation()
   return (
-    <Dialog defaultOpen={props.open} onOpenChange={props.onOpenChange} modal={true}>
-      <DialogContent className='min-w-[400px]' style={{
+    <Dialog open={props.open} onOpenChange={props.onOpenChange} modal={true}>
+      <DialogContent className='overflow-hidden min-w-[400px]' style={{
         width: props.width || '400px',
         maxWidth: props.width || '400px',
         height: props.height || 'auto'
@@ -36,11 +37,11 @@ function FormDialog({...props}: FormDialogProps) {
           {props.description && <DialogDescription>{props.description}</DialogDescription>}
         </DialogHeader>
         {props.children &&
-          <div className="py-4">
+          <div className={props.className}>
             {props.children}
           </div>
         }
-        <DialogFooter>
+        <DialogFooter className={'w-full bg-white absolute bottom-0 right-0 p-4'}>
           <Button size={'sm'} variant={'outline'}
                   onClick={props.onCancel}>{props.closeTitle || t('settings.search.cancel')}</Button>
           <Button size={'sm'} loading={props.loading}

@@ -1,23 +1,5 @@
 import {z} from 'zod'
 
-// We're keeping a simple non-relational schema here.
-// IRL, you will have a schema for your data models.
-
-// export type ResourceItem = {
-//   id: number
-//   name: string
-//   desc: string
-//   alias: string
-//   b_url: string
-//   f_url: string
-//   icon: string
-//   menu_type: number
-//   sort_order: number
-//   status: number
-//   children?: ResourceItem[]
-//   created_at: number
-// }
-
 export const resourceSchema: z.ZodObject<any> = z.object({
   id: z.number(),
   name: z.string(),
@@ -35,6 +17,7 @@ export const resourceSchema: z.ZodObject<any> = z.object({
 
 export const formSchema = z.object({
   name: z.string().min(1, {message: '名称不能为空'}).min(2, '名称不能小于2个字符').describe("How many marshmallows fit in your mouth?"),
+  parent_id: z.number().default(0),
   icon: z.string().default(''),
   desc: z.string().default(''),
   alias: z.string().min(1, '别名不能为空').min(2, '别名不能小于2个字符'),

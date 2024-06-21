@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {SearchInput} from '@/components/custom/search'
+import {SearchInput} from '@/components/custom/search-input.tsx'
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
 import {TopNav} from '@/components/custom/top-nav'
 import {Layout, LayoutBody, LayoutHeader} from '@/components/layout'
@@ -20,7 +20,7 @@ export default function Dashboard() {
         <LayoutHeader>
           <TopNav links={topNav}/>
           <div className='ml-auto flex justify-end items-center space-x-4'>
-            <SearchInput/>
+            <SearchInput onKeyword={() => {}}/>
           </div>
         </LayoutHeader>
 

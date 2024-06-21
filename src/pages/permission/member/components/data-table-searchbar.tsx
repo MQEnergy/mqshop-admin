@@ -1,5 +1,5 @@
 import DataTableSearchBar from "@/components/custom/data-table/data-table-searchbar.tsx";
-import {SearchInput} from "@/components/custom/search.tsx";
+import {SearchInput} from "@/components/custom/search-input.tsx";
 import {
   Select,
   SelectContent,
