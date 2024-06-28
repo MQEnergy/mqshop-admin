@@ -1,6 +1,5 @@
-import * as React from 'react'
-import {Card, CardContent} from "@/components/ui/card";
-import {Input} from "@/components/ui/input";
+import DataTableSearchBar from "@/components/custom/data-table/data-table-searchbar.tsx";
+import {SearchInput} from "@/components/custom/search-input.tsx";
 import {
   Select,
   SelectContent,
@@ -9,60 +8,63 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue
-} from "@/components/ui/select";
+} from "@/components/ui/select.tsx";
+import {useImmer} from "use-immer";
+import {useContext} from "react";
+import {TableContext} from "@/context.tsx";
 
-import {Button} from "@/components/ui/button";
-import {Trash2, Search} from "lucide-react";
-
-interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SearchInfo {
+  keyword: string;
+  status: string;
 }
 
-// SearchBar 搜索栏
-const DataTableSearchbar = React.forwardRef<HTMLDivElement, SearchBarProps>((
-        {className, ...props}, ref) => (
-        <Card ref={ref} className={className} {...props}>
-          <CardContent className='pt-6'>
-            <div className="flex grid md:grid-cols-5 lg:grid-cols-5 gap-2">
-              <Input placeholder='请输入搜索关键词' className='w-full'></Input>
-              {[1,2,3].map((index) => (
-                  <Select key={'search-'+index}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a fruit"/>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Fruits</SelectLabel>
-                        <SelectItem value="apple">Apple</SelectItem>
-                        <SelectItem value="banana">Banana</SelectItem>
-                        <SelectItem value="blueberry">Blueberry</SelectItem>
-                        <SelectItem value="grapes">Grapes</SelectItem>
-                        <SelectItem value="pineapple">Pineapple</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-              ))}
-              <div className="md:col-end-6 lg:col-end-6 col-span-1 justify-self-end">
-                <div className="flex gap-2">
-                  <Button className="gap-1">
-                    <Search className="h-3.5 w-3.5"/>
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    搜索
-                  </span>
-                  </Button>
-                  <Button variant="outline" className="gap-1">
-                    <Trash2 className="h-3.5 w-3.5"/>
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    重置
-                  </span>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-    )
-)
+interface DataTableSearchbarProps {
+  info: null
+  loading?: boolean
+  onSearch: (values: SearchInfo) => void
+}
 
-DataTableSearchbar.displayName = "SearchBar";
-
-export default DataTableSearchbar;
+export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
+  const {trans} = useContext(TableContext)
+  const [searchInfo, setSearchInfo] = useImmer<SearchInfo>({
+    keyword: '',
+    status: ''
+  })
+  const handleSearch = () => {
+    props.onSearch(searchInfo)
+  }
+  const handleReset = () => {
+    setSearchInfo(draft => {
+      draft.keyword = ''
+      draft.status = ''
+      props.onSearch(draft)
+    })
+  }
+  return (
+    <DataTableSearchBar className={'border-none shadow'} loading={props.loading} onSubmit={handleSearch}
+                        onReset={handleReset}>
+      <SearchInput type={'search'}
+                   className={'md:w-full lg:w-full'}
+                   placeholder={trans?.t('settings.search.placeholder')}
+                   value={searchInfo.keyword}
+                   onKeyword={(val) => setSearchInfo(draft => {
+                     draft.keyword = val
+                   })}/>
+      <Select value={searchInfo.status}
+              onValueChange={(val) => setSearchInfo(draft => {
+                draft.status = val
+              })}>
+        <SelectTrigger className="h-9">
+          <SelectValue placeholder="请选择状态"/>
+        </SelectTrigger>
+        <SelectContent className='max-h-[200px]'>
+          <SelectGroup>
+            <SelectLabel>状态</SelectLabel>
+            <SelectItem value="1">正常</SelectItem>
+            <SelectItem value="2">禁用</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </DataTableSearchBar>
+  )
+}

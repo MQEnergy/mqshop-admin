@@ -1,5 +1,6 @@
 export default {
   'settings.title': 'Settings',
+  'settings.select.placeholder': 'Please select...',
   'settings.search.placeholder': 'Please enter a search keyword',
   'settings.search.submit': 'Submit',
   'settings.search.reset': 'Reset',

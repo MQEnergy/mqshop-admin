@@ -14,6 +14,7 @@ import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/sch
 interface FieldConfigProps {
   onOpenIcon: () => void;
   resources: ResourceItem[],
+  onParentChange?: (value: string) => void;
 }
 
 export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProps): FieldConfig<any> {
@@ -28,15 +29,15 @@ export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProp
     },
     parent_id: {
       label: '父级',
+      description: '父级菜单，如：系统管理',
       inputProps: {
-        required: true,
-        placeholder: '请选择父级',
+        placeholder: "请选择父级菜单",
       },
       fieldType: ({...props}: AutoFormInputComponentProps) => {
         props.isRequired = false
         const _selectItems: ResourceSelect = resources?.map((item: ResourceItem) => {
           return {
-            label: `${item.label}(${item.alias})`,
+            label: `${item.label}（${item.alias}）`,
             value: item.id
           }
         }) || []
@@ -51,7 +52,6 @@ export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProp
     icon: {
       label: '图标',
       inputProps: {
-        required: false,
         placeholder: '请点击选择图标'
       },
       fieldType: ({...props}: AutoFormInputComponentProps) => {
@@ -81,6 +81,7 @@ export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProp
     desc: {
       label: '描述',
       inputProps: {
+        required: false,
         placeholder: '请输入描述'
       }
     },
@@ -125,24 +126,26 @@ export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProp
       label: '排序',
       fieldType: 'number'
     },
-    _status: {
+    status: {
+      label: '状态',
       fieldType: ({...props}: AutoFormInputComponentProps) => {
-        props.label = '状态'
         return (
-          <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-            <div className="space-y-1 leading-none">
-              <AutoFormLabel label={props.label}
-                             isRequired={props.isRequired}/>
-              <AutoFormTooltip fieldConfigItem={props.fieldConfigItem}/>
-            </div>
-            <FormControl>
-              <Switch
-                checked={props.field.value}
-                onCheckedChange={props.field.onChange}
-                {...props.fieldProps}
-              />
-            </FormControl>
-          </FormItem>
+          <div>
+            <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+              <div className="space-y-1 leading-none">
+                <AutoFormLabel label={props.fieldConfigItem.label || ''}
+                               isRequired={props.fieldConfigItem.inputProps?.required || false}/>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={props.field.value}
+                  onCheckedChange={props.field.onChange}
+                  {...props.fieldProps}
+                />
+              </FormControl>
+            </FormItem>
+            <AutoFormTooltip fieldConfigItem={props.fieldConfigItem}/>
+          </div>
         )
       },
     }

@@ -15,7 +15,7 @@ export default function AutoFormInput({
   const type = fieldProps.type || "text";
 
   return (
-    <div className="flex flex-row  items-center space-x-2">
+    <div className="flex flex-row items-center space-x-2">
       <FormItem className="flex w-full flex-col justify-start">
         {showLabel && (
           <AutoFormLabel

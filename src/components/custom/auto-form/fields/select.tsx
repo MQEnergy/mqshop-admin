@@ -1,4 +1,4 @@
-import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
+import {FormControl, FormItem, FormMessage} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
-import { AutoFormInputComponentProps } from "../types";
+import {AutoFormInputComponentProps} from "../types";
 import {getDefaultValueInZodStack} from "../utils";
 
 export default function AutoFormSelect({
@@ -20,7 +20,7 @@ export default function AutoFormSelect({
   fieldProps,
 }: AutoFormInputComponentProps) {
   const baseValues = getDefaultValueInZodStack(zodItem)
-  let values: {label: string, value: number}[] = [];
+  let values: { label: string, value: number }[] = [];
   if (typeof baseValues === 'object') {
     values = baseValues?.map((item: any) => {
       return {
@@ -29,6 +29,7 @@ export default function AutoFormSelect({
       };
     });
   }
+
   function findItem(value: any) {
     return values.find((item) => item.value === value);
   }
@@ -46,8 +47,9 @@ export default function AutoFormSelect({
           {...fieldProps}
         >
           <SelectTrigger className={fieldProps.className}>
-            <SelectValue placeholder={fieldConfigItem.inputProps?.placeholder} >
-              {field.value ? findItem(field.value)?.label : "Select an option"}
+            <SelectValue placeholder={fieldConfigItem.inputProps?.placeholder}>
+              {field.value ? findItem(field.value)?.label :
+                <span className={'text-gray-500'}>{fieldConfigItem.inputProps?.placeholder}</span>}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -59,8 +61,8 @@ export default function AutoFormSelect({
           </SelectContent>
         </Select>
       </FormControl>
-      <AutoFormTooltip fieldConfigItem={fieldConfigItem} />
-      <FormMessage />
+      <AutoFormTooltip fieldConfigItem={fieldConfigItem}/>
+      <FormMessage/>
     </FormItem>
   );
 }

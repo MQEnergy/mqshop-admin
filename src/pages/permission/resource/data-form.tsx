@@ -41,8 +41,6 @@ export function DataForm({...props}: DataFormProps) {
   const [keyword, setKeyword] = useState<string>('');
   const debouncedKeyword = useDebounce(keyword, {wait: 100});
 
-  // ============================= Params =========================================
-
   // =========================== API request ======================================
   const createRes = useRequest(ResourceCreate, {manual: true});
   const updateRes = useRequest(ResourceUpdate, {manual: true});
@@ -51,29 +49,31 @@ export function DataForm({...props}: DataFormProps) {
     <IconsComponent iconKeys={iconKeys} size={18} selectedIcon={selectedIcon} onSelectIcon={setSelectedIcon}/>
   ), [iconKeys, selectedIcon]);
 
-  // =========================== API request ======================================
+  const row = (props.data || {
+    id: 0,
+    name: '',
+    parent_id: 0,
+    desc: '',
+    alias: '',
+    b_url: '',
+    f_url: '',
+    icon: '',
+    menu_type: 1,
+    sort_order: 50,
+    path: '',
+    status: 1
+  }) as ResourceItem
+
   useEffect(() => {
-    const row = (props.data || {
-      id: 0,
-      name: '',
-      parent_id: 0,
-      desc: '',
-      alias: '',
-      b_url: '',
-      f_url: '',
-      icon: '',
-      menu_type: 1,
-      sort_order: 50,
-      path: '',
-      status: 1
-    }) as ResourceItem
-    const updatedInfo = Object.assign({}, row, {_status: row.status === 1})
-    setInfo(updatedInfo)
-    // console.log('updatedInfo', updatedInfo, info)
+    setInfo(Object.assign(info, row))
     setSelectedIcon(row.icon)
-    parentListRes.run({id: row.id})
 
   }, [props.data]);
+
+  useEffect(() => {
+    parentListRes.run({id: row.id})
+
+  }, [props.open]);
 
   useEffect(() => {
     if (debouncedKeyword) {
@@ -97,7 +97,7 @@ export function DataForm({...props}: DataFormProps) {
       menu_type: formValues.menu_type,
       sort_order: formValues.sort_order,
       path: info.path || '',
-      status: formValues._status ? 1 : 2
+      status: formValues.status
     }
     let runAsync: Promise<ApiResult<any>>
     if (info && info.id) {
@@ -149,7 +149,7 @@ export function DataForm({...props}: DataFormProps) {
           onValuesChange={(values: any) => setInfo(values)}
           fieldConfig={FieldConfigForm({
             resources: parentListRes.data?.data as ResourceItem[],
-            onOpenIcon: handleOpenIcon
+            onOpenIcon: handleOpenIcon,
           })}>
           <DrawerFooter className='w-full bg-background h-[70px] fixed bottom-0 left-0 flex-row border-t'>
             <AutoFormSubmit loading={updateRes.loading || createRes.loading}>

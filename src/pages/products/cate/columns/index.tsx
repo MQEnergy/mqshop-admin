@@ -1,18 +1,15 @@
 import {ColumnDef} from '@tanstack/react-table'
 import {Checkbox} from '@/components/ui/checkbox.tsx'
 import {statuses} from '../data/data.tsx'
-import {ResourceItem, resourceSchema} from '../data/schema.ts'
+import {ColumnSchemaType, columnSchema} from '../data/schema.ts'
 import {DataTableColumnHeader} from "../components/data-table-column-header.tsx";
 import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import {Badge} from "@/components/custom/badge.tsx";
-import {
-  IconSquareRoundedMinusFilled,
-  IconSquareRoundedPlusFilled
-} from "@tabler/icons-react";
-import Icon from "@/components/custom/icon.tsx";
+import ReactLogo from "@/assets/react.svg";
+import {IconSquareRoundedMinusFilled, IconSquareRoundedPlusFilled} from "@tabler/icons-react";
 
-export const columns: ColumnDef<ResourceItem>[] = [
+export const columns: ColumnDef<ColumnSchemaType>[] = [
   {
     id: 'select',
     header: ({table}) => (
@@ -43,22 +40,29 @@ export const columns: ColumnDef<ResourceItem>[] = [
     header: ({column}) => (
       <div className={'w-[30px]'}><DataTableColumnHeader column={column} title='ID'/></div>
     ),
-    cell: ({row}) => <div className="w-[30px]">{row.getValue('id')}</div>,
+    cell: ({row}) => <div className='w-[40px]'>{row.getValue('id')}</div>,
     size: 30,
     enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'icon',
+    accessorKey: 'cate_desc',
     header: '图标',
-    size: 30,
-    cell: ({row}) => <div className="w-[30px]"><Icon name={row.getValue('icon')} size={16}/></div>
+    cell: ({row}) => {
+      const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
+      return (
+        <div className='w-[50px]'>
+          <img className='rounded-md object-cover h-[50px] w-[50px] border'
+               src={row.original.cate_url ? resourceUrl + row.original.cate_url : ReactLogo}
+               alt={row.original.cate_desc}/>
+        </div>
+      )
+    }
   },
   {
-    accessorKey: 'name',
-    size: 120,
+    accessorKey: 'cate_name',
     header: ({table}) => (
-      <div className={'flex items-center cursor-pointer w-[120px]'} onClick={table.getToggleAllRowsExpandedHandler()}>
+      <div className={'flex items-center cursor-pointer w-[180px]'} onClick={table.getToggleAllRowsExpandedHandler()}>
         {table.getIsAllRowsExpanded() ?
           <IconSquareRoundedMinusFilled className={'text-red-500'} size={18}/> :
           <IconSquareRoundedPlusFilled className={'text-indigo-500'} size={18}/>}
@@ -67,7 +71,7 @@ export const columns: ColumnDef<ResourceItem>[] = [
     ),
     cell: ({row, getValue}) => {
       return (
-        <div className='flex items-center w-[120px]' style={{paddingLeft: `${(row.depth)}rem`}}>
+        <div className='flex items-center w-[180px]' style={{paddingLeft: `${(row.depth)}rem`}}>
           {row.getCanExpand() && (
             <button
               {...{
@@ -81,44 +85,26 @@ export const columns: ColumnDef<ResourceItem>[] = [
               }
             </button>
           )}
-          <a className='flex flex-row items-center' key={getValue<string>()}
-             data-tooltip-id="resource-tooltip"
-             data-tooltip-content={`${row.original.f_url}|${row.original.b_url}`}
-             data-tooltip-offset={22}>
-            <span className={'mx-2'}>{getValue<string>()}</span>
-          </a>
+          <span className={'mx-2'}>{getValue<boolean>()}</span>
         </div>
       )
     },
   },
   {
-    accessorKey: 'menu_type',
-    header: '类型',
-    size: 80,
-    cell: ({row}) => {
-      return (
-        <div className='w-[80px]'>
-          {parseInt(row.getValue('menu_type')) === 1 ?
-            <Badge variant={'green'}>模块</Badge> :
-            <Badge variant={'blue'}>操作</Badge>}
-        </div>
-      )
-    }
+    accessorKey: 'is_hot',
+    header: '标签',
+    cell: ({row}) => <div className='w-[150px] flex items-start space-x-2'>
+      {row.original.is_hot === 1 && <Badge variant={'red'}>热门</Badge>}
+      {row.original.is_index === 1 && <Badge variant={'green'}>首页</Badge>}
+    </div>,
   },
   {
-    accessorKey: 'alias',
-    header: '别名',
-    size: 150,
-  },
-  {
-    accessorKey: 'desc',
+    accessorKey: 'cate_desc',
     header: '描述',
-    size: 130,
-    cell: ({row}) => <div className={'w-[130px] max-h-[50px] overflow-scroll'}>{row.getValue('desc')}</div>
+    cell: ({row}) => <div className='w-[150px] overflow-scroll'>{row.getValue('cate_desc')}</div>,
   },
   {
     accessorKey: 'status',
-    size: 50,
     header: ({column}) => (
       <DataTableColumnHeader column={column} title='状态'/>
     ),
@@ -141,15 +127,14 @@ export const columns: ColumnDef<ResourceItem>[] = [
   },
   {
     accessorKey: 'created_at',
-    size: 160,
     header: '创建时间',
-    cell: ({row}) => <div
-      className={'w-[160px]'}>{dayjs.unix(row.getValue('created_at')).format('YYYY-MM-DD HH:mm:ss')}</div>
+    cell: ({row}) => {
+      return dayjs.unix(row.getValue('created_at')).format('YYYY-MM-DD HH:mm:ss');
+    }
   },
   {
     id: 'actions',
-    size: 80,
     header: '操作',
-    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={resourceSchema}/>,
+    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={columnSchema}/>,
   },
 ]

@@ -13,6 +13,7 @@ import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
 import {ResourceItem} from "@/pages/permission/resource/data/schema.ts";
+import {Tooltip} from "react-tooltip";
 
 export default function Resource() {
   // =========================== Params ==========================================
@@ -135,7 +136,19 @@ export default function Resource() {
                  onDelete={handleDelete}
                  onPaginationChange={onPaginationChange}
                  getSubRows={getSubRows}
-                 noPagination={true} />
+                 noPagination={true}/>
+      <Tooltip id="resource-tooltip" render={({content}) => {
+        const contents = content?.split('|') || []
+        if (contents.length < 2) {
+          return ""
+        }
+        return (
+          <div className={'min-w-[100px] flex flex-col space-y-1 max-h-[50px] overflow-scroll'}>
+            <div className={'flex items-center'}><span className={'w-[45px]'}>前台：</span>{contents[0]}</div>
+            <div className={'flex items-center'}><span className={'w-[45px]'}>接口：</span>{contents[1]}</div>
+          </div>
+        )
+      }} clickable/>
       {/* data create / update form */}
       {isOpen &&
         <DataForm
