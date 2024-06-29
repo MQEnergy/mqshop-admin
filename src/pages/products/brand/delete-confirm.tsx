@@ -1,6 +1,6 @@
 import ConfirmDialog from "@/components/custom/confirm-dialog.tsx";
 import {useRequest} from "ahooks";
-import {ProductCateDelete} from "@/apis/product.ts";
+import {ProductBrandDelete} from "@/apis/product.ts";
 import {toast} from "react-hot-toast";
 import * as React from "react";
 import {TableContext} from "@/context.tsx";
@@ -16,7 +16,7 @@ export function DeleteConfirm({...props}: DeleteConfirmProps) {
   const {trans, onRefresh} = React.useContext(TableContext)
 
   // =========================== API request =====================================
-  const deleteRes = useRequest(ProductCateDelete, {
+  const deleteRes = useRequest(ProductBrandDelete, {
     manual: true,
   })
 

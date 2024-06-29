@@ -23,7 +23,7 @@ export default {
     {
       path: 'brands',
       lazy: async () => ({
-        Component: (await import('@/pages/products')).default,
+        Component: (await import('@/pages/products/brand')).default,
       }),
     },
     {

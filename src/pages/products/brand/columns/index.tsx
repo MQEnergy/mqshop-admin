@@ -7,7 +7,6 @@ import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import {Badge} from "@/components/custom/badge.tsx";
 import ReactLogo from "@/assets/react.svg";
-import {IconSquareRoundedMinusFilled, IconSquareRoundedPlusFilled} from "@tabler/icons-react";
 
 export const columns: ColumnDef<ColumnSchemaType>[] = [
   {
@@ -46,62 +45,41 @@ export const columns: ColumnDef<ColumnSchemaType>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'cate_url',
+    accessorKey: 'logo_url',
     header: '图标',
     cell: ({row}) => {
       const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
       return (
         <div className='w-[50px]'>
           <img className='rounded-md object-cover h-[50px] w-[50px] border'
-               src={row.getValue('cate_url') ? resourceUrl + row.getValue('cate_url') : ReactLogo}
-               alt={row.original.cate_desc}/>
+               src={row.original.logo_url ? resourceUrl + row.original.logo_url : ReactLogo}
+               alt={row.original.desc}/>
         </div>
       )
     }
   },
   {
-    accessorKey: 'cate_name',
-    header: ({table}) => (
-      <div className={'flex items-center cursor-pointer w-[180px]'} onClick={table.getToggleAllRowsExpandedHandler()}>
-        {table.getIsAllRowsExpanded() ?
-          <IconSquareRoundedMinusFilled className={'text-red-500'} size={18}/> :
-          <IconSquareRoundedPlusFilled className={'text-indigo-500'} size={18}/>}
-        <span className={'ml-2'}>名称</span>
-      </div>
-    ),
-    cell: ({row, getValue}) => {
+    accessorKey: 'brand_name',
+    header: '名称',
+    cell: ({row}) => {
       return (
-        <div className='flex items-center w-[180px]' style={{paddingLeft: `${(row.depth)}rem`}}>
-          {row.getCanExpand() && (
-            <button
-              {...{
-                onClick: row.getToggleExpandedHandler(),
-                style: {cursor: 'pointer'},
-              }}
-            >
-              {row.getIsExpanded() ?
-                <IconSquareRoundedMinusFilled className={'text-red-500'} size={18}/> :
-                <IconSquareRoundedPlusFilled className={'text-indigo-500'} size={18}/>
-              }
-            </button>
-          )}
-          <span className={'mx-2'}>{getValue<boolean>()}</span>
+        <div className='flex items-center w-[100px]'>
+          <span>{row.getValue<boolean>('brand_name')}</span>
         </div>
       )
     },
   },
   {
     accessorKey: 'is_hot',
-    header: '标签',
+    header: '热门',
     cell: ({row}) => <div className='w-[150px] flex items-start space-x-2'>
-      {row.original.is_hot === 1 && <Badge variant={'red'}>热门</Badge>}
-      {row.original.is_index === 1 && <Badge variant={'green'}>首页</Badge>}
+      {row.getValue('is_hot') === 1 ? <Badge variant={'red'}>是</Badge> : <Badge variant={'secondary'}>否</Badge>}
     </div>,
   },
   {
-    accessorKey: 'cate_desc',
+    accessorKey: 'desc',
     header: '描述',
-    cell: ({row}) => <div className='w-[150px] overflow-scroll'>{row.getValue('cate_desc')}</div>,
+    cell: ({row}) => <div className='w-[150px] overflow-scroll'>{row.getValue('desc')}</div>,
   },
   {
     accessorKey: 'status',

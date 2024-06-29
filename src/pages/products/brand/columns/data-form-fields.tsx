@@ -1,11 +1,8 @@
 import {AutoFormInputComponentProps, FieldConfig} from "@/components/custom/auto-form/types.ts";
-import {z} from "zod";
-import AutoFormSelect from "@/components/custom/auto-form/fields/select.tsx";
 import {FormControl, FormItem} from "@/components/ui/form.tsx";
 import AutoFormLabel from "@/components/custom/auto-form/common/label.tsx";
 import AutoFormTooltip from "@/components/custom/auto-form/common/tooltip.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
-import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/schema.ts";
 import {ColumnSchemaType} from "../data/schema.ts";
 import {toast} from "react-hot-toast";
 import {AvatarUploader} from "@/components/custom/avatar-uploader.tsx";
@@ -13,18 +10,17 @@ import {useEffect, useState} from "react";
 import {AttachmentUpload} from "@/apis/common.ts";
 
 interface FieldConfigProps {
-  resources: ColumnSchemaType[]
   onUploadSuccess: (res: any) => void
   info: ColumnSchemaType
 }
 
-export default function FieldConfigForm({resources, info, onUploadSuccess}: FieldConfigProps): FieldConfig<any> {
+export default function FieldConfigForm({info, onUploadSuccess}: FieldConfigProps): FieldConfig<any> {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [preview, setPreview] = useState<string | ArrayBuffer | null>('');
 
   useEffect(() => {
-    const cateUrl = info.cate_url ? import.meta.env.VITE_RESOURCE_URL + info.cate_url : '';
-    setPreview(cateUrl)
+    const logoUrl = info.logo_url ? import.meta.env.VITE_RESOURCE_URL + info.logo_url : '';
+    setPreview(logoUrl)
   }, [info])
 
   const onAvatarSubmit = (file: File) => {
@@ -35,7 +31,7 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
     return AttachmentUpload(formData)
   };
   return {
-    cate_url: {
+    logo_url: {
       label: '图标',
       description: '100 * 100px 大小不超过2M',
       fieldType: ({...props}: AutoFormInputComponentProps) => {
@@ -62,7 +58,7 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
         )
       },
     },
-    cate_name: {
+    brand_name: {
       label: '名称',
       description: '如：裤子',
       inputProps: {
@@ -70,28 +66,7 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
         placeholder: "请输入分类名称",
       },
     },
-    parent_id: {
-      label: '父级',
-      inputProps: {
-        placeholder: "请选择父级分类",
-      },
-      fieldType: ({...props}: AutoFormInputComponentProps) => {
-        props.isRequired = false
-        const _selectItems: ResourceSelect = resources?.map((item: ResourceItem) => {
-          return {
-            label: item.label,
-            value: item.id
-          }
-        }) || []
-        const values = z.array(z.object({
-          label: z.string(),
-          value: z.number()
-        })).default(_selectItems)
-        props.zodItem = values as unknown as z.ZodAny
-        return <AutoFormSelect {...props} />
-      },
-    },
-    cate_desc: {
+    desc: {
       label: '描述',
       inputProps: {
         required: false,
@@ -108,30 +83,6 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
     is_hot: {
       label: '热门',
       description: '是否热门 展示到热门列表',
-      fieldType: ({...props}: AutoFormInputComponentProps) => {
-        return (
-          <div>
-            <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-              <div className="space-y-1 leading-none">
-                <AutoFormLabel label={props.fieldConfigItem.label || ''}
-                               isRequired={props.fieldConfigItem.inputProps?.required || false}/>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={props.field.value}
-                  onCheckedChange={props.field.onChange}
-                  {...props.fieldProps}
-                />
-              </FormControl>
-            </FormItem>
-            <AutoFormTooltip fieldConfigItem={props.fieldConfigItem}/>
-          </div>
-        )
-      },
-    },
-    is_index: {
-      label: '首页',
-      description: '是否首页 展示到首页',
       fieldType: ({...props}: AutoFormInputComponentProps) => {
         return (
           <div>

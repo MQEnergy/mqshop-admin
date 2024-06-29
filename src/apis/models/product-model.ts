@@ -55,3 +55,29 @@ export interface ProductCateDeleteReq extends CacheReq {
   ids: string;
 }
 export interface ProductCateViewReq extends ViewReq, CacheReq {}
+
+export interface ProductCateStatusReq extends ViewReq, CacheReq {
+  status: number;
+}
+
+// ============================ brand =====================================
+export interface ProductBrandModel {
+  brand_name: string;
+  logo_url: string;
+  desc: string;
+  sort_order: number;
+  is_hot: number;
+  status: number;
+}
+export interface ProductBrandIndexReq extends PageReq, CacheReq {}
+export interface ProductBrandCreateReq extends ProductBrandModel, CacheReq {}
+export interface ProductBrandUpdateReq extends ProductBrandModel, ViewReq, CacheReq {}
+export interface ProductBrandDeleteReq extends CacheReq {
+  ids: string;
+}
+export interface ProductBrandViewReq extends ViewReq, CacheReq {}
+export interface ProductBrandListReq extends CacheReq {}
+export interface ProductBrandStatusReq extends ViewReq, CacheReq {
+  status: number;
+}
+

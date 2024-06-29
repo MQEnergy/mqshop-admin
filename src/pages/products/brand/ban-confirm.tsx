@@ -1,6 +1,6 @@
 import ConfirmDialog from "@/components/custom/confirm-dialog.tsx";
 import {useRequest} from "ahooks";
-import {ProductCateStatus} from "@/apis/product.ts";
+import {ProductBrandStatus} from "@/apis/product.ts";
 import {toast} from "react-hot-toast";
 import * as React from "react";
 import {TableContext} from "@/context.tsx";
@@ -19,7 +19,7 @@ export function BanConfirm({...props}: BanConfirmProps) {
   // =========================== Params ======================================
 
   // =========================== API request ======================================
-  const banRes = useRequest(ProductCateStatus, {
+  const banRes = useRequest(ProductBrandStatus, {
     manual: true,
   })
   // =========================== API request ======================================
