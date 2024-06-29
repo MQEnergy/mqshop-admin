@@ -7,11 +7,17 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import FormDialog from "@/components/custom/form-dialog.tsx";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request.ts";
-import {FancyMultiSelect, selectItem} from "@/components/custom/fancy-multi-select";
-import * as React from "react";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {Member} from "@/pages/permission/member/data/schema";
 import {TableContext} from "@/context";
+import {
+  MultiSelector,
+  MultiSelectorContent,
+  MultiSelectorInput,
+  MultiSelectorItem,
+  MultiSelectorList,
+  MultiSelectorTrigger
+} from "@/components/custom/multi-select";
 
 interface AssignRoleProps {
   row: any;
@@ -20,12 +26,15 @@ interface AssignRoleProps {
   onOpen: (value: boolean) => void;
 }
 
-export function AssignRole({...props}: AssignRoleProps) {
+export function AssignRoleForm({...props}: AssignRoleProps) {
 
+  // ============================ Params =====================================
   const {trans, onRefresh} = useContext(TableContext);
 
-  const [roleList, setRoleList] = useState<selectItem[]>([])
-  const [selected, setSelected] = React.useState<selectItem[]>([]);
+  const [roleList, setRoleList] = useState<string[]>([])
+  const [selected, setSelected] = useState<string[]>([]);
+  const roleItemList = useRef([]);
+
   const info = props.row as Member || null
 
   const formSchema = z.object({
@@ -39,24 +48,32 @@ export function AssignRole({...props}: AssignRoleProps) {
     }
   })
 
-  const roleRes = useRequest(RoleList, {
-    manual: true
-  })
+  // ============================ API request ==================================
+  const roleRes = useRequest(RoleList, {manual: true})
+  const changeRoleRes = useRequest(MemberRoleDistribution, {manual: true})
+
   const initRoleData = () => {
-    roleRes.runAsync({noCache: false}).then(r => {
-      const _roleList = r.data.map((item: any) => {
-        return {value: item.id, label: item.name}
-      })
-      setRoleList(_roleList || [])
+    roleRes.runAsync({noCache: false}).then(res => {
+      const _roleList: string[] = res.data?.map((item: any) => {
+        return item.name
+      }) || []
+      setRoleList(_roleList)
+      roleItemList.current = res.data
+      const roleSelected: string[] = info.role_list?.map((item: any) => {
+        return item.name
+      }) || []
+      handleRoleSelect(roleSelected)
     });
   }
 
   useEffect(() => {
     if (props.open) {
+      form.reset()
+      setSelected([])
       initRoleData()
     }
 
-  }, [props.open])
+  }, [props.open, props.row])
 
   useEffect(() => {
     if (form.getValues('role_ids') === '') {
@@ -64,32 +81,21 @@ export function AssignRole({...props}: AssignRoleProps) {
     }
   }, [form.getValues('role_ids')])
 
-  useEffect(() => {
-    form.reset()
-    setSelected([])
-    if (props.row) {
-      const roleSelected: selectItem[] = info.role_list?.map((item: any) => {
-        return {label: item.name, value: item.id}
-      }) || [];
-      handleRoleSelect(roleSelected)
-    }
-  }, [props.row])
-
-  const handleRoleSelect = (items: selectItem[]) => {
-    const ids = items.map(item => item.value)
+  // ============================ Method ======================================
+  const handleRoleSelect = (items: string[]) => {
+    const filterList = roleItemList.current.filter((item: any) => items.indexOf(item.name) >= 0)
+    const ids = filterList.map((item: any) => item.id)
     form.setValue('role_ids', ids.join(','), {
       shouldValidate: true, // trigger validation
     })
     setSelected(items)
   }
 
-  const changeRoleRes = useRequest(MemberRoleDistribution, {
-    manual: true,
-  })
   const handleCancel = () => {
     props.onOpen(false)
   }
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+
     const runAsync = changeRoleRes.runAsync({
       id: info.id,
       role_ids: values.role_ids,
@@ -108,6 +114,7 @@ export function AssignRole({...props}: AssignRoleProps) {
   }
   return (
     <FormDialog
+      className={'h-[170px]'}
       title={trans?.t('permission.member.role')}
       submitTitle={trans?.t('permission.member.role.confirm')}
       loading={changeRoleRes.loading}
@@ -127,7 +134,18 @@ export function AssignRole({...props}: AssignRoleProps) {
                   <span className="text-destructive"> *</span></FormLabel>
                 <div className='w-full relative'>
                   <FormControl>
-                    <FancyMultiSelect list={roleList} selected={selected} onSelect={handleRoleSelect}/>
+                    <MultiSelector values={selected} onValuesChange={handleRoleSelect} loop className="max-w-xs">
+                      <MultiSelectorTrigger>
+                        <MultiSelectorInput placeholder="请选择..."/>
+                      </MultiSelectorTrigger>
+                      <MultiSelectorContent>
+                        <MultiSelectorList className={'border'}>
+                          {roleList.map((role) => (
+                            <MultiSelectorItem key={role} value={role}>{role}</MultiSelectorItem>
+                          ))}
+                        </MultiSelectorList>
+                      </MultiSelectorContent>
+                    </MultiSelector>
                   </FormControl>
                   <FormMessage className='text-xs absolute left-0 pt-1'/>
                 </div>

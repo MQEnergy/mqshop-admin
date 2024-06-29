@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onPaginationChange: props.onPaginationChange,
-    debugTable: true,
+    // debugTable: true,
   })
 
   useEffect(() => {

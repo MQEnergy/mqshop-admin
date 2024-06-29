@@ -8,8 +8,8 @@ import {columns} from './columns'
 import {DataForm} from "./data-form";
 import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
-import {ResetPass} from "./reset-pass";
-import {AssignRole} from "./assign-role";
+import {ResetPassForm} from "./reset-pass";
+import {AssignRoleForm} from "./assign-role";
 import BanConfirm from "./ban-confirm.tsx";
 import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
@@ -143,7 +143,7 @@ export default function Member() {
       }
       {/* reset password dialog */}
       {isResetOpen &&
-        <ResetPass
+        <ResetPassForm
           width={'450px'}
           row={detailInfo.info}
           open={isResetOpen}
@@ -151,7 +151,7 @@ export default function Member() {
         />}
       {/* assign role dialog */}
       {isRoleOpen &&
-        <AssignRole
+        <AssignRoleForm
           width={'450px'}
           row={detailInfo.info}
           open={isRoleOpen}

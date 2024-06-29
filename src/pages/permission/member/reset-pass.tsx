@@ -18,7 +18,7 @@ interface ResetPasswordProps {
   onOpen: (value: boolean) => void;
 }
 
-export function ResetPass({...props}: ResetPasswordProps) {
+export function ResetPassForm({...props}: ResetPasswordProps) {
   // =========================== Params ==========================================
   const {trans} = useContext(TableContext)
   const formSchema = z.object({
@@ -69,6 +69,7 @@ export function ResetPass({...props}: ResetPasswordProps) {
 
   return (
     <FormDialog
+      className={'h-[170px]'}
       title={trans?.t('permission.member.reset')}
       submitTitle={trans?.t('permission.member.reset.confirm')}
       loading={changePassRes.loading}

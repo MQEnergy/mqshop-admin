@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/custom/button.tsx";
 import {useTranslation} from "react-i18next";
+import {cn} from "@/lib/utils";
 
 export interface FormDialogProps extends DialogProps {
   className?: string;
@@ -27,7 +28,7 @@ function FormDialog({...props}: FormDialogProps) {
   const {t} = useTranslation()
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange} modal={true}>
-      <DialogContent className='overflow-hidden min-w-[400px]' style={{
+      <DialogContent className='min-w-[400px]' style={{
         width: props.width || '400px',
         maxWidth: props.width || '400px',
         height: props.height || 'auto'
@@ -37,7 +38,7 @@ function FormDialog({...props}: FormDialogProps) {
           {props.description && <DialogDescription>{props.description}</DialogDescription>}
         </DialogHeader>
         {props.children &&
-          <div className={props.className}>
+          <div className={cn('my-4', props.className)}>
             {props.children}
           </div>
         }
