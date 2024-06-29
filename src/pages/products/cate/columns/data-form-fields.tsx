@@ -9,9 +9,8 @@ import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/sch
 import {ColumnSchemaType} from "@/pages/products/cate/data/schema.ts";
 import {toast} from "react-hot-toast";
 import {AvatarUploader} from "@/components/custom/avatar-uploader.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AttachmentUpload} from "@/apis/common.ts";
-import ReactLogo from "@/assets/react.svg";
 
 interface FieldConfigProps {
   resources: ColumnSchemaType[]
@@ -20,10 +19,13 @@ interface FieldConfigProps {
 }
 
 export default function FieldConfigForm({resources, info, onUploadSuccess}: FieldConfigProps): FieldConfig<any> {
-  const cateUrl = info.cate_url ? import.meta.env.VITE_RESOURCE_URL + info.cate_url : ReactLogo;
-  console.log("cateUrl", cateUrl)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(cateUrl);
+  const [preview, setPreview] = useState<string | ArrayBuffer | null>('');
+
+  useEffect(() => {
+    const cateUrl = info.cate_url ? import.meta.env.VITE_RESOURCE_URL + info.cate_url : '';
+    setPreview(cateUrl)
+  }, [info])
 
   const onAvatarSubmit = (file: File) => {
     setIsLoading(true)

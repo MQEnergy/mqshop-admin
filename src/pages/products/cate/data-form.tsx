@@ -39,7 +39,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   const parentListRes = useRequest(ProductCateList, {manual: true});
   useEffect(() => {
     setInfo(Object.assign(info, row))
-
   }, [props.data]);
 
   useEffect(() => {
@@ -102,7 +101,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
           resources: parentListRes.data?.data as ColumnSchemaType[],
           info: info as ColumnSchemaType,
           onUploadSuccess: (res: any) => {
-            console.log("value", res)
             setInfo({...info, cate_url: res.data?.file_path || ''})
           },
         })}>
