@@ -35,7 +35,7 @@ export function DataForm({...props}: DataFormProps) {
   const {trans, onRefresh} = useContext(TableContext);
   const [isOpenIcon, setIsOpenIcon] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState('');
-  const [info, setInfo] = useSetState<ResourceItem>({})
+  const [info, setInfo] = useSetState<Partial<ResourceForm>>({})
   const [iconKeys, setIconKeys] = useState<string[]>([]);
   const [IconsComponent, setIconsComponent] = useState<any>(IconsComponentLazy);
   const [keyword, setKeyword] = useState<string>('');
@@ -96,12 +96,12 @@ export function DataForm({...props}: DataFormProps) {
       icon: formValues.icon || '',
       menu_type: formValues.menu_type,
       sort_order: formValues.sort_order,
-      path: info.path || '',
+      path: row.path || '',
       status: formValues.status
     }
     let runAsync: Promise<ApiResult<any>>
-    if (info && info.id) {
-      runAsync = updateRes.runAsync({id: info.id, ...params});
+    if (row && row.id) {
+      runAsync = updateRes.runAsync({id: row.id, ...params});
     } else {
       runAsync = createRes.runAsync(params);
     }
@@ -145,8 +145,8 @@ export function DataForm({...props}: DataFormProps) {
         <AutoForm
           onSubmit={onSubmit}
           formSchema={formSchema}
-          values={info as ResourceForm}
-          onValuesChange={(values: any) => setInfo(values)}
+          values={info}
+          onValuesChange={setInfo}
           fieldConfig={FieldConfigForm({
             resources: parentListRes.data?.data as ResourceItem[],
             onOpenIcon: handleOpenIcon,

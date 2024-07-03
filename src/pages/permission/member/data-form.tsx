@@ -50,19 +50,12 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   const [selected, setSelected] = React.useState<selectItem[]>([]);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>("");
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  // =========================== Params ==========================================
 
   // =========================== API request ======================================
-  const createRes = useRequest(MemberCreate, {
-    manual: true,
-  });
-  const updateRes = useRequest(MemberUpdate, {
-    manual: true,
-  });
-  const roleRes = useRequest(RoleList, {
-    manual: true
-  })
-  // =========================== API request ======================================
+  const createRes = useRequest(MemberCreate, {manual: true});
+  const updateRes = useRequest(MemberUpdate, {manual: true});
+  const roleRes = useRequest(RoleList, {manual: true})
+
   useEffect(() => {
     if (props.open) {
       initRoleData()
@@ -85,6 +78,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       setSelected(roleSelected)
     }
   }, [props.data])
+
   // =========================== Method ===========================================
   const onSubmit = (values: MemberForm) => {
     const params = {

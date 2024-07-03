@@ -1,4 +1,4 @@
-import { ControllerRenderProps, FieldValues } from "react-hook-form";
+import {ControllerRenderProps, FieldValues, useForm} from "react-hook-form";
 import * as z from "zod";
 import { INPUT_COMPONENTS } from "./config";
 import React from "react";
@@ -74,4 +74,5 @@ export type AutoFormInputComponentProps = {
   fieldProps: any;
   zodItem: z.ZodAny;
   className?: string;
+  form: ReturnType<typeof useForm>;
 };

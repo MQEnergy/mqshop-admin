@@ -4,11 +4,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FormField } from "@/components/ui/form";
-import { useForm, useFormContext } from "react-hook-form";
+import {FormField} from "@/components/ui/form";
+import {useForm, useFormContext} from "react-hook-form";
 import * as z from "zod";
-import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from "../config";
-import { Dependency, FieldConfig, FieldConfigItem } from "../types";
+import {DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS} from "../config";
+import {Dependency, FieldConfig, FieldConfigItem} from "../types";
 import {
   beautifyObjectName,
   getBaseSchema,
@@ -18,31 +18,31 @@ import {
 import AutoFormArray from "./array";
 import resolveDependencies from "../dependencies";
 
-function DefaultParent({ children }: { children: React.ReactNode }) {
+function DefaultParent({children}: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
 export default function AutoFormObject<
   SchemaType extends z.ZodObject<any, any>,
 >({
-  schema,
-  form,
-  fieldConfig,
-  path = [],
-  dependencies = [],
-}: {
+    schema,
+    form,
+    fieldConfig,
+    path = [],
+    dependencies = [],
+  }: {
   schema: SchemaType | z.ZodEffects<SchemaType>;
   form: ReturnType<typeof useForm>;
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
   path?: string[];
   dependencies?: Dependency<z.infer<SchemaType>>[];
 }) {
-  const { watch } = useFormContext(); // Use useFormContext to access the watch function
+  const {watch} = useFormContext(); // Use useFormContext to access the watch function
 
   if (!schema) {
     return null;
   }
-  const { shape } = getBaseSchema<SchemaType>(schema) || {};
+  const {shape} = getBaseSchema<SchemaType>(schema) || {};
 
   if (!shape) {
     return null;
@@ -130,7 +130,7 @@ export default function AutoFormObject<
             control={form.control}
             name={key}
             key={key}
-            render={({ field }) => {
+            render={({field}) => {
               const inputType =
                 fieldConfigItem.fieldType ??
                 DEFAULT_ZOD_HANDLERS[zodBaseType] ??
@@ -144,16 +144,15 @@ export default function AutoFormObject<
               const ParentElement =
                 fieldConfigItem.renderParent ?? DefaultParent;
 
-              const defaultValue = fieldConfigItem.inputProps?.defaultValue;
-              const value = field.value ?? defaultValue ?? "";
-
               const fieldProps = {
                 ...zodToHtmlInputProps(item),
                 ...field,
                 ...fieldConfigItem.inputProps,
+                ...form.register(field.name),
                 disabled: fieldConfigItem.inputProps?.disabled || isDisabled,
-                ref: undefined,
-                value: value,
+                onChange: (e: any) => {
+                  form.setValue(field.name, e.target.value)
+                },
               };
 
               if (InputComponent === undefined) {
@@ -163,6 +162,7 @@ export default function AutoFormObject<
               return (
                 <ParentElement key={`${key}.parent`}>
                   <InputComponent
+                    form={form}
                     zodInputProps={zodInputProps}
                     field={field}
                     fieldConfigItem={fieldConfigItem}

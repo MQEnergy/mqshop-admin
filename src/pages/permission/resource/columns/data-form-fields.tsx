@@ -13,8 +13,8 @@ import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/sch
 
 interface FieldConfigProps {
   onOpenIcon: () => void;
-  resources: ResourceItem[],
-  onParentChange?: (value: string) => void;
+  onParentChange?: (value: string) => void,
+  resources: ResourceItem[];
 }
 
 export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProps): FieldConfig<any> {
