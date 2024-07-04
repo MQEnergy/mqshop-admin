@@ -37,18 +37,18 @@ export interface ProductDeleteReq extends ViewReq, CacheReq {}
 // ============================ cate =====================================
 export interface ProductCateModel {
   cate_name: string;
-  banner_cate_id: number;
   cate_url: string;
   cate_desc: string;
   sort_order: number;
   parent_id: number;
-  path: string;
   is_hot: number;
   is_index: number;
   status: number;
 }
 export interface ProductCateIndexReq extends PageReq, CacheReq {}
-export interface ProductCateListReq extends CacheReq {}
+export interface ProductCateListReq extends CacheReq {
+  id: number;
+}
 export interface ProductCateCreateReq extends ProductCateModel, CacheReq {}
 export interface ProductCateUpdateReq extends ProductCateModel, ViewReq, CacheReq {}
 export interface ProductCateDeleteReq extends CacheReq {

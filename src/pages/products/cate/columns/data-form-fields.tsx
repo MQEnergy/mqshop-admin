@@ -6,7 +6,7 @@ import AutoFormLabel from "@/components/custom/auto-form/common/label.tsx";
 import AutoFormTooltip from "@/components/custom/auto-form/common/tooltip.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/schema.ts";
-import {ColumnSchemaType} from "../data/schema.ts";
+import {ColumnSchemaType, FormSchemaType} from "../data/schema.ts";
 import {toast} from "react-hot-toast";
 import {AvatarUploader} from "@/components/custom/avatar-uploader.tsx";
 import {useEffect, useState} from "react";
@@ -15,7 +15,7 @@ import {AttachmentUpload} from "@/apis/common.ts";
 interface FieldConfigProps {
   resources: ColumnSchemaType[]
   onUploadSuccess: (res: any) => void
-  info: ColumnSchemaType
+  info: Partial<FormSchemaType>
 }
 
 export default function FieldConfigForm({resources, info, onUploadSuccess}: FieldConfigProps): FieldConfig<any> {
@@ -25,6 +25,7 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
   useEffect(() => {
     const cateUrl = info.cate_url ? import.meta.env.VITE_RESOURCE_URL + info.cate_url : '';
     setPreview(cateUrl)
+
   }, [info])
 
   const onAvatarSubmit = (file: File) => {

@@ -18,13 +18,13 @@ export interface SearchInfo {
   status: string;
 }
 
-interface DataTableSearchbarProps {
-  info: null
+interface DataTableSearchbarProps<TData> {
+  info: TData
   loading?: boolean
   onSearch: (values: SearchInfo) => void
 }
 
-export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
+export function DataTableSearchbar({...props}: DataTableSearchbarProps<any>) {
   const {trans} = useContext(TableContext)
   const [searchInfo, setSearchInfo] = useImmer<SearchInfo>({
     keyword: '',

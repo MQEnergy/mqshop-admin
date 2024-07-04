@@ -17,32 +17,29 @@ interface DataFormProps<TData> extends DrawerFormProps {
 
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
+  const row = props.data as unknown as ColumnSchemaType
   const {trans, onRefresh} = useContext(TableContext);
-  const [info, setInfo] = useSetState<ColumnSchemaType>({
+  const [formInfo, setFormInfo] = useSetState<Partial<FormSchemaType>>({
     cate_desc: "",
     cate_name: "",
     cate_url: "",
-    created_at: 0,
-    id: 0,
     is_hot: 0,
     is_index: 0,
     parent_id: 0,
-    path: "",
     sort_order: 50,
     status: 1
   })
-  const row = props.data as ColumnSchemaType
 
   // =========================== API request ======================================
   const createRes = useRequest(ProductCateCreate, {manual: true});
   const updateRes = useRequest(ProductCateUpdate, {manual: true});
   const parentListRes = useRequest(ProductCateList, {manual: true});
   useEffect(() => {
-    setInfo(Object.assign(info, row))
+    setFormInfo(Object.assign(formInfo, row))
   }, [props.data]);
 
   useEffect(() => {
-    parentListRes.run({noCache: false});
+    parentListRes.run({id: row?.id || 0, noCache: false});
 
   }, [props.open]);
 
@@ -58,12 +55,11 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       is_index: values.is_index,
       status: values.status,
       banner_cate_id: 0,
-      path: ""
     }
     let runAsync: Promise<ApiResult<any>>
-    if (info.id) {
+    if (row && row.id) {
       runAsync = updateRes.runAsync({
-        id: info.id,
+        id: row.id,
         ...params
       });
     } else {
@@ -95,13 +91,13 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       <AutoForm
         onSubmit={onSubmit}
         formSchema={formSchema}
-        values={info as ColumnSchemaType}
-        onValuesChange={(values: any) => setInfo(values)}
+        values={formInfo}
+        onValuesChange={setFormInfo}
         fieldConfig={FieldConfigForm({
+          info: formInfo,
           resources: parentListRes.data?.data as ColumnSchemaType[],
-          info: info as ColumnSchemaType,
           onUploadSuccess: (res: any) => {
-            setInfo({...info, cate_url: res.data?.file_path || ''})
+            setFormInfo({...formInfo, cate_url: res.data?.file_path || ''})
           },
         })}>
         <DrawerFooter className='w-full bg-background h-[70px] fixed bottom-0 left-0 flex-row border-t'>
