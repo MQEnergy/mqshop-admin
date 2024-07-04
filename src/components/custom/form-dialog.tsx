@@ -42,7 +42,7 @@ function FormDialog({...props}: FormDialogProps) {
             {props.children}
           </div>
         }
-        <DialogFooter className={'w-full bg-white absolute bottom-0 right-0 p-4'}>
+        <DialogFooter className={'w-full bg-background absolute bottom-0 right-0 p-4'}>
           <Button size={'sm'} variant={'outline'}
                   onClick={props.onCancel}>{props.closeTitle || t('settings.search.cancel')}</Button>
           <Button size={'sm'} loading={props.loading}

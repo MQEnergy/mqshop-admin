@@ -41,11 +41,20 @@ export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProp
             value: item.id
           }
         }) || []
-        const values = z.array(z.object({
+        const parentValues = z.array(z.object({
           label: z.string(),
           value: z.number()
         })).default(_selectItems)
-        props.zodItem = values as unknown as z.ZodAny
+        props.zodItem = parentValues as unknown as z.ZodAny
+        props.field.onChange = (value: any) => {
+          props.form.setValue('parent_id', value)
+          const filterItems = resources?.filter(item => {
+            return item.id === parseInt(value)
+          }) || []
+          if (filterItems.length > 0) {
+            props.form.setValue('alias', filterItems[0].alias + ':')
+          }
+        }
         return <AutoFormSelect {...props} />
       },
     },

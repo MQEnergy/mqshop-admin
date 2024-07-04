@@ -19,9 +19,9 @@ export const resourceSchema: z.ZodObject<any> = z.object({
 
 export const formSchema = z.object({
   name: z.string().min(1, {message: '名称不能为空'}).min(2, '名称不能小于2个字符').describe("How many marshmallows fit in your mouth?"),
+  parent_id: z.number().default(0),
   alias: z.string().min(1, '别名不能为空').min(2, '别名不能小于2个字符'),
   icon: z.string().default('').optional(),
-  parent_id: z.number().default(0),
   desc: z.string().default('').optional(),
   b_url: z.string().min(1, '后端路由不能为空'),
   f_url: z.string().min(1, '前端路由不能为空'),
