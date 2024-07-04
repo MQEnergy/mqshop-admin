@@ -9,12 +9,12 @@ import AutoFormTooltip from "@/components/custom/auto-form/common/tooltip.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {icons} from "lucide-react";
 import Icon from "@/components/custom/icon.tsx";
-import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/schema.ts";
+import {ColumnSchemaType, ResourceSelect} from "../data/schema.ts";
 
 interface FieldConfigProps {
   onOpenIcon: () => void;
   onParentChange?: (value: string) => void,
-  resources: ResourceItem[];
+  resources: ColumnSchemaType[];
 }
 
 export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProps): FieldConfig<any> {
@@ -35,7 +35,7 @@ export default function FieldConfigForm({onOpenIcon, resources}: FieldConfigProp
       },
       fieldType: ({...props}: AutoFormInputComponentProps) => {
         props.isRequired = false
-        const _selectItems: ResourceSelect = resources?.map((item: ResourceItem) => {
+        const _selectItems: ResourceSelect = resources?.map((item: ColumnSchemaType) => {
           return {
             label: `${item.label}（${item.alias}）`,
             value: item.id

@@ -12,7 +12,7 @@ import BanConfirm from "./ban-confirm.tsx";
 import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
-import {ResourceItem} from "@/pages/permission/resource/data/schema.ts";
+import {ColumnSchemaType} from "./data/schema.ts";
 import {Tooltip} from "react-tooltip";
 
 export default function Resource() {
@@ -113,7 +113,7 @@ export default function Resource() {
       indexRes.run({page, limit, search: JSON.stringify(values)})
     }
   }
-  const getSubRows = (row: ResourceItem) => {
+  const getSubRows = (row: ColumnSchemaType) => {
     return row.children
   }
   // =========================== Method ===========================================
@@ -125,7 +125,7 @@ export default function Resource() {
       {/* search bar */}
       <DataTableSearchbar info={detailInfo.info} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
-      <DataTable data={(indexRes.data?.data || []) as ResourceItem[]}
+      <DataTable data={(indexRes.data?.data || []) as ColumnSchemaType[]}
                  columns={columns}
                  pageCount={indexRes.data?.data?.last_page || 0}
                  rowCount={indexRes.data?.data?.total || 0}

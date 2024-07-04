@@ -4,7 +4,7 @@ import {ResourceCreate, ResourceList, ResourceUpdate} from "@/apis/permission";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request";
 import {lazy, Suspense, useContext, useEffect, useMemo, useState} from "react";
-import {formSchema, ResourceForm, ResourceItem} from "./data/schema.ts";
+import {formSchema, FormSchemaType, ColumnSchemaType} from "./data/schema.ts";
 import {TableContext} from "@/context";
 import AutoForm, {AutoFormSubmit} from "@/components/custom/auto-form";
 import {Button} from "@/components/custom/button";
@@ -16,7 +16,7 @@ import {IconFidgetSpinner} from "@tabler/icons-react";
 import {SearchInput} from "@/components/custom/search-input.tsx";
 
 interface DataFormProps extends DrawerFormProps {
-  data: ResourceItem | null
+  data: ColumnSchemaType | null
 }
 
 const IconsComponentLazy = lazy(() => import('@/components/custom/icon-list.tsx'));
@@ -35,7 +35,7 @@ export function DataForm({...props}: DataFormProps) {
   const {trans, onRefresh} = useContext(TableContext);
   const [isOpenIcon, setIsOpenIcon] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState('');
-  const [info, setInfo] = useSetState<Partial<ResourceForm>>({})
+  const [info, setInfo] = useSetState<Partial<FormSchemaType>>({})
   const [iconKeys, setIconKeys] = useState<string[]>([]);
   const [IconsComponent, setIconsComponent] = useState<any>(IconsComponentLazy);
   const [keyword, setKeyword] = useState<string>('');
@@ -62,7 +62,7 @@ export function DataForm({...props}: DataFormProps) {
     sort_order: 50,
     path: '',
     status: 1
-  }) as ResourceItem
+  }) as ColumnSchemaType
 
   useEffect(() => {
     setInfo(Object.assign(info, row))
@@ -85,7 +85,7 @@ export function DataForm({...props}: DataFormProps) {
   }, [debouncedKeyword]);
 
   // =========================== Method ===========================================
-  const onSubmit = (formValues: ResourceForm) => {
+  const onSubmit = (formValues: FormSchemaType) => {
     const params = {
       name: formValues.name,
       parent_id: formValues.parent_id,
@@ -148,7 +148,7 @@ export function DataForm({...props}: DataFormProps) {
           values={info}
           onValuesChange={setInfo}
           fieldConfig={FieldConfigForm({
-            resources: parentListRes.data?.data as ResourceItem[],
+            resources: parentListRes.data?.data as ColumnSchemaType[],
             onOpenIcon: handleOpenIcon,
           })}>
           <DrawerFooter className='w-full bg-background h-[70px] fixed bottom-0 left-0 flex-row border-t'>

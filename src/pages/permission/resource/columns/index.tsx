@@ -1,7 +1,7 @@
 import {ColumnDef} from '@tanstack/react-table'
 import {Checkbox} from '@/components/ui/checkbox.tsx'
 import {statuses} from '../data/data.tsx'
-import {ResourceItem, resourceSchema} from '../data/schema.ts'
+import {ColumnSchemaType, columnSchema} from '../data/schema.ts'
 import {DataTableColumnHeader} from "../components/data-table-column-header.tsx";
 import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ import {
 } from "@tabler/icons-react";
 import Icon from "@/components/custom/icon.tsx";
 
-export const columns: ColumnDef<ResourceItem>[] = [
+export const columns: ColumnDef<ColumnSchemaType>[] = [
   {
     id: 'select',
     header: ({table}) => (
@@ -150,6 +150,6 @@ export const columns: ColumnDef<ResourceItem>[] = [
     id: 'actions',
     size: 80,
     header: '操作',
-    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={resourceSchema}/>,
+    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={columnSchema}/>,
   },
 ]

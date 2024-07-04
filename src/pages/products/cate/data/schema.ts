@@ -28,5 +28,11 @@ export const formSchema = z.object({
   status: z.number().default(1),
 })
 
+export const selectValuesSchema = z.array(z.object({
+  label: z.string(),
+  value: z.number()
+}))
+
 export type ColumnSchemaType = z.infer<typeof columnSchema>
 export type FormSchemaType = z.infer<typeof formSchema>
+export type SelectSchemaType = z.infer<typeof selectValuesSchema>

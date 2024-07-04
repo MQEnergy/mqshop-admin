@@ -1,6 +1,6 @@
 import {z} from 'zod'
 
-export const resourceSchema: z.ZodObject<any> = z.object({
+export const columnSchema: z.ZodObject<any> = z.object({
   id: z.number(),
   parent_id: z.number(),
   name: z.string(),
@@ -11,7 +11,7 @@ export const resourceSchema: z.ZodObject<any> = z.object({
   icon: z.string(),
   menu_type: z.number(),
   sort_order: z.number(),
-  children: z.array(z.lazy(() => resourceSchema)),
+  children: z.array(z.lazy(() => columnSchema)),
   path: z.string(),
   status: z.number(),
   created_at: z.number(),
@@ -34,6 +34,6 @@ export const selectValuesSchema = z.array(z.object({
   value: z.number()
 }))
 
-export type ResourceItem = z.infer<typeof resourceSchema>
-export type ResourceForm = z.infer<typeof formSchema>
+export type ColumnSchemaType = z.infer<typeof columnSchema>
+export type FormSchemaType = z.infer<typeof formSchema>
 export type ResourceSelect = z.infer<typeof selectValuesSchema>
