@@ -4,7 +4,7 @@ import {Layout, LayoutHeader} from '@/components/layout'
 import {Button} from '@/components/ui/button'
 import Nav from '@/components/menu/nav'
 import {cn} from '@/lib/utils'
-import {sideLinks} from '@/components/menu/sidelinks'
+import {sideLinks} from "@/sidelinks";
 
 interface SidebarProps extends HTMLAttributes<HTMLElement> {
   isCollapsed: boolean

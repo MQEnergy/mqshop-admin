@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/tooltip'
 import {cn} from '@/lib/utils'
 import useCheckActiveNav from '@/hooks/use-check-active-nav'
-import {SideLink} from './sidelinks'
+import {SideLink} from '@/sidelinks'
 import {ChevronRight} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import React from "react";
