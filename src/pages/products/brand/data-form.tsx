@@ -18,23 +18,21 @@ interface DataFormProps<TData> extends DrawerFormProps {
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
-  const [info, setInfo] = useSetState<ColumnSchemaType>({
-    id: 0,
+  const row = props.data as unknown as ColumnSchemaType
+  const [formInfo, setFormInfo] = useSetState<Partial<FormSchemaType>>({
     brand_name: "",
     desc: "",
     logo_url: "",
-    created_at: 0,
     is_hot: 0,
     sort_order: 50,
     status: 1
   })
-  const row = props.data as ColumnSchemaType
 
   // =========================== API request ======================================
   const createRes = useRequest(ProductBrandCreate, {manual: true});
   const updateRes = useRequest(ProductBrandUpdate, {manual: true});
   useEffect(() => {
-    setInfo(Object.assign(info, row))
+    setFormInfo(Object.assign(formInfo, row))
   }, [props.data]);
 
   // =========================== Method ===========================================
@@ -48,11 +46,8 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
       status: values.status,
     }
     let runAsync: Promise<ApiResult<any>>
-    if (info.id) {
-      runAsync = updateRes.runAsync({
-        id: info.id,
-        ...params
-      });
+    if (row && row.id) {
+      runAsync = updateRes.runAsync({id: row.id, ...params});
     } else {
       runAsync = createRes.runAsync(params);
     }
@@ -73,21 +68,22 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   }
 
   return (
-    <DrawerForm title={props.title} open={props.open}
+    <DrawerForm title={props.title}
+                open={props.open}
                 onSubmit={onSubmit}
                 onClose={handleClose}
                 noFooter={true}
                 loading={updateRes.loading || createRes.loading}
                 className='rounded-tl-lg rounded-bl-lg'>
       <AutoForm
-        onSubmit={onSubmit}
         formSchema={formSchema}
-        values={info as ColumnSchemaType}
-        onValuesChange={(values: any) => setInfo(values)}
+        values={formInfo}
+        onValuesChange={setFormInfo}
+        onSubmit={onSubmit}
         fieldConfig={FieldConfigForm({
-          info: info as ColumnSchemaType,
+          info: row,
           onUploadSuccess: (res: any) => {
-            setInfo({...info, logo_url: res.data?.file_path || ''})
+            setFormInfo({...formInfo, logo_url: res.data?.file_path || ''})
           },
         })}>
         <DrawerFooter className='w-full bg-background h-[70px] fixed bottom-0 left-0 flex-row border-t'>

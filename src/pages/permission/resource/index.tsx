@@ -22,16 +22,13 @@ export default function Resource() {
     {name: "首页", link: '/'},
     {name: "资源管理", link: '/permissions/resource'}
   ];
+  const {onPaginationChange, page, limit, pagination} = usePagination();
+  const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
+  const [formTitle, setFormTitle] = useState<string>('新增操作')
+  const [rowItem, setRowItem] = useState<Partial<ColumnSchemaType>>({})
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isBanOpen, setIsBanOpen] = useState<boolean>(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
-  const {onPaginationChange, page, limit, pagination} = usePagination();
-  const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
-  const [detailInfo, setDetailInfo] = useState({
-    title: '',
-    info: null
-  })
-  // =========================== Params ===========================================
 
   // =========================== API request ======================================
   const indexRes = useRequest(ResourceIndex, {
@@ -42,7 +39,7 @@ export default function Resource() {
   const deleteRes = useRequest(ResourceDelete, {
     manual: true
   })
-  // =========================== API request ======================================
+
   useEffect(() => {
     if (searchForm) {
       indexRes.run({page, limit, search: JSON.stringify(searchForm)})
@@ -78,16 +75,12 @@ export default function Resource() {
   }
   const handleOpen = (value: boolean) => {
     setIsOpen(value)
-    setDetailInfo({
-      title: '新增操作',
-      info: null
-    })
+    setFormTitle('新增操作')
+    setRowItem({})
   }
   const handleInfo = (values: any) => {
-    setDetailInfo({
-      title: '编辑操作',
-      info: values
-    })
+    setFormTitle('编辑操作')
+    setRowItem(values)
     if (typeof values.__is_edit__ !== 'undefined' && typeof values.__is_edit__ === 'boolean') {
       setIsOpen(values.__is_edit__)
     }
@@ -116,14 +109,13 @@ export default function Resource() {
   const getSubRows = (row: ColumnSchemaType) => {
     return row.children
   }
-  // =========================== Method ===========================================
 
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
-      <DataTableSearchbar info={detailInfo.info} loading={indexRes.loading} onSearch={handleSearch}/>
+      <DataTableSearchbar info={rowItem} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
       <DataTable data={(indexRes.data?.data || []) as ColumnSchemaType[]}
                  columns={columns}
@@ -152,16 +144,16 @@ export default function Resource() {
       {/* data create / update form */}
       {isOpen &&
         <DataForm
-          title={detailInfo.title}
-          data={detailInfo.info}
+          title={formTitle}
+          data={rowItem}
           open={isOpen}
           onOpenChange={handleOpen}
         />
       }
       {/* ban confirm */}
-      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}
+      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={rowItem}/>}
       {/* delete confirm */}
-      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={detailInfo.info}/>}
+      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={rowItem}/>}
     </TableContext.Provider>
   )
 }

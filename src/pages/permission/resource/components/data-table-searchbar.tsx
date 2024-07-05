@@ -12,20 +12,19 @@ import {
 import {useImmer} from "use-immer";
 import {useContext} from "react";
 import {TableContext} from "@/context.tsx";
-import {ColumnSchemaType} from "../data/schema.ts";
 
 export interface SearchInfo {
   keyword: string;
   status: string;
 }
 
-interface DataTableSearchbarProps {
-  info: ColumnSchemaType | null
+interface DataTableSearchbarProps<TData> {
+  info: TData
   loading?: boolean
   onSearch: (values: SearchInfo) => void
 }
 
-export function DataTableSearchbar({...props}: DataTableSearchbarProps) {
+export function DataTableSearchbar<TData>({...props}: DataTableSearchbarProps<TData>) {
   const {trans} = useContext(TableContext)
   const [searchInfo, setSearchInfo] = useImmer<SearchInfo>({
     keyword: '',

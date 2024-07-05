@@ -12,7 +12,7 @@ import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
 import {ProductBrandDelete, ProductBrandIndex} from "@/apis/product.ts";
-import {ColumnSchemaType} from "@/pages/products/cate/data/schema.ts";
+import {ColumnSchemaType} from "./data/schema.ts";
 
 export default function Index() {
   // =========================== Params ==========================================
@@ -26,10 +26,8 @@ export default function Index() {
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
   const {onPaginationChange, page, limit, pagination} = usePagination();
   const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
-  const [detailInfo, setDetailInfo] = useState({
-    title: '',
-    info: null
-  })
+  const [formTitle, setFormTitle] = useState<string>('新增操作')
+  const [rowItem, setRowItem] = useState<Partial<ColumnSchemaType>>({})
 
   // =========================== API request ======================================
   const indexRes = useRequest(ProductBrandIndex, {
@@ -76,16 +74,12 @@ export default function Index() {
   }
   const handleOpen = (value: boolean) => {
     setIsOpen(value)
-    setDetailInfo({
-      title: '新增操作',
-      info: null
-    })
+    setFormTitle('新增操作')
+    setRowItem({})
   }
   const handleInfo = (values: any) => {
-    setDetailInfo({
-      title: '编辑操作',
-      info: values
-    })
+    setFormTitle('编辑操作')
+    setRowItem(values)
     if (typeof values.__is_edit__ !== 'undefined' && typeof values.__is_edit__ === 'boolean') {
       setIsOpen(values.__is_edit__)
     }
@@ -116,7 +110,7 @@ export default function Index() {
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
-      <DataTableSearchbar info={detailInfo.info} loading={indexRes.loading} onSearch={handleSearch}/>
+      <DataTableSearchbar info={rowItem} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
       <DataTable data={(indexRes.data?.data.list || []) as ColumnSchemaType[]}
                  columns={columns}
@@ -131,16 +125,16 @@ export default function Index() {
       {/* data create / update form */}
       {isOpen &&
         <DataForm
-          title={detailInfo.title}
-          data={detailInfo.info}
+          title={formTitle}
+          data={rowItem}
           open={isOpen}
           onOpenChange={handleOpen}
         />
       }
       {/* ban confirm */}
-      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}
+      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={rowItem}/>}
       {/* delete confirm */}
-      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={detailInfo.info}/>}
+      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={rowItem}/>}
     </TableContext.Provider>
   )
 }

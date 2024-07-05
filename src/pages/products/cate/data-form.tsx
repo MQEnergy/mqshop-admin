@@ -17,8 +17,8 @@ interface DataFormProps<TData> extends DrawerFormProps {
 
 export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
-  const row = props.data as unknown as ColumnSchemaType
   const {trans, onRefresh} = useContext(TableContext);
+  const row = props.data as unknown as ColumnSchemaType
   const [formInfo, setFormInfo] = useSetState<Partial<FormSchemaType>>({
     cate_desc: "",
     cate_name: "",
@@ -58,10 +58,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     }
     let runAsync: Promise<ApiResult<any>>
     if (row && row.id) {
-      runAsync = updateRes.runAsync({
-        id: row.id,
-        ...params
-      });
+      runAsync = updateRes.runAsync({id: row.id, ...params});
     } else {
       runAsync = createRes.runAsync(params);
     }
@@ -82,21 +79,21 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   }
 
   return (
-    <DrawerForm title={props.title} open={props.open}
+    <DrawerForm title={props.title}
+                open={props.open}
                 onSubmit={onSubmit}
                 onClose={handleClose}
                 noFooter={true}
                 loading={updateRes.loading || createRes.loading}
                 className='rounded-tl-lg rounded-bl-lg'>
       <AutoForm
-        onSubmit={onSubmit}
         formSchema={formSchema}
         values={formInfo}
         onValuesChange={setFormInfo}
+        onSubmit={onSubmit}
         fieldConfig={FieldConfigForm({
-          info: formInfo,
           resources: parentListRes.data?.data as ColumnSchemaType[],
-          onUploadSuccess: (res: any) => {
+          onUploadSuccess: (res: ApiResult<any>) => {
             setFormInfo({...formInfo, cate_url: res.data?.file_path || ''})
           },
         })}>

@@ -24,7 +24,7 @@ interface DataTableSearchbarProps<TData> {
   onSearch: (values: SearchInfo) => void
 }
 
-export function DataTableSearchbar({...props}: DataTableSearchbarProps<any>) {
+export function DataTableSearchbar<TData>({...props}: DataTableSearchbarProps<TData>) {
   const {trans} = useContext(TableContext)
   const [searchInfo, setSearchInfo] = useImmer<SearchInfo>({
     keyword: '',

@@ -5,28 +5,21 @@ import {FormControl, FormItem} from "@/components/ui/form.tsx";
 import AutoFormLabel from "@/components/custom/auto-form/common/label.tsx";
 import AutoFormTooltip from "@/components/custom/auto-form/common/tooltip.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
-import {ResourceItem, ResourceSelect} from "@/pages/permission/resource/data/schema.ts";
-import {ColumnSchemaType, FormSchemaType} from "../data/schema.ts";
+import {ColumnSchemaType} from "../data/schema.ts";
 import {toast} from "react-hot-toast";
 import {AvatarUploader} from "@/components/custom/avatar-uploader.tsx";
 import {useEffect, useState} from "react";
 import {AttachmentUpload} from "@/apis/common.ts";
+import {ApiResult} from "@/lib/request.ts";
 
 interface FieldConfigProps {
   resources: ColumnSchemaType[]
-  onUploadSuccess: (res: any) => void
-  info: Partial<FormSchemaType>
+  onUploadSuccess: (res: ApiResult<any>) => void
 }
 
-export default function FieldConfigForm({resources, info, onUploadSuccess}: FieldConfigProps): FieldConfig<any> {
+export default function FieldConfigForm({resources, onUploadSuccess}: FieldConfigProps): FieldConfig<any> {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [preview, setPreview] = useState<string | ArrayBuffer | null>('');
-
-  useEffect(() => {
-    const cateUrl = info.cate_url ? import.meta.env.VITE_RESOURCE_URL + info.cate_url : '';
-    setPreview(cateUrl)
-
-  }, [info])
 
   const onAvatarSubmit = (file: File) => {
     setIsLoading(true)
@@ -40,6 +33,12 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
       label: '图标',
       description: '100 * 100px 大小不超过2M',
       fieldType: ({...props}: AutoFormInputComponentProps) => {
+        useEffect(() => {
+          const cateUrl = props.form.getValues('cate_url')
+          setPreview(cateUrl ? import.meta.env.VITE_RESOURCE_URL + cateUrl : '')
+
+        }, [])
+
         return (
           <div className="flex flex-row items-center space-x-2">
             <FormItem className="flex w-full flex-col justify-start">
@@ -78,7 +77,7 @@ export default function FieldConfigForm({resources, info, onUploadSuccess}: Fiel
       },
       fieldType: ({...props}: AutoFormInputComponentProps) => {
         props.isRequired = false
-        const _selectItems: ResourceSelect = resources?.map((item: ResourceItem) => {
+        const _selectItems = resources?.map((item: ColumnSchemaType) => {
           return {
             label: item.label,
             value: item.id

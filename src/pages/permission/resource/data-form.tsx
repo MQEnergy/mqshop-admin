@@ -15,8 +15,8 @@ import {icons} from "lucide-react";
 import {IconFidgetSpinner} from "@tabler/icons-react";
 import {SearchInput} from "@/components/custom/search-input.tsx";
 
-interface DataFormProps extends DrawerFormProps {
-  data: ColumnSchemaType | null
+interface DataFormProps<TData> extends DrawerFormProps {
+  data: TData
 }
 
 const IconsComponentLazy = lazy(() => import('@/components/custom/icon-list.tsx'));
@@ -30,42 +30,39 @@ const Loading = () => {
   );
 };
 
-export function DataForm({...props}: DataFormProps) {
+export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // ============================= Params =========================================
+  const row = props.data as unknown as ColumnSchemaType
   const {trans, onRefresh} = useContext(TableContext);
+  const [formInfo, setFormInfo] = useSetState<Partial<FormSchemaType>>({
+    name: '',
+    parent_id: 0,
+    alias: '',
+    icon: '',
+    desc: '',
+    b_url: '',
+    f_url: '',
+    menu_type: 1,
+    sort_order: 50,
+    status: 1
+  })
   const [isOpenIcon, setIsOpenIcon] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState('');
-  const [info, setInfo] = useSetState<Partial<FormSchemaType>>({})
   const [iconKeys, setIconKeys] = useState<string[]>([]);
   const [IconsComponent, setIconsComponent] = useState<any>(IconsComponentLazy);
   const [keyword, setKeyword] = useState<string>('');
   const debouncedKeyword = useDebounce(keyword, {wait: 100});
+  const memoizedIconsComponent = useMemo(() => (
+    <IconsComponent iconKeys={iconKeys} size={18} selectedIcon={selectedIcon} onSelectIcon={setSelectedIcon}/>
+  ), [iconKeys, selectedIcon]);
 
   // =========================== API request ======================================
   const createRes = useRequest(ResourceCreate, {manual: true});
   const updateRes = useRequest(ResourceUpdate, {manual: true});
   const parentListRes = useRequest(ResourceList, {manual: true});
-  const memoizedIconsComponent = useMemo(() => (
-    <IconsComponent iconKeys={iconKeys} size={18} selectedIcon={selectedIcon} onSelectIcon={setSelectedIcon}/>
-  ), [iconKeys, selectedIcon]);
-
-  const row = (props.data || {
-    id: 0,
-    name: '',
-    parent_id: 0,
-    desc: '',
-    alias: '',
-    b_url: '',
-    f_url: '',
-    icon: '',
-    menu_type: 1,
-    sort_order: 50,
-    path: '',
-    status: 1
-  }) as ColumnSchemaType
 
   useEffect(() => {
-    setInfo(Object.assign(info, row))
+    setFormInfo(Object.assign(formInfo, row))
     setSelectedIcon(row.icon)
 
   }, [props.data]);
@@ -96,7 +93,7 @@ export function DataForm({...props}: DataFormProps) {
       icon: formValues.icon || '',
       menu_type: formValues.menu_type,
       sort_order: formValues.sort_order,
-      path: row.path || '',
+      path: row?.path || '',
       status: formValues.status
     }
     let runAsync: Promise<ApiResult<any>>
@@ -121,7 +118,7 @@ export function DataForm({...props}: DataFormProps) {
     props.onOpenChange?.(false)
   }
   const handleIconSubmit = (_: any) => {
-    setInfo({...info, icon: selectedIcon})
+    setFormInfo({...formInfo, icon: selectedIcon})
     setIsOpenIcon(false)
   }
   const handleSearch = (keyword: string) => {
@@ -134,19 +131,20 @@ export function DataForm({...props}: DataFormProps) {
     setIconKeys(Object.keys(icons))
     setIsOpenIcon(true);
   }
-  // =========================== Method ======================================
+
   return (
     <>
       <DrawerForm title={props.title}
                   open={props.open}
                   onClose={handleClose}
                   noFooter={true}
+                  loading={updateRes.loading || createRes.loading}
                   className='rounded-tl-lg rounded-bl-lg'>
         <AutoForm
-          onSubmit={onSubmit}
           formSchema={formSchema}
-          values={info}
-          onValuesChange={setInfo}
+          values={formInfo}
+          onValuesChange={setFormInfo}
+          onSubmit={onSubmit}
           fieldConfig={FieldConfigForm({
             resources: parentListRes.data?.data as ColumnSchemaType[],
             onOpenIcon: handleOpenIcon,

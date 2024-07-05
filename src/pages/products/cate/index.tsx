@@ -12,7 +12,7 @@ import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
 import {ProductCateDelete, ProductCateIndex} from "@/apis/product.ts";
-import {ColumnSchemaType} from "@/pages/products/cate/data/schema.ts";
+import {ColumnSchemaType} from "./data/schema.ts";
 
 export default function Index() {
   // =========================== Params ==========================================
