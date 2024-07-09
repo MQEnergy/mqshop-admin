@@ -1,5 +1,7 @@
 import {HttpClient} from "@/lib/request.ts";
 import {
+  ProductAttrCateCreateReq, ProductAttrCateDeleteReq,
+  ProductAttrCateIndexReq, ProductAttrCateListReq, ProductAttrCateUpdateReq, ProductAttrCateViewReq,
   ProductBrandCreateReq, ProductBrandDeleteReq,
   ProductBrandIndexReq, ProductBrandListReq, ProductBrandStatusReq, ProductBrandUpdateReq, ProductBrandViewReq,
   ProductCateCreateReq, ProductCateDeleteReq,
@@ -71,6 +73,26 @@ export const ProductBrandDelete = (data: ProductBrandDeleteReq) => {
 }
 export const ProductBrandStatus = (data: ProductBrandStatusReq) => {
   return HttpClient.post(`/backend/brand/status`, data);
+}
+
+// ==================== product attrs =====================================
+export const ProductAttrCateIndex = (params: ProductAttrCateIndexReq) => {
+  return HttpClient.get(`/backend/attr-cates/index`, {params});
+}
+export const ProductAttrCateList = (params: ProductAttrCateListReq) => {
+  return HttpClient.get(`/backend/attr-cates/list`, {params});
+}
+export const ProductAttrCateView = (params: ProductAttrCateViewReq) => {
+  return HttpClient.get(`/backend/attr-cates/view`, {params});
+}
+export const ProductAttrCateCreate = (data: ProductAttrCateCreateReq) => {
+  return HttpClient.post(`/backend/attr-cates/create`, data);
+}
+export const ProductAttrCateUpdate = (data: ProductAttrCateUpdateReq) => {
+  return HttpClient.post(`/backend/attr-cates/update`, data);
+}
+export const ProductAttrCateDelete = (data: ProductAttrCateDeleteReq) => {
+  return HttpClient.post(`/backend/attr-cates/delete`, data);
 }
 
 

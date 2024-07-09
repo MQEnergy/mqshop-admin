@@ -29,7 +29,7 @@ export default {
     {
       path: 'attrs',
       lazy: async () => ({
-        Component: (await import('@/pages/products')).default,
+        Component: (await import('@/pages/products/attrs')).default,
       }),
     },
   ]

@@ -81,3 +81,16 @@ export interface ProductBrandStatusReq extends ViewReq, CacheReq {
   status: number;
 }
 
+// ============================ attrs =====================================
+export interface ProductAttrCateModel {
+  cate_name: string;
+  status: number;
+}
+export interface ProductAttrCateIndexReq extends PageReq, CacheReq {}
+export interface ProductAttrCateListReq extends CacheReq {}
+export interface ProductAttrCateViewReq extends ViewReq, CacheReq {}
+export interface ProductAttrCateCreateReq extends ProductAttrCateModel, CacheReq {}
+export interface ProductAttrCateUpdateReq extends ProductAttrCateModel, ViewReq, CacheReq {}
+export interface ProductAttrCateDeleteReq extends CacheReq {
+  ids: string;
+}
