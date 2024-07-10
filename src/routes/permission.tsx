@@ -1,10 +1,9 @@
 import Exception404 from "@/pages/exception/404";
+import Layout from "@/layout.tsx";
 
 export default {
-  path: 'permissions',
-  lazy: async () => ({
-    Component: (await import('@/pages/permission')).default,
-  }),
+  path: '/permissions',
+  element: <Layout/>,
   errorElement: <Exception404/>,
   children: [
     {

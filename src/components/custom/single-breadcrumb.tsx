@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {Fragment} from "react";
+import {Link} from "react-router-dom";
 
 interface BreadListItem {
   name?: string
@@ -18,24 +19,24 @@ interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const SingleBreadcrumb = React.forwardRef<HTMLDivElement, BreadcrumbProps>((
-    {className, breadList = [], ...props}, ref) => (
-    <Breadcrumb ref={ref} className={className} {...props}>
-      <BreadcrumbList>
-        {breadList.map((val, idx) => {
-              return (
-                  <Fragment key={'bread1-' + idx}>
-                    <BreadcrumbItem>
-                      <BreadcrumbLink asChild>
-                        {val.link ? <a href={val.link}>{val.name}</a> : <a>{val.name}</a>}
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    {idx < breadList.length - 1 && <BreadcrumbSeparator/>}
-                  </Fragment>
-              )
-            }
-        )}
-      </BreadcrumbList>
-    </Breadcrumb>
+  {className, breadList = [], ...props}, ref) => (
+  <Breadcrumb ref={ref} className={className} {...props}>
+    <BreadcrumbList>
+      {breadList.map((val, idx) => {
+          return (
+            <Fragment key={'bread1-' + idx}>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  {val.link ? <Link to={val.link}>{val.name}</Link> : <span>{val.name}</span>}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              {idx < breadList.length - 1 && <BreadcrumbSeparator/>}
+            </Fragment>
+          )
+        }
+      )}
+    </BreadcrumbList>
+  </Breadcrumb>
 ))
 
 SingleBreadcrumb.displayName = 'SingleBreadcrumb';

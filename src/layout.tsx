@@ -1,7 +1,7 @@
 import {Outlet} from 'react-router-dom'
 import Sidebar from '@/components/layout/sidebar'
 import useIsCollapsed from '@/hooks/use-is-collapsed'
-import {LayoutHeader} from '@/components/layout'
+import {LayoutBody, LayoutHeader} from '@/components/layout'
 import {SearchInput} from '@/components/custom/search-input.tsx'
 import {ThemeToggle} from '@/components/custom/theme-switch'
 import {UserNav} from '@/components/layout/user-nav'
@@ -30,7 +30,8 @@ export default function Layout() {
           <LayoutHeader
             className='fixed w-full h-16 z-10 border-b md:top-0 lg:top-0 right-0 sm:top-20 bg-background'>
             <div className={`flex ${isCollapsed ? 'md:ml-14' : 'md:ml-56'}`}>
-              <SearchInput placeholder={t('settings.search.placeholder')} type={'search'} onKeyword={() => {}}/>
+              <SearchInput placeholder={t('settings.search.placeholder')} type={'search'} onKeyword={() => {
+              }}/>
             </div>
             <div className='ml-auto flex items-center space-x-4'>
               <Notice/>
@@ -40,7 +41,11 @@ export default function Layout() {
             </div>
           </LayoutHeader>
         </div>
-        <Outlet/>
+        <LayoutBody className='flex flex-col'>
+          <div className='flex-1 md:m-auto lg:m-auto lg:flex-row space-y-5 md:w-10/12 lg:w-10/12'>
+            <Outlet/>
+          </div>
+        </LayoutBody>
       </main>
     </div>
   )

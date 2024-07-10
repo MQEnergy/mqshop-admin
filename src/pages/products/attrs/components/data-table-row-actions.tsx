@@ -60,6 +60,10 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
           <IconPencil size={18} className="mr-2"/>
           <span>{trans?.t('settings.table.action.edit.title')}</span>
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleEdit({__is_attrs__: true})}>
+          <IconPencil size={18} className="mr-2"/>
+          <span>属性配置</span>
+        </DropdownMenuItem>
         <DropdownMenuSeparator/>
         <DropdownMenuItem onClick={() => handleOperate({__is_forbidden__: true})}>
           {original.status === 1 ?

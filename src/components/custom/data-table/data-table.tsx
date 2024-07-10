@@ -1,108 +1,35 @@
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  ExpandedState,
-  flexRender,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getExpandedRowModel,
-  Row,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from '@tanstack/react-table'
-
+import {ColumnDef, flexRender, Row, Table as ReactTable} from "@tanstack/react-table"
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table'
-
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {DataTableToolbar} from "./data-table-toolbar";
 import DataTablePagination from "./data-table-pagination";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
-import * as React from "react";
-import {useContext, useEffect, useState} from "react";
 import {SkeletonList} from "@/components/custom/skeleton-list";
-import {TableContext} from "@/context";
 import {cn} from "@/lib/utils";
 
-interface DataTableProps<TData, TValue> {
+interface DateTableProps<TData, TValue> {
+  table: ReactTable<TData>
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  pageCount: number
-  rowCount: number
   isImport?: boolean // is import file
   imLoading?: boolean // import file loading
   isExport?: boolean // is export file
   exLoading?: boolean // export file loading
   deLoading: boolean // delete loading
   reLoading: boolean // refresh loading
-  pagination: {
-    pageIndex: number,
-    pageSize: number
-  }
-  onPaginationChange: any
   onOpen: (isOpen: boolean) => void
   onDelete: (values: Row<TData>[]) => void
-  getSubRows?: (originalRow: TData, index: number) => undefined | TData[]
   noPagination?: boolean
 }
 
-export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValue>) {
-  const {onRefresh} = useContext(TableContext);
-  const [rowSelection, setRowSelection] = useState({})
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [expanded, setExpanded] = React.useState<ExpandedState>({})
-
-
-  const table = useReactTable({
-    data: props.data,
-    columns: props.columns,
-    pageCount: props.pageCount,
-    rowCount: props.rowCount,
-    state: {
-      pagination: props.pagination,
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-      expanded,
-    },
-    onExpandedChange: setExpanded,
-    getSubRows: props.getSubRows,
-    enableRowSelection: true,
-    manualPagination: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getExpandedRowModel: getExpandedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    onPaginationChange: props.onPaginationChange,
-    // debugTable: true,
-  })
-
-  useEffect(() => {
-    table.resetRowSelection()
-  }, [onRefresh])
-
+export function DataTable<TData, TValue>({...props}: DateTableProps<TData, TValue>) {
   return (
     <Card className={'border-none shadow'}>
       <CardHeader>
-        <DataTableToolbar table={table}
+        <DataTableToolbar table={props.table}
                           onOpen={props.onOpen}
                           reLoading={props.reLoading}
                           deLoading={props.deLoading}
-                          onDelete={() => props.onDelete(table.getSelectedRowModel().rows)}/>
+                          onDelete={() => props.onDelete(props.table.getSelectedRowModel().rows)}/>
       </CardHeader>
       <CardContent className={'pb-0'}>
         <ScrollArea
@@ -112,7 +39,7 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
           )}>
           <Table key={'table'}>
             <TableHeader className='bg-gray-100 dark:bg-neutral-800'>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {props.table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
@@ -139,8 +66,8 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
                   </TableCell>
                 </TableRow>
                 :
-                (table.getRowModel().rows.length > 0 ? (
-                  table.getRowModel().rows.map((row) => (
+                (props.table.getRowModel().rows.length > 0 ? (
+                  props.table.getRowModel().rows.map((row) => (
                     <TableRow
                       className={'py-2'}
                       key={row.id}
@@ -172,10 +99,10 @@ export function DataTable<TData, TValue>({...props}: DataTableProps<TData, TValu
           </Table>
           <ScrollBar orientation="horizontal"/>
         </ScrollArea>
+        <div className='p-4'>
+          {!props.noPagination && <DataTablePagination table={props.table} sizes={[10, 20, 50]}/>}
+        </div>
       </CardContent>
-      <div className='p-4'>
-        {!props.noPagination && <DataTablePagination table={table} sizes={[10, 20, 50]}/>}
-      </div>
     </Card>
   )
 }

@@ -15,8 +15,8 @@ import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
 import {useRequest} from "ahooks";
 import {MemberInfo} from "@/apis/permission.ts";
 import {Fragment, useContext} from "react";
-import {Member} from "@/pages/permission/member/data/schema.ts";
 import {TableContext} from "@/context";
+import {ColumnSchemaType} from "../data/schema.ts";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
   row: Row<TData>
@@ -30,11 +30,11 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
   const viewRes = useRequest(MemberInfo, {
     manual: true,
   })
-  const original = props.row.original as Member
+  const original = props.row.original as ColumnSchemaType
   const handleEdit = (action: object) => {
     if (props.isRemote) {
       viewRes.runAsync({id: original.id}).then(res => {
-        const data = res.data as Member
+        const data = res.data as ColumnSchemaType
         setInfo?.({...data, status: data.status, ...action})
       })
     } else {

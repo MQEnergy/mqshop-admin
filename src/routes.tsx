@@ -28,13 +28,13 @@ const staticRoutes: RouteObject[] = [
           Component: (await import('./pages/dashboard')).default,
         }),
       },
-      Product,
-      Order,
-      User,
-      Permission,
       ...Exception,
     ],
   },
+  Product,
+  Permission,
+  Order,
+  User,
 ];
 
 const router = createBrowserRouter(staticRoutes)

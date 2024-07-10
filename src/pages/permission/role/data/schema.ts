@@ -2,7 +2,7 @@ import {z} from 'zod'
 
 // We're keeping a simple non-relational schema here.
 // IRL, you will have a schema for your data models.
-export const roleSchema = z.object({
+export const columnSchema: z.ZodObject<any> = z.object({
   id: z.number(),
   name: z.string(),
   desc: z.string(),
@@ -18,5 +18,5 @@ export const formSchema = z.object({
   status: z.number().default(1),
 })
 
-export type Role = z.infer<typeof roleSchema>
-export type RoleForm = z.infer<typeof formSchema>
+export type ColumnSchemaType = z.infer<typeof columnSchema>
+export type FormSchemaType = z.infer<typeof formSchema>

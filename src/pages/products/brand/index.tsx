@@ -13,6 +13,7 @@ import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.
 import {useTranslation} from "react-i18next";
 import {ProductBrandDelete, ProductBrandIndex} from "@/apis/product.ts";
 import {ColumnSchemaType} from "./data/schema.ts";
+import {useDataTable} from "@/hooks/use-data-table.tsx";
 
 export default function Index() {
   // =========================== Params ==========================================
@@ -105,6 +106,16 @@ export default function Index() {
       indexRes.run({page, limit, search: JSON.stringify(values)})
     }
   }
+
+  const table = useDataTable({
+    columns,
+    data: (indexRes.data?.data.list || []) as ColumnSchemaType[],
+    pageCount: indexRes.data?.data?.last_page || 0,
+    rowCount: indexRes.data?.data?.total || 0,
+    pagination: pagination,
+    onPaginationChange: onPaginationChange,
+  })
+
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}
@@ -112,16 +123,12 @@ export default function Index() {
       {/* search bar */}
       <DataTableSearchbar info={rowItem} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
-      <DataTable data={(indexRes.data?.data.list || []) as ColumnSchemaType[]}
+      <DataTable table={table}
                  columns={columns}
-                 pageCount={indexRes.data?.data?.last_page || 0}
-                 rowCount={indexRes.data?.data?.total || 0}
-                 pagination={pagination}
                  reLoading={indexRes.loading}
                  deLoading={deleteRes.loading}
                  onOpen={handleOpen}
-                 onDelete={handleDelete}
-                 onPaginationChange={onPaginationChange} />
+                 onDelete={handleDelete}/>
       {/* data create / update form */}
       {isOpen &&
         <DataForm

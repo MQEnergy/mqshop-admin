@@ -10,7 +10,7 @@ export const statuses = [
     icon: SunIcon,
   },
   {
-    value: 2,
+    value: 0,
     label: '禁用',
     icon: CircleIcon,
   },

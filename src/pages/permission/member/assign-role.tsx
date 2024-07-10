@@ -8,7 +8,7 @@ import FormDialog from "@/components/custom/form-dialog.tsx";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request.ts";
 import {useContext, useEffect, useRef, useState} from "react";
-import {Member} from "@/pages/permission/member/data/schema";
+import {ColumnSchemaType} from "./data/schema.ts";
 import {TableContext} from "@/context";
 import {
   MultiSelector,
@@ -35,7 +35,7 @@ export function AssignRoleForm({...props}: AssignRoleProps) {
   const [selected, setSelected] = useState<string[]>([]);
   const roleItemList = useRef([]);
 
-  const info = props.row as Member || null
+  const info = props.row as ColumnSchemaType || null
 
   const formSchema = z.object({
     role_ids: z.string().min(1, '角色不能为空')

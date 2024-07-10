@@ -94,3 +94,6 @@ export interface ProductAttrCateUpdateReq extends ProductAttrCateModel, ViewReq,
 export interface ProductAttrCateDeleteReq extends CacheReq {
   ids: string;
 }
+export interface ProductAttrCateAttrListReq extends ViewReq, PageReq, CacheReq {
+  attr_type: number;
+}

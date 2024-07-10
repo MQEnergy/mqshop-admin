@@ -15,7 +15,7 @@ import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {AvatarUploader} from "@/components/custom/avatar-uploader";
 import {AttachmentUpload} from "@/apis/common";
-import {formSchema, MemberForm} from "./data/schema.ts";
+import {formSchema, FormSchemaType} from "./data/schema.ts";
 import ReactLogo from "@/assets/react.svg";
 import {TableContext} from "@/context";
 
@@ -27,7 +27,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
 
-  let defaultValues: DefaultValues<MemberForm> = {
+  let defaultValues: DefaultValues<FormSchemaType> = {
     uuid: '',
     account: '',
     real_name: '',
@@ -39,10 +39,10 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     _status: true
   }
   if (props.data) {
-    const info = props.data as unknown as MemberForm;
+    const info = props.data as unknown as FormSchemaType;
     defaultValues = Object.assign({}, info, {_status: info.status === 1})
   }
-  const form = useForm<MemberForm>({
+  const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues
   })
@@ -80,7 +80,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   }, [props.data])
 
   // =========================== Method ===========================================
-  const onSubmit = (values: MemberForm) => {
+  const onSubmit = (values: FormSchemaType) => {
     const params = {
       account: values.account,
       real_name: values.real_name,

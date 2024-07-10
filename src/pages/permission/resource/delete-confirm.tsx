@@ -10,7 +10,6 @@ interface DeleteConfirmProps {
   open: boolean;
   onOpen: (open: boolean) => void;
 }
-
 export function DeleteConfirm({...props}: DeleteConfirmProps) {
   // =========================== Params ==========================================
   const {trans, onRefresh} = React.useContext(TableContext)

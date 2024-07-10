@@ -3,14 +3,14 @@ import {ColumnDef} from '@tanstack/react-table'
 import {Checkbox} from '@/components/ui/checkbox.tsx'
 
 import {statuses} from '../data/data.tsx'
-import {Member, memberSchema} from '../data/schema.ts'
+import {ColumnSchemaType, formSchema} from '../data/schema.ts'
 import {DataTableColumnHeader} from "../components/data-table-column-header.tsx";
 import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import ReactLogo from "@/assets/react.svg";
 import {Badge} from "@/components/custom/badge.tsx";
 
-export const columns: ColumnDef<Member>[] = [
+export const columns: ColumnDef<ColumnSchemaType>[] = [
   {
     id: 'select',
     header: ({table}) => (
@@ -125,6 +125,6 @@ export const columns: ColumnDef<Member>[] = [
   {
     id: 'actions',
     header: '操作',
-    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={memberSchema}/>,
+    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={formSchema}/>,
   },
 ]

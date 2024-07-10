@@ -12,6 +12,8 @@ import BanConfirm from "./ban-confirm.tsx";
 import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
+import {useDataTable} from "@/hooks/use-data-table.tsx";
+import {ColumnSchemaType} from "./data/schema.ts";
 
 export default function Role() {
   // =========================== Params ==========================================
@@ -25,11 +27,8 @@ export default function Role() {
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
   const {onPaginationChange, page, limit, pagination} = usePagination();
   const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
-  const [detailInfo, setDetailInfo] = useState({
-    title: '',
-    info: null
-  })
-  // =========================== Params ===========================================
+  const [formTitle, setFormTitle] = useState<string>('新增操作')
+  const [rowItem, setRowItem] = useState<Partial<ColumnSchemaType>>({})
 
   // =========================== API request ======================================
   const indexRes = useRequest(RoleIndex, {
@@ -76,16 +75,12 @@ export default function Role() {
   }
   const handleOpen = (value: boolean) => {
     setIsOpen(value)
-    setDetailInfo({
-      title: '新增操作',
-      info: null
-    })
+    setFormTitle('新增操作')
+    setRowItem({})
   }
   const handleInfo = (values: any) => {
-    setDetailInfo({
-      title: '编辑操作',
-      info: values
-    })
+    setFormTitle('编辑操作')
+    setRowItem(values)
     if (typeof values.__is_edit__ !== 'undefined' && typeof values.__is_edit__ === 'boolean') {
       setIsOpen(values.__is_edit__)
     }
@@ -111,38 +106,42 @@ export default function Role() {
       indexRes.run({page, limit, search: JSON.stringify(values)})
     }
   }
-  // =========================== Method ===========================================
+
+  const table = useDataTable({
+    columns,
+    data: (indexRes.data?.data.list || []) as ColumnSchemaType[],
+    pageCount: indexRes.data?.data?.last_page || 0,
+    rowCount: indexRes.data?.data?.total || 0,
+    pagination: pagination,
+    onPaginationChange: onPaginationChange,
+  })
 
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}
       <SingleBreadcrumb breadList={breadList}/>
       {/* search bar */}
-      <DataTableSearchbar info={detailInfo.info} loading={indexRes.loading} onSearch={handleSearch}/>
+      <DataTableSearchbar info={rowItem} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
-      <DataTable data={indexRes.data?.data?.list || []}
+      <DataTable table={table}
                  columns={columns}
-                 pageCount={indexRes.data?.data?.last_page || 0}
-                 rowCount={indexRes.data?.data?.total || 0}
-                 pagination={pagination}
                  reLoading={indexRes.loading}
                  deLoading={deleteRes.loading}
                  onOpen={handleOpen}
-                 onDelete={handleDelete}
-                 onPaginationChange={onPaginationChange}/>
+                 onDelete={handleDelete}/>
       {/* data create / update form */}
       {isOpen &&
         <DataForm
-          title={detailInfo.title}
-          data={detailInfo.info}
+          title={formTitle}
+          data={rowItem}
           open={isOpen}
           onOpenChange={handleOpen}
         />
       }
       {/* ban confirm */}
-      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={detailInfo.info}/>}
+      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={rowItem}/>}
       {/* delete confirm */}
-      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={detailInfo.info}/>}
+      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={rowItem}/>}
     </TableContext.Provider>
   )
 }

@@ -23,8 +23,8 @@ export interface DataTableToolbarProps<TData> {
 
 export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>) {
   const {trans, onRefresh} = useContext(TableContext);
-
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const handleDeleteDialog = () => {
     setIsOpen(!isOpen)
   }
@@ -33,11 +33,14 @@ export function DataTableToolbar<TData>({...props}: DataTableToolbarProps<TData>
     if (!props.deLoading) {
       setIsOpen(false)
     }
-
   }, [props.deLoading])
 
+  useEffect(() => {
+    props.table.resetRowSelection()
+  }, [props.reLoading])
+
   return (
-    <div className='flex items-center justify-between'>
+    <div className='flex items-center justify-between space-x-2'>
       <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
         <Button size={'sm'} onClick={() => props.onOpen(true)}>
           <Plus size={16} className='mr-1'/>

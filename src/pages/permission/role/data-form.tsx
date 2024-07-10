@@ -9,7 +9,7 @@ import {RoleCreate, RoleUpdate} from "@/apis/permission";
 import {toast} from "react-hot-toast";
 import {ApiResult} from "@/lib/request";
 import {useContext} from "react";
-import {formSchema, RoleForm} from "./data/schema.ts";
+import {formSchema, FormSchemaType} from "./data/schema.ts";
 import {TableContext} from "@/context";
 
 interface DataFormProps<TData> extends DrawerFormProps {
@@ -20,7 +20,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== Params ======================================
   const {trans, onRefresh} = useContext(TableContext);
 
-  let defaultValues: DefaultValues<RoleForm> = {
+  let defaultValues: DefaultValues<FormSchemaType> = {
     id: 0,
     name: '',
     desc: '',
@@ -28,10 +28,10 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     _status: true
   }
   if (props.data) {
-    const info = props.data as unknown as RoleForm;
+    const info = props.data as unknown as FormSchemaType;
     defaultValues = Object.assign({}, info, {_status: info.status === 1})
   }
-  const form = useForm<RoleForm>({
+  const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues
   })
@@ -47,7 +47,7 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
   // =========================== API request ======================================
 
   // =========================== Method ===========================================
-  const onSubmit = (values: RoleForm) => {
+  const onSubmit = (values: FormSchemaType) => {
     const params = {
       name: values.name,
       desc: values.desc,

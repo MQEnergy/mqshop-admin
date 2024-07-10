@@ -1,10 +1,9 @@
 import Exception404 from "@/pages/exception/404";
+import Layout from "@/layout.tsx";
 
 export default {
-  path: 'products',
-  lazy: async () => ({
-    Component: (await import('@/pages/products')).default,
-  }),
+  path: '/products',
+  element: <Layout/>,
   errorElement: <Exception404/>,
   children: [
     {
@@ -28,9 +27,21 @@ export default {
     },
     {
       path: 'attrs',
-      lazy: async () => ({
-        Component: (await import('@/pages/products/attrs')).default,
-      }),
+      children: [
+        {
+          index: true,
+          path: '',
+          lazy: async () => ({
+            Component: (await import('@/pages/products/attrs')).default,
+          }),
+        },
+        {
+          path: 'attr-list/:id',
+          lazy: async () => ({
+            Component: (await import('@/pages/products/attrs/attr-list')).default,
+          }),
+        },
+      ]
     },
   ]
 };

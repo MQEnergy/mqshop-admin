@@ -13,6 +13,7 @@ import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.
 import {useTranslation} from "react-i18next";
 import {ProductCateDelete, ProductCateIndex} from "@/apis/product.ts";
 import {ColumnSchemaType} from "./data/schema.ts";
+import {useDataTable} from "@/hooks/use-data-table.tsx";
 
 export default function Index() {
   // =========================== Params ==========================================
@@ -109,6 +110,16 @@ export default function Index() {
     return row.children
   }
 
+  const table = useDataTable({
+    columns,
+    data: (indexRes.data?.data || []) as ColumnSchemaType[],
+    pageCount: 0,
+    rowCount: indexRes.data?.data.length,
+    pagination: pagination,
+    onPaginationChange: onPaginationChange,
+    getSubRows: getSubRows
+  })
+
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}
@@ -116,17 +127,12 @@ export default function Index() {
       {/* search bar */}
       <DataTableSearchbar info={rowItem} loading={indexRes.loading} onSearch={handleSearch}/>
       {/* data table list */}
-      <DataTable data={(indexRes.data?.data || []) as ColumnSchemaType[]}
+      <DataTable table={table}
                  columns={columns}
-                 pageCount={0}
-                 rowCount={indexRes.data?.data.length}
-                 pagination={pagination}
                  reLoading={indexRes.loading}
                  deLoading={deleteRes.loading}
                  onOpen={handleOpen}
                  onDelete={handleDelete}
-                 onPaginationChange={onPaginationChange}
-                 getSubRows={getSubRows}
                  noPagination={true}/>
       {/* data create / update form */}
       {isOpen &&

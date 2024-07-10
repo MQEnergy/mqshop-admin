@@ -1,6 +1,7 @@
 import {useNavigate, useRouteError} from 'react-router-dom'
 import {Button} from '@/components/ui/button'
 import {cn} from "@/lib/utils";
+import React from "react";
 
 
 interface Exception404Props extends React.HTMLAttributes<HTMLDivElement> {

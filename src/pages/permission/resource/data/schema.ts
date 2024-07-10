@@ -36,4 +36,4 @@ export const selectValuesSchema = z.array(z.object({
 
 export type ColumnSchemaType = z.infer<typeof columnSchema>
 export type FormSchemaType = z.infer<typeof formSchema>
-export type ResourceSelect = z.infer<typeof selectValuesSchema>
+export type SelectSchemaType = z.infer<typeof selectValuesSchema>
