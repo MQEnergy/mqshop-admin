@@ -1,10 +1,8 @@
 import {ColumnDef, flexRender, Row, Table as ReactTable} from "@tanstack/react-table"
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table'
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
-import {useContext, useEffect} from "react";
 import DataTablePagination from "./data-table-pagination.tsx";
 import {SkeletonList} from "@/components/custom/skeleton-list";
-import {TableContext} from "@/context";
 import {cn} from "@/lib/utils";
 
 interface DateSimpleTableProps<TData, TValue> {
@@ -22,12 +20,6 @@ interface DateSimpleTableProps<TData, TValue> {
 }
 
 export function DataSimpleTable<TData, TValue>({...props}: DateSimpleTableProps<TData, TValue>) {
-  const {onRefresh} = useContext(TableContext);
-
-  useEffect(() => {
-    props.table.resetRowSelection()
-  }, [onRefresh])
-
   return (
     <>
       <ScrollArea

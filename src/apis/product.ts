@@ -1,16 +1,34 @@
 import {HttpClient} from "@/lib/request.ts";
 import {
+  ProductAttrCateAttrCreateReq,
+  ProductAttrCateAttrDeleteReq,
   ProductAttrCateAttrListReq,
-  ProductAttrCateCreateReq, ProductAttrCateDeleteReq,
-  ProductAttrCateIndexReq, ProductAttrCateListReq, ProductAttrCateUpdateReq, ProductAttrCateViewReq,
-  ProductBrandCreateReq, ProductBrandDeleteReq,
-  ProductBrandIndexReq, ProductBrandListReq, ProductBrandStatusReq, ProductBrandUpdateReq, ProductBrandViewReq,
-  ProductCateCreateReq, ProductCateDeleteReq,
-  ProductCateIndexReq, ProductCateListReq, ProductCateStatusReq, ProductCateUpdateReq, ProductCateViewReq,
+  ProductAttrCateAttrUpdateReq,
+  ProductAttrCateCreateReq,
+  ProductAttrCateDeleteReq,
+  ProductAttrCateIndexReq,
+  ProductAttrCateListReq,
+  ProductAttrCateUpdateReq,
+  ProductAttrCateViewReq,
+  ProductBrandCreateReq,
+  ProductBrandDeleteReq,
+  ProductBrandIndexReq,
+  ProductBrandListReq,
+  ProductBrandStatusReq,
+  ProductBrandUpdateReq,
+  ProductBrandViewReq,
+  ProductCateCreateReq,
+  ProductCateDeleteReq,
+  ProductCateIndexReq,
+  ProductCateListReq,
+  ProductCateStatusReq,
+  ProductCateUpdateReq,
+  ProductCateViewReq,
   ProductCreateReq,
   ProductDeleteReq,
   ProductIndexReq,
-  ProductUpdateReq, ProductViewReq
+  ProductUpdateReq,
+  ProductViewReq
 } from "@/apis/models/product-model.ts";
 
 // ============================ product =====================================
@@ -97,6 +115,15 @@ export const ProductAttrCateDelete = (data: ProductAttrCateDeleteReq) => {
 }
 export const ProductAttrCateAttrList = (data: ProductAttrCateAttrListReq) => {
   return HttpClient.post(`/backend/attr-cates/attr-list?noCache=${data.noCache || true}`, data);
+}
+export const ProductAttrCateAttrCreate = (data: ProductAttrCateAttrCreateReq) => {
+  return HttpClient.post(`/backend/attr-cates/attr-create?noCache=${data.noCache || true}`, data);
+}
+export const ProductAttrCateAttrUpdate = (data: ProductAttrCateAttrUpdateReq) => {
+  return HttpClient.post(`/backend/attr-cates/attr-update?noCache=${data.noCache || true}`, data);
+}
+export const ProductAttrCateAttrDelete = (data: ProductAttrCateAttrDeleteReq) => {
+  return HttpClient.post(`/backend/attr-cates/attr-delete?noCache=${data.noCache || true}`, data);
 }
 
 

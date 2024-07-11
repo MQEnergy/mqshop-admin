@@ -86,6 +86,14 @@ export interface ProductAttrCateModel {
   cate_name: string;
   status: number;
 }
+export interface ProductAttrModel {
+  cate_id: number;
+  attr_type: number;
+  attr_name: string;
+  attr_value: string;
+  input_type: number;
+  sort_order: number;
+}
 export interface ProductAttrCateIndexReq extends PageReq, CacheReq {}
 export interface ProductAttrCateListReq extends CacheReq {}
 export interface ProductAttrCateViewReq extends ViewReq, CacheReq {}
@@ -96,4 +104,9 @@ export interface ProductAttrCateDeleteReq extends CacheReq {
 }
 export interface ProductAttrCateAttrListReq extends ViewReq, PageReq, CacheReq {
   attr_type: number;
+}
+export interface ProductAttrCateAttrCreateReq extends ProductAttrModel, CacheReq {}
+export interface ProductAttrCateAttrUpdateReq extends ProductAttrModel, ViewReq, CacheReq {}
+export interface ProductAttrCateAttrDeleteReq extends CacheReq {
+  ids: string;
 }

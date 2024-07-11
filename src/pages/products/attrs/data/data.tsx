@@ -15,3 +15,14 @@ export const statuses = [
     icon: CircleIcon,
   },
 ]
+
+export const inputTypes = [
+  {
+    value: 1,
+    label: '手工录入',
+  },
+  {
+    value: 2,
+    label: '从列表中选择',
+  }
+]

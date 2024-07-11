@@ -2,25 +2,26 @@ import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadc
 import {useEffect, useState} from "react";
 import {usePagination} from "@/hooks/use-pagination";
 import {useRequest} from "ahooks";
-import {columns} from './columns'
-import {DataForm} from "./data-form";
+import {columns} from './columns/attr'
 import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
 import BanConfirm from "./ban-confirm.tsx";
 import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
-import {ProductAttrCateDelete, ProductAttrCateAttrList} from "@/apis/product.ts";
-import {ColumnSchemaType} from "./data/schema.ts";
+import {ProductAttrCateAttrDelete, ProductAttrCateAttrList} from "@/apis/product.ts";
+import {AttrColumnSchemaType} from "./data/schema.ts";
 import {useParams} from "react-router-dom";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import {DataSimpleTable} from "@/components/custom/data-table/data-simple-table.tsx";
 import {Card, CardContent, CardHeader} from "@/components/ui/card.tsx";
 import {useDataTable} from "@/hooks/use-data-table.tsx";
+import {DataTableToolbar} from "@/components/custom/data-table/data-table-toolbar.tsx";
+import {AttrDataForm} from "./attr-data-form.tsx";
 
 export default function AttrList() {
   // =========================== Params ==========================================
-  let {id} = useParams();
+  const {id} = useParams();
   const {t} = useTranslation()
   const breadList: BreadListItem[] = [
     {name: "首页", link: '/'},
@@ -33,7 +34,7 @@ export default function AttrList() {
   const {onPaginationChange, page, limit, pagination} = usePagination();
   const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
   const [formTitle, setFormTitle] = useState<string>('新增操作')
-  const [rowItem, setRowItem] = useState<Partial<ColumnSchemaType>>({})
+  const [rowItem, setRowItem] = useState<Partial<AttrColumnSchemaType>>({})
 
   // =========================== API request ======================================
   const indexRes = useRequest(ProductAttrCateAttrList, {
@@ -41,7 +42,7 @@ export default function AttrList() {
     retryCount: 3, // error retry
     manual: true
   });
-  const deleteRes = useRequest(ProductAttrCateDelete, {
+  const deleteRes = useRequest(ProductAttrCateAttrDelete, {
     manual: true
   })
 
@@ -81,7 +82,7 @@ export default function AttrList() {
   const handleOpen = (value: boolean) => {
     setIsOpen(value)
     setFormTitle('新增操作')
-    setRowItem({})
+    setRowItem({...rowItem, cate_id: parseInt(id as string)})
   }
   const handleInfo = (values: any) => {
     setFormTitle('编辑操作')
@@ -113,7 +114,7 @@ export default function AttrList() {
   }
   const table = useDataTable({
     columns,
-    data: (indexRes.data?.data.list || []) as ColumnSchemaType[],
+    data: (indexRes.data?.data.list || []) as AttrColumnSchemaType[],
     pageCount: indexRes.data?.data?.last_page || 0,
     rowCount: indexRes.data?.data?.total || 0,
     pagination: pagination,
@@ -129,12 +130,19 @@ export default function AttrList() {
       {/* data table list */}
       <Card className={'border-none shadow'}>
         <CardHeader>
-          <Tabs defaultValue="account" className="w-[200px]">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="account">属性列表</TabsTrigger>
-              <TabsTrigger value="password">参数列表</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className='flex justify-between'>
+            <Tabs defaultValue="1" className="w-[200px]">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="1">属性列表</TabsTrigger>
+                <TabsTrigger value="2">参数列表</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <DataTableToolbar table={table}
+                              onOpen={handleOpen}
+                              reLoading={indexRes.loading}
+                              deLoading={deleteRes.loading}
+                              onDelete={() => handleDelete(table.getSelectedRowModel().rows)}/>
+          </div>
         </CardHeader>
         <CardContent className={'pb-0'}>
           <DataSimpleTable table={table}
@@ -147,7 +155,7 @@ export default function AttrList() {
       </Card>
       {/* data create / update form */}
       {isOpen &&
-        <DataForm
+        <AttrDataForm
           title={formTitle}
           data={rowItem}
           open={isOpen}
