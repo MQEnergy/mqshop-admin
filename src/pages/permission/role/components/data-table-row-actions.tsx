@@ -13,7 +13,7 @@ import {ZodObject} from "zod";
 import {IconBan, IconDots, IconLockOpen, IconPencil, IconTrash} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
 import {useRequest} from "ahooks";
-import {MemberInfo} from "@/apis/permission.ts";
+import {RoleView} from "@/apis/permission.ts";
 import {Fragment, useContext} from "react";
 import {TableContext} from "@/context";
 import {ColumnSchemaType} from "../data/schema.ts";
@@ -27,9 +27,7 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
 export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
   const {trans, setInfo} = useContext(TableContext);
 
-  const viewRes = useRequest(MemberInfo, {
-    manual: true,
-  })
+  const viewRes = useRequest(RoleView, {manual: true})
   const original = props.row.original as ColumnSchemaType
   const handleEdit = (action: object) => {
     if (props.isRemote) {

@@ -5,8 +5,6 @@ import {useRequest} from "ahooks";
 import {columns} from './columns/attr'
 import {toast} from "react-hot-toast";
 import {TableContext} from '@/context';
-import BanConfirm from "./ban-confirm.tsx";
-import DeleteConfirm from "./delete-confirm.tsx";
 import {DataTableSearchbar, SearchInfo} from "./components/data-table-searchbar.tsx";
 import {useTranslation} from "react-i18next";
 import {ProductAttrCateAttrDelete, ProductAttrCateAttrList} from "@/apis/product.ts";
@@ -18,6 +16,7 @@ import {Card, CardContent, CardHeader} from "@/components/ui/card.tsx";
 import {useDataTable} from "@/hooks/use-data-table.tsx";
 import {DataTableToolbar} from "@/components/custom/data-table/data-table-toolbar.tsx";
 import {AttrDataForm} from "./attr-data-form.tsx";
+import {AttrDeleteConfirm} from "./attr-delete-confirm.tsx";
 
 export default function AttrList() {
   // =========================== Params ==========================================
@@ -29,12 +28,12 @@ export default function AttrList() {
     {name: "属性配置", link: ''},
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [isBanOpen, setIsBanOpen] = useState<boolean>(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
   const {onPaginationChange, page, limit, pagination} = usePagination();
   const [searchForm, setSearchForm] = useState<SearchInfo | null>(null)
   const [formTitle, setFormTitle] = useState<string>('新增操作')
   const [rowItem, setRowItem] = useState<Partial<AttrColumnSchemaType>>({})
+  const [attrType, setAttrType] = useState<string>('1')
 
   // =========================== API request ======================================
   const indexRes = useRequest(ProductAttrCateAttrList, {
@@ -48,15 +47,15 @@ export default function AttrList() {
 
   useEffect(() => {
     if (searchForm) {
-      indexRes.run({id: parseInt(id as string), attr_type: 1, page, limit, search: JSON.stringify(searchForm)})
+      indexRes.run({id: parseInt(id as string), attr_type: parseInt(attrType), page, limit, search: JSON.stringify(searchForm)})
     } else {
-      indexRes.run({id: parseInt(id as string), attr_type: 1, page, limit})
+      indexRes.run({id: parseInt(id as string), attr_type: parseInt(attrType), page, limit})
     }
   }, [page, limit, searchForm]);
 
   // =========================== Method ===========================================
   const handleRefresh = () => {
-    indexRes.run({id: parseInt(id as string), attr_type: 1, page, limit, noCache: true})
+    indexRes.run({id: parseInt(id as string), attr_type: parseInt(attrType), page, limit, noCache: true})
   }
   const handleDelete = (values: any[]) => {
     const ids = values.map(item => item.getValue('id'))
@@ -90,9 +89,6 @@ export default function AttrList() {
     if (typeof values.__is_edit__ !== 'undefined' && typeof values.__is_edit__ === 'boolean') {
       setIsOpen(values.__is_edit__)
     }
-    if (typeof values.__is_forbidden__ !== 'undefined' && typeof values.__is_forbidden__ === 'boolean') {
-      setIsBanOpen(values.__is_forbidden__)
-    }
     if (typeof values.__is_delete__ !== 'undefined' && typeof values.__is_delete__ === 'boolean') {
       setIsDeleteOpen(values.__is_delete__)
     }
@@ -109,7 +105,7 @@ export default function AttrList() {
     if (searchForm !== values) {
       setSearchForm(values)
     } else {
-      indexRes.run({id: parseInt(id as string), attr_type: 1, page, limit, search: JSON.stringify(values)})
+      indexRes.run({id: parseInt(id as string), attr_type: parseInt(attrType), page, limit, search: JSON.stringify(values)})
     }
   }
   const table = useDataTable({
@@ -121,6 +117,11 @@ export default function AttrList() {
     onPaginationChange: onPaginationChange,
   })
 
+  const handleTabClick = (value: string) => {
+    setAttrType(value)
+    indexRes.run({id: parseInt(id as string), attr_type: parseInt(value), page: 1, limit, noCache: false})
+  }
+
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}
@@ -131,7 +132,7 @@ export default function AttrList() {
       <Card className={'border-none shadow'}>
         <CardHeader>
           <div className='flex justify-between'>
-            <Tabs defaultValue="1" className="w-[200px]">
+            <Tabs defaultValue={attrType} className="w-[200px]" onValueChange={handleTabClick}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="1">属性列表</TabsTrigger>
                 <TabsTrigger value="2">参数列表</TabsTrigger>
@@ -162,10 +163,8 @@ export default function AttrList() {
           onOpenChange={handleOpen}
         />
       }
-      {/* ban confirm */}
-      {isBanOpen && <BanConfirm open={isBanOpen} onOpen={setIsBanOpen} row={rowItem}/>}
       {/* delete confirm */}
-      {isDeleteOpen && <DeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={rowItem}/>}
+      {isDeleteOpen && <AttrDeleteConfirm open={isDeleteOpen} onOpen={setIsDeleteOpen} row={rowItem}/>}
     </TableContext.Provider>
   )
 }

@@ -27,9 +27,7 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
 export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
   const {trans, setInfo} = useContext(TableContext);
 
-  const viewRes = useRequest(MemberInfo, {
-    manual: true,
-  })
+  const viewRes = useRequest(MemberInfo, {manual: true})
   const original = props.row.original as ColumnSchemaType
   const handleEdit = (action: object) => {
     if (props.isRemote) {

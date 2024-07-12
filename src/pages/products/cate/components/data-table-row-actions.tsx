@@ -12,11 +12,11 @@ import {
 import {ZodObject} from "zod";
 import {IconBan, IconDots, IconLockOpen, IconPencil, IconTrash} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
-import {useRequest} from "ahooks";
-import {MemberInfo} from "@/apis/permission.ts";
 import {Fragment, useContext} from "react";
-import {Member} from "@/pages/permission/member/data/schema.ts";
+import {ColumnSchemaType} from "../data/schema.ts";
 import {TableContext} from "@/context";
+import {useRequest} from "ahooks";
+import {ProductCateView} from "@/apis/product.ts";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
   row: Row<TData>
@@ -27,14 +27,12 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
 export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
   const {trans, setInfo} = useContext(TableContext);
 
-  const viewRes = useRequest(MemberInfo, {
-    manual: true,
-  })
-  const original = props.row.original as Member
+  const viewRes = useRequest(ProductCateView, {manual: true})
+  const original = props.row.original as ColumnSchemaType
   const handleEdit = (action: object) => {
     if (props.isRemote) {
       viewRes.runAsync({id: original.id}).then(res => {
-        const data = res.data as Member
+        const data = res.data as ColumnSchemaType
         setInfo?.({...data, status: data.status, ...action})
       })
     } else {

@@ -3,9 +3,9 @@ import {Checkbox} from '@/components/ui/checkbox.tsx'
 import {inputTypes} from '../data/data.tsx'
 import {AttrColumnSchemaType, attrColumnSchema} from '../data/schema.ts'
 import {DataTableColumnHeader} from "../components/data-table-column-header.tsx";
-import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import {Badge} from "@/components/custom/badge.tsx";
+import {DataTableAttrRowActions} from "../components/data-table-attr-row-actions.tsx";
 
 export const columns: ColumnDef<AttrColumnSchemaType>[] = [
   {
@@ -59,7 +59,7 @@ export const columns: ColumnDef<AttrColumnSchemaType>[] = [
     header: '属性值',
     cell: ({row}) => {
       return (
-        <div className='flex items-center w-[100px]'>
+        <div className='flex items-center w-[200px]'>
           <span>{row.getValue<string>('attr_value')}</span>
         </div>
       )
@@ -108,6 +108,6 @@ export const columns: ColumnDef<AttrColumnSchemaType>[] = [
   {
     id: 'actions',
     header: '操作',
-    cell: ({row}) => <DataTableRowActions row={row} isRemote={false} schemas={attrColumnSchema}/>,
+    cell: ({row}) => <DataTableAttrRowActions row={row} isRemote={false} schemas={attrColumnSchema}/>,
   },
 ]

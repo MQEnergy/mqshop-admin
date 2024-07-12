@@ -105,6 +105,7 @@ export interface ProductAttrCateDeleteReq extends CacheReq {
 export interface ProductAttrCateAttrListReq extends ViewReq, PageReq, CacheReq {
   attr_type: number;
 }
+export interface ProductAttrCateAttrViewReq extends ViewReq, CacheReq {}
 export interface ProductAttrCateAttrCreateReq extends ProductAttrModel, CacheReq {}
 export interface ProductAttrCateAttrUpdateReq extends ProductAttrModel, ViewReq, CacheReq {}
 export interface ProductAttrCateAttrDeleteReq extends CacheReq {

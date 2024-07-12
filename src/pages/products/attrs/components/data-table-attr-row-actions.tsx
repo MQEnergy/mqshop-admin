@@ -10,13 +10,13 @@ import {
 } from '@/components/ui/dropdown-menu.tsx'
 
 import {ZodObject} from "zod";
-import {IconBan, IconDots, IconLockOpen, IconPencil, IconTrash} from "@tabler/icons-react";
+import {IconDots, IconPencil, IconTrash} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
-import {Fragment, useContext} from "react";
+import {useContext} from "react";
 import {ColumnSchemaType} from "../data/schema.ts";
 import {TableContext} from "@/context";
 import {useRequest} from "ahooks";
-import {ProductAttrCateView} from "@/apis/product.ts";
+import {ProductAttrCateAttrView} from "@/apis/product.ts";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
   row: Row<TData>
@@ -24,10 +24,10 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
   isRemote: boolean // is get info by remote server
 }
 
-export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
+export function DataTableAttrRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
   const {trans, setInfo} = useContext(TableContext);
 
-  const viewRes = useRequest(ProductAttrCateView, {manual: true})
+  const viewRes = useRequest(ProductAttrCateAttrView, {manual: true})
   const original = props.row.original as ColumnSchemaType
   const handleEdit = (action: object) => {
     if (props.isRemote) {
@@ -58,24 +58,7 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
           <IconPencil size={18} className="mr-2"/>
           <span>{trans?.t('settings.table.action.edit.title')}</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleEdit({__is_attrs__: true})}>
-          <IconPencil size={18} className="mr-2"/>
-          <span>属性配置</span>
-        </DropdownMenuItem>
         <DropdownMenuSeparator/>
-        <DropdownMenuItem onClick={() => handleOperate({__is_forbidden__: true})}>
-          {original.status === 1 ?
-            <Fragment>
-              <IconBan size={18} className="mr-2"/>
-              <span>{trans?.t('settings.table.action.ban.title')}</span>
-            </Fragment>
-            :
-            <Fragment>
-              <IconLockOpen size={18} className="mr-2"/>
-              <span>{trans?.t('settings.table.action.open.title')}</span>
-            </Fragment>
-          }
-        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleOperate({__is_delete__: true})}>
           <IconTrash size={18} className="mr-2"/>
           <span>{trans?.t('settings.table.action.delete.title')}</span>

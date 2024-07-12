@@ -12,11 +12,9 @@ import {
 import {ZodObject} from "zod";
 import {IconBan, IconDots, IconLockOpen, IconPencil, IconTrash} from "@tabler/icons-react";
 import {DropdownMenuProps} from "@radix-ui/react-dropdown-menu";
-import {useRequest} from "ahooks";
-import {MemberInfo} from "@/apis/permission.ts";
 import {Fragment, useContext} from "react";
-import {Member} from "@/pages/permission/member/data/schema.ts";
 import {TableContext} from "@/context";
+import {ColumnSchemaType} from "../data/schema.ts";
 
 interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
   row: Row<TData>
@@ -27,20 +25,8 @@ interface DataTableRowActionsProps<TData> extends DropdownMenuProps {
 export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<TData>) {
   const {trans, setInfo} = useContext(TableContext);
 
-  const viewRes = useRequest(MemberInfo, {
-    manual: true,
-  })
-  const original = props.row.original as Member
-  const handleEdit = (action: object) => {
-    if (props.isRemote) {
-      viewRes.runAsync({id: original.id}).then(res => {
-        const data = res.data as Member
-        setInfo?.({...data, status: data.status, ...action})
-      })
-    } else {
-      handleOperate(action)
-    }
-  }
+  const original = props.row.original as ColumnSchemaType
+
   const handleOperate = (action: object) => {
     setInfo?.({...original, status: original.status, ...action})
   }
@@ -56,7 +42,7 @@ export function DataTableRowActions<TData>({...props}: DataTableRowActionsProps<
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align={'end'} className='w-[120px]'>
-        <DropdownMenuItem onClick={() => handleEdit({__is_edit__: true})}>
+        <DropdownMenuItem onClick={() => handleOperate({__is_edit__: true})}>
           <IconPencil size={18} className="mr-2"/>
           <span>{trans?.t('settings.table.action.edit.title')}</span>
         </DropdownMenuItem>
