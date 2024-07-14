@@ -6,6 +6,7 @@ export default {
   'settings.search.reset': 'Reset',
   'settings.search.cancel': 'Cancel',
   'settings.search.ok': 'Confirm',
+  'settings.search.save': 'Save',
   'settings.dialog.title': 'Notice',
   'settings.dialog.delete.desc': 'Are you sure you want to delete?',
   'settings.auth.login': 'Login',

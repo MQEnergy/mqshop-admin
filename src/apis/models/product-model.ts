@@ -2,17 +2,16 @@ import {CacheReq, PageReq, ViewReq} from "@/apis/models/base-model.ts";
 
 // ============================ product =====================================
 export interface ProductModel {
-  uuid: string;
   goods_title: string;
   goods_subtitle: string;
   cate_id: number;
   brand_id: number;
   attr_cate_id: number;
   thumb_url: string;
-  photo_urls: string;
-  origin_price: number;
-  promote_price: number;
-  final_price: number;
+  photo_urls: string[];
+  origin_price: string;
+  promote_price: string;
+  final_price: string;
   total_stock: number;
   is_hot: number;
   is_new: number;
@@ -21,18 +20,12 @@ export interface ProductModel {
   status: number;
 }
 export interface ProductIndexReq extends PageReq, CacheReq {}
-export interface ProductCreateReq extends ProductModel, CacheReq {
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  status: number;
-  categoryId: number;
-}
+export interface ProductCreateReq extends ProductModel, CacheReq {}
 export interface ProductUpdateReq extends ProductModel, ViewReq, CacheReq {}
-export interface ProductDeleteReq extends ViewReq, CacheReq {}
+export interface ProductDeleteReq extends CacheReq {
+  ids: string;
+}
 export interface ProductViewReq extends ViewReq, CacheReq {}
-export interface ProductDeleteReq extends ViewReq, CacheReq {}
 
 // ============================ cate =====================================
 export interface ProductCateModel {

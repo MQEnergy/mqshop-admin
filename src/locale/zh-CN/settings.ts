@@ -6,6 +6,7 @@ export default {
   'settings.search.reset': '重置',
   'settings.search.cancel': '取消',
   'settings.search.ok': '确定',
+  'settings.search.save': '保存',
   'settings.dialog.title': '提示',
   'settings.dialog.delete.desc': '您确定要删除吗？',
   'settings.auth.login': '登录',

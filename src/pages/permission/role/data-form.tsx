@@ -35,16 +35,10 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues
   })
-  // =========================== Params ==========================================
 
   // =========================== API request ======================================
-  const createRes = useRequest(RoleCreate, {
-    manual: true,
-  });
-  const updateRes = useRequest(RoleUpdate, {
-    manual: true,
-  });
-  // =========================== API request ======================================
+  const createRes = useRequest(RoleCreate, {manual: true});
+  const updateRes = useRequest(RoleUpdate, {manual: true});
 
   // =========================== Method ===========================================
   const onSubmit = (values: FormSchemaType) => {
@@ -75,7 +69,6 @@ export function DataForm<TData>({...props}: DataFormProps<TData>) {
     form.reset()
     props.onOpenChange?.(false)
   }
-  // =========================== Method ======================================
 
   return (
     <DrawerForm title={props.title} open={props.open}

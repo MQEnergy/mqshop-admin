@@ -14,6 +14,18 @@ export default {
       }),
     },
     {
+      path: 'create',
+      lazy: async () => ({
+        Component: (await import('@/pages/products/list/detail')).default,
+      }),
+    },
+    {
+      path: 'detail/:id',
+      lazy: async () => ({
+        Component: (await import('@/pages/products/list/detail')).default,
+      }),
+    },
+    {
       path: 'cates',
       lazy: async () => ({
         Component: (await import('@/pages/products/cate')).default,

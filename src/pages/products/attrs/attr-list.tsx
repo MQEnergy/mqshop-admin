@@ -119,7 +119,7 @@ export default function AttrList() {
 
   const handleTabClick = (value: string) => {
     setAttrType(value)
-    indexRes.run({id: parseInt(id as string), attr_type: parseInt(value), page: 1, limit, noCache: false})
+    indexRes.run({id: parseInt(id as string), attr_type: parseInt(value), page: 1, limit, noCache: true})
   }
 
   return (

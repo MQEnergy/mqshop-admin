@@ -79,7 +79,7 @@ export function AvatarUploader(props: ImageUploaderProps) {
       {props.preview &&
           <div className='bg-background absolute z-10 cursor-pointer -top-2 -right-2 rounded-full'
                onClick={handleClose}>
-              <IconCircleXFilled size={18} className='text-gray-500'/>
+              <IconCircleXFilled size={18} className='text-gray-500 hover:text-red-500'/>
           </div>}
       <div
         {...getRootProps()}
