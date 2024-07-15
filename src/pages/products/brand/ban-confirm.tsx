@@ -16,13 +16,9 @@ export function BanConfirm({...props}: BanConfirmProps) {
   const {trans, onRefresh} = React.useContext(TableContext)
   const description = props.row.status === 1 ? trans?.t('settings.table.ban.desc') : trans?.t('settings.table.open.desc')
   const submitTitle = props.row.status === 1 ? trans?.t('permission.member.ban') : trans?.t('permission.member.open')
-  // =========================== Params ======================================
 
   // =========================== API request ======================================
-  const banRes = useRequest(ProductBrandStatus, {
-    manual: true,
-  })
-  // =========================== API request ======================================
+  const banRes = useRequest(ProductBrandStatus, {manual: true})
 
   // =========================== Method ===========================================
   const handleBan = () => {

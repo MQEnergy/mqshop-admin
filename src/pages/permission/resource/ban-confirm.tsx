@@ -38,7 +38,7 @@ export function BanConfirm({...props}: BanConfirmProps) {
       sort_order: props.row.sort_order,
       parent_id: props.row?.parent_id || 0,
       path: props.row?.path || '',
-      status: props.row.status == 1 ? 2 : 1,
+      status: props.row.status == 1 ? 0 : 1,
     });
     toast.promise(
       runAsync,

@@ -27,6 +27,10 @@ export interface ProductDeleteReq extends CacheReq {
 }
 export interface ProductViewReq extends ViewReq, CacheReq {}
 
+export interface ProductStatusReq extends ViewReq, CacheReq {
+  status: number;
+}
+
 // ============================ cate =====================================
 export interface ProductCateModel {
   cate_name: string;

@@ -28,7 +28,7 @@ export function BanConfirm({...props}: BanConfirmProps) {
   const handleBan = () => {
     const runAsync = banRes.runAsync({
       id: props.row.id,
-      status: props.row.status == 1 ? 2 : 1,
+      status: props.row.status == 1 ? 0 : 1,
       account: props.row.account,
       real_name: props.row.real_name,
       password: props.row.password,

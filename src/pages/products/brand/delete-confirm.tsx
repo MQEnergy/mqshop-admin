@@ -16,9 +16,7 @@ export function DeleteConfirm({...props}: DeleteConfirmProps) {
   const {trans, onRefresh} = React.useContext(TableContext)
 
   // =========================== API request =====================================
-  const deleteRes = useRequest(ProductBrandDelete, {
-    manual: true,
-  })
+  const deleteRes = useRequest(ProductBrandDelete, {manual: true})
 
   // =========================== Method ==========================================
   const handleDelete = () => {

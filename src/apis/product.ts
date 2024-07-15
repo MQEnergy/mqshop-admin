@@ -26,7 +26,7 @@ import {
   ProductCateViewReq,
   ProductCreateReq,
   ProductDeleteReq,
-  ProductIndexReq,
+  ProductIndexReq, ProductStatusReq,
   ProductUpdateReq,
   ProductViewReq
 } from "@/apis/models/product-model.ts";
@@ -46,6 +46,9 @@ export const ProductView = (params: ProductViewReq) => {
 }
 export const ProductDelete = (data: ProductDeleteReq) => {
   return HttpClient.post(`/backend/product/delete?noCache=${data.noCache}`, data);
+}
+export const ProductStatus = (data: ProductStatusReq) => {
+  return HttpClient.post(`/backend/product/status?noCache=${data.noCache}`, data);
 }
 
 // ============================ product cate =====================================
