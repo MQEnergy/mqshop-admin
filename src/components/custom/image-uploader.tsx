@@ -36,7 +36,7 @@ const FileUploadDropzone = ({...props}: FileUploadDropzoneProps) => {
       dropzoneOptions={dropzone}
       orientation='horizontal'
     >
-      <FileInput className="outline-dashed outline-1 outline-white">
+      <FileInput>
         <div className="flex items-center justify-center flex-col pt-3 pb-4 w-full border-2 border-dashed rounded-md">
           <FileSvgDraw/>
         </div>

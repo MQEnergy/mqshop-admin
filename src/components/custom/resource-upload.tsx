@@ -36,13 +36,17 @@ export default function ResourceUpload({...props}: ResourceUploadProps) {
           </Avatar>
         </div>
       </TabsContent>
-      <TabsContent value="3" className='flex flex-row items-center space-x-2'>
-        <Input placeholder='请输入网络图片地址' />
-        <Button variant={'secondary'}><ClipboardPaste size={16}/></Button>
+      <TabsContent value="3">
+        <div className='flex flex-row items-center space-x-2'>
+          <Input placeholder='请输入网络图片地址'/>
+          <Button variant={'secondary'}><ClipboardPaste size={16}/></Button>
+        </div>
       </TabsContent>
-      <TabsContent value="4" className='flex flex-row items-center space-x-2'>
-        <Input placeholder='请输入网络视频地址' />
-        <Button variant={'secondary'}><ClipboardPaste size={16}/></Button>
+      <TabsContent value="4">
+        <div className='flex flex-row items-center space-x-2'>
+          <Input placeholder='请输入网络视频地址'/>
+          <Button variant={'secondary'}><ClipboardPaste size={16}/></Button>
+        </div>
       </TabsContent>
     </Tabs>
   )
