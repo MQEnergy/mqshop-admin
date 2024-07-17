@@ -28,7 +28,7 @@ function FormDialog({...props}: FormDialogProps) {
   const {t} = useTranslation()
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange} modal={true}>
-      <DialogContent className='min-w-[400px]' style={{
+      <DialogContent className='min-w-[400px] overflow-hidden' style={{
         width: props.width || '400px',
         maxWidth: props.width || '400px',
         height: props.height || 'auto'

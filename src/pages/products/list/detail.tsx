@@ -16,7 +16,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {cn} from "@/lib/utils";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Switch} from "@/components/ui/switch";
-import {Feather, Images, Info, Save, Shell, SwatchBook, Truck} from "lucide-react";
+import {BookText, Feather, Images, Info, ReceiptText, Save, Shell, SwatchBook, Truck} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -28,8 +28,9 @@ import {
 } from "@/components/ui/select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
-import FileUploadDropzone from "@/components/custom/image-uploader";
 import {PlateEditor} from "@/components/custom/plate-editor.tsx";
+import SkuForm from "@/pages/products/list/sku-form.tsx";
+import ResourceUpload from "@/components/custom/resource-upload.tsx";
 
 export default function Detail() {
   // =========================== Params ======================================
@@ -39,8 +40,8 @@ export default function Detail() {
   const [promoteChecked, setPromoteChecked] = useState<boolean>(false)
   const [shippingChecked, setShippingChecked] = useState<boolean>(false)
   const [contentChecked, setContentChecked] = useState<boolean>(false)
-  const [files, setFiles] = useState<File[] | null>([]);
-
+  // const [featureChecked, setFeatureChecked] = useState<boolean>(false)
+  const [skuChecked, setSkuChecked] = useState<boolean>(false)
 
   let defaultValues: DefaultValues<FormSchemaType> = {
     goods_title: '',
@@ -121,6 +122,10 @@ export default function Detail() {
     })
   }
 
+  const handleSkuDialog = () => {
+    setSkuChecked(true)
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -177,9 +182,9 @@ export default function Detail() {
                             <FormControl>
                               <Input type='textarea' placeholder='输入名称' {...field} />
                             </FormControl>
+                            <FormDescription>注：此项有助于SEO优化</FormDescription>
                             <FormMessage className='text-xs absolute left-0 pt-1'/>
                           </div>
-                          <FormDescription>注：此项有助于SEO优化</FormDescription>
                         </FormItem>
                       )}
                     />
@@ -339,7 +344,24 @@ export default function Detail() {
               <Card className={'border-none shadow mt-4'}>
                 <CardHeader className='flex flex-row items-center justify-between'>
                   <CardTitle className='text-md font-medium flex items-center space-x-2'>
-                    <Feather size={'18'}/> <span>商品详情</span>
+                    <BookText size={'18'}/> <span>多属性设置</span>
+                  </CardTitle>
+                  {/*<Switch checked={featureChecked} onCheckedChange={setFeatureChecked}/>*/}
+                  <Button size={'sm'} variant={'link'} className='text-indigo-500'
+                          onClick={handleSkuDialog}>添加颜色或尺码等信息</Button>
+                  {skuChecked &&
+                    <SkuForm width={'1000px'} height={'800px'} row={''} open={skuChecked} onOpen={setSkuChecked}/>}
+                </CardHeader>
+                {skuChecked &&
+                  <CardContent>
+                    <div className='border rounded-md'>
+                    </div>
+                  </CardContent>}
+              </Card>
+              <Card className={'border-none shadow mt-4'}>
+                <CardHeader className='flex flex-row items-center justify-between'>
+                  <CardTitle className='text-md font-medium flex items-center space-x-2'>
+                    <ReceiptText size={'18'}/> <span>商品详情</span>
                   </CardTitle>
                   <Switch checked={contentChecked} onCheckedChange={setContentChecked}/>
                 </CardHeader>
@@ -569,7 +591,7 @@ export default function Detail() {
                       <FormItem>
                         <div className='w-full relative'>
                           <FormControl {...field}>
-                            <FileUploadDropzone files={files} onValueChange={setFiles} maxFiles={15}/>
+                            <ResourceUpload></ResourceUpload>
                           </FormControl>
                           <FormMessage className='text-xs absolute left-0 pt-1'/>
                         </div>

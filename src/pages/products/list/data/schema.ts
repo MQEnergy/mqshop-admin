@@ -60,5 +60,17 @@ export const formSchema = z.object({
   shipping_area_id: z.number().default(0),
 })
 
+export const skuColumnSchema:z.ZodObject<any> =  z.object({
+  id: z.number(),
+  sku_id: z.number(),
+})
+
+export const skuFormSchema = z.object({
+  sku_id: z.number(),
+  name: z.string(),
+})
+
 export type ColumnSchemaType = z.infer<typeof columnSchema>
 export type FormSchemaType = z.infer<typeof formSchema>
+export type SkuColumnSchemaType = z.infer<typeof skuColumnSchema>
+export type SkuFormSchemaType = z.infer<typeof skuFormSchema>

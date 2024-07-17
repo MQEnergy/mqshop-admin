@@ -9,7 +9,7 @@ import {
   ProductAttrCateIndexReq,
   ProductAttrCateListReq,
   ProductAttrCateUpdateReq,
-  ProductAttrCateViewReq,
+  ProductAttrCateViewReq, ProductAttrListReq,
   ProductBrandCreateReq,
   ProductBrandDeleteReq,
   ProductBrandIndexReq,
@@ -49,6 +49,9 @@ export const ProductDelete = (data: ProductDeleteReq) => {
 }
 export const ProductStatus = (data: ProductStatusReq) => {
   return HttpClient.post(`/backend/product/status?noCache=${data.noCache}`, data);
+}
+export const ProductAttrList = (params: ProductAttrListReq) => {
+  return HttpClient.get(`/backend/product/list`, {params});
 }
 
 // ============================ product cate =====================================

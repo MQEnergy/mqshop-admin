@@ -30,6 +30,9 @@ export interface ProductViewReq extends ViewReq, CacheReq {}
 export interface ProductStatusReq extends ViewReq, CacheReq {
   status: number;
 }
+export interface ProductAttrListReq extends ViewReq, CacheReq {
+  attr_cate_id: number;
+}
 
 // ============================ cate =====================================
 export interface ProductCateModel {
