@@ -84,9 +84,9 @@ export default function ResourceUpload({}: ResourceUploadProps) {
               {table.getRowModel().rows.map((row) => {
                 return (
                   <div>
-                    <Avatar className={'rounded-md min-w-[80px] min-h-[80px]'}>
+                    <Avatar className={'rounded-md min-w-[88px] min-h-[88px]'}>
                       <AvatarImage src={uploadHostUrl + row.original.attach_url} alt={row.original.attach_name}/>
-                      <AvatarFallback className='min-w-[80px] min-h-[80px] rounded-md w-auto h-auto'></AvatarFallback>
+                      <AvatarFallback className='min-w-[88px] min-h-[88px] rounded-md w-auto h-auto'></AvatarFallback>
                     </Avatar>
                   </div>
                 )
