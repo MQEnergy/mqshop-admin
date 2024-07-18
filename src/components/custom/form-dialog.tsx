@@ -32,6 +32,8 @@ function FormDialog({...props}: FormDialogProps) {
         width: props.width || '400px',
         maxWidth: props.width || '400px',
         height: props.height || 'auto'
+      }} onInteractOutside={(e) => {
+        e.preventDefault();
       }}>
         <DialogHeader>
           <DialogTitle>{props.title || t('settings.dialog.title')}</DialogTitle>

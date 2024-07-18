@@ -16,6 +16,7 @@ interface FileUploadDropzoneProps {
   multiple?: boolean;
   maxFiles?: number;
   maxSize?: number;
+  noPreview: boolean;
 }
 
 const FileUploadDropzone = ({...props}: FileUploadDropzoneProps) => {
@@ -26,7 +27,7 @@ const FileUploadDropzone = ({...props}: FileUploadDropzoneProps) => {
     },
     multiple: props.multiple || true,
     maxFiles: props.maxFiles || 4,
-    maxSize: props.maxSize || 1 * 1024 * 1024,
+    maxSize: props.maxSize || 1024 * 1024,
   } satisfies DropzoneOptions;
 
   return (
@@ -41,28 +42,26 @@ const FileUploadDropzone = ({...props}: FileUploadDropzoneProps) => {
           <FileSvgDraw/>
         </div>
       </FileInput>
-      <FileUploaderContent className="flex items-center flex-row gap-2">
+      {!props.noPreview && <FileUploaderContent className="flex items-center flex-row gap-2">
         <PhotoProvider>
           {props.files?.map((file, i) => (
             <FileUploaderItem
               key={i}
               index={i}
-              className="size-20 p-0 border border-dashed"
+              className="w-[70px] h-[70px] p-0 border border-dashed"
               aria-roledescription={`file ${i + 1} containing ${file.name}`}
             >
               <PhotoView key={i} src={URL.createObjectURL(file)}>
                 <img
                   src={URL.createObjectURL(file)}
                   alt={file.name}
-                  height={60}
-                  width={60}
-                  className="size-20 p-0 rounded-md"
+                  className="w-[70px] h-[70px] p-0 rounded-md"
                 />
               </PhotoView>
             </FileUploaderItem>
           ))}
         </PhotoProvider>
-      </FileUploaderContent>
+      </FileUploaderContent>}
     </FileUploader>
   );
 };

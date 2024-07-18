@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({...props}: DateTableProps<TData, TValu
           </Table>
           <ScrollBar orientation="horizontal"/>
         </ScrollArea>
-        <div className='p-4'>
+        <div className='py-4'>
           {!props.noPagination && <DataTablePagination table={props.table} sizes={[10, 20, 50]}/>}
         </div>
       </CardContent>

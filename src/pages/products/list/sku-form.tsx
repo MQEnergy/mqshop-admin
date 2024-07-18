@@ -212,16 +212,18 @@ export default function SkuForm({...props}: SkuFormProps) {
                           <AvatarImage src="https://github.com/shadcn.png" alt={item.attr_name}/>
                           <AvatarFallback>{item.attr_name}</AvatarFallback>
                         </Avatar>
-                        {/*<img className='w-10 h-10' src={item.thumb_full_url} alt={item.attr_name}/>*/}
                       </TableCell>
                       <TableCell className="font-medium text-center">{item.attr_name}</TableCell>
                       <TableCell className={'flex flex-row justify-center space-x-2'}>
                         <Input type={'number'} value={item.stock}/>
                         <Input value={item.price}/>
                       </TableCell>
-                      <TableCell className={'text-center'}><Input type={'number'}
-                                                                  value={item.stock_warning}/></TableCell>
-                      <TableCell className={'text-center'}><Input value={item.sku_no}/></TableCell>
+                      <TableCell className={'text-center'}>
+                        <Input type={'number'} value={item.stock_warning}/>
+                      </TableCell>
+                      <TableCell className={'text-center'}>
+                        <Input value={item.sku_no}/>
+                      </TableCell>
                       <TableCell className="text-center">
                         <Button size={'sm'} variant={'link'}>排序</Button>
                         <Button size={'sm'} variant={'link'}>删除</Button>
@@ -237,14 +239,14 @@ export default function SkuForm({...props}: SkuFormProps) {
 
       {uploadOpen &&
         <FormDialog
-          width={'800px'}
-          height={'600px'}
+          className='min-h-[320px]'
+          width={'600px'}
           loading={false}
           open={uploadOpen}
           title={'图片管理'}
           onOpenChange={setUploadOpen}
           onCancel={handleCancel}>
-          <div className='h-[600px]'>
+          <div className='min-h-[320px]'>
             <ResourceUpload></ResourceUpload>
           </div>
         </FormDialog>

@@ -89,7 +89,7 @@ export function DataSimpleTable<TData, TValue>({...props}: DateSimpleTableProps<
         </Table>
         <ScrollBar orientation="horizontal"/>
       </ScrollArea>
-      <div className='p-4'>
+      <div className='py-4'>
         {!props.noPagination && <DataTablePagination table={props.table} sizes={[10, 20, 50]}/>}
       </div>
     </>

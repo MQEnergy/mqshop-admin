@@ -14,7 +14,6 @@ import {useTranslation} from "react-i18next";
 import {BreadListItem, SingleBreadcrumb} from "@/components/custom/single-breadcrumb";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {cn} from "@/lib/utils";
-import {ScrollArea} from "@/components/ui/scroll-area";
 import {Switch} from "@/components/ui/switch";
 import {BookText, Feather, Images, Info, ReceiptText, Save, Shell, SwatchBook, Truck} from "lucide-react";
 import {
@@ -143,9 +142,9 @@ export default function Detail() {
             </Button>
           </div>
         </div>
-        <ScrollArea
+        <div
           className={cn(
-            `md:h-[calc(100svh-160px)] lg:h-[calc(100svh-160px)] rounded-md`,
+            `md:h-[calc(100svh-150px)] lg:h-[calc(100svh-150px)] pb-4 overflow-y-scroll rounded-md scrollbar-hide`,
           )}>
           <div className="flex flex-row gap-4">
             <div className="basis-7/12">
@@ -852,7 +851,7 @@ export default function Detail() {
               </Card>
             </div>
           </div>
-        </ScrollArea>
+        </div>
       </form>
     </Form>
   );

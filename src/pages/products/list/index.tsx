@@ -134,7 +134,7 @@ export default function Index() {
         <CardHeader>
           <div className='flex justify-between'>
             <Tabs defaultValue={attrType} onValueChange={handleTabClick}>
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-[250px] grid-cols-3">
                 <TabsTrigger value="1">全部</TabsTrigger>
                 <TabsTrigger value="2">在售</TabsTrigger>
                 <TabsTrigger value="3">库存不足</TabsTrigger>
