@@ -3,7 +3,7 @@ import FileUploadDropzone from "@/components/custom/image-uploader.tsx";
 import {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/custom/button.tsx";
-import {ClipboardPaste} from "lucide-react";
+import {ClipboardPaste, ImageOff} from "lucide-react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {useDataTable} from "@/hooks/use-data-table.tsx";
 import {usePagination} from "@/hooks/use-pagination.tsx";
@@ -92,13 +92,13 @@ export default function ResourceUpload({}: ResourceUploadProps) {
   }
 
   const handleFileChange = (files: File[] | null) => {
-    if (!files) return
+    if (!files || files.length == 0) {
+      toast.error('上传失败')
+      return
+    }
     const formData = new FormData();
     formData.append('file', files[files.length - 1])
     formData.append('file_path', 'product')
-    AttachmentUpload(formData).then(res => {
-      console.log('res', res)
-    })
     const runAsync: Promise<ApiResult<any>> = uploadRes.runAsync(formData);
     toast.promise(
       runAsync,
@@ -117,7 +117,7 @@ export default function ResourceUpload({}: ResourceUploadProps) {
   }
 
   return (
-    <>
+    <PhotoProvider>
       <Tabs defaultValue="1" className="" onValueChange={handleTabChange}>
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="1">本地图片</TabsTrigger>
@@ -125,7 +125,7 @@ export default function ResourceUpload({}: ResourceUploadProps) {
           <TabsTrigger value="3">网络图片</TabsTrigger>
           <TabsTrigger value="4">网络视频</TabsTrigger>
         </TabsList>
-        <div className='mt-4 min-h-[280px]'>
+        <div className='mt-4'>
           <TabsContent value="1">
             <FileUploadDropzone files={files} onValueChange={handleFileChange} maxFiles={10} noPreview={true}/>
           </TabsContent>
@@ -134,20 +134,25 @@ export default function ResourceUpload({}: ResourceUploadProps) {
                          placeholder={`请输入关键词搜索...`} value={searchForm.keyword}
                          onKeyword={(keyword: string) => setSearchForm({keyword})}/>
             {table.getRowModel().rows.length > 0 ?
-              <div className='grid grid-cols-6 gap-2 my-4 items-center'>
+              <div className='grid grid-cols-6 grid-rows-2 gap-2 my-4'>
                 {table.getRowModel().rows.map((row) => {
                   return (
-                    <div key={row.original.id} className='relative m-auto p-0 border rounded-md border-dashed'
+                    <div key={row.original.id} className='relative aspect-square p-0 border rounded-md border-dashed'
                          onClick={() => handleImgClick(row)}>
-                      <Avatar className='w-[78px] h-[78px] p-0 rounded-md'>
-                        <AvatarImage src={row.original.attach_url ? uploadHostUrl + row.original.attach_url : ''}
-                                     alt={row.original.attach_name}/>
-                        <AvatarFallback className='w-[78px] h-[78px] p-0 rounded-md'></AvatarFallback>
-                      </Avatar>
+                      <PhotoView src={row.original.attach_url ? uploadHostUrl + row.original.attach_url : ''}>
+                        <Avatar className='w-full h-full aspect-square p-0 rounded-md'>
+                          <AvatarImage src={row.original.attach_url ? uploadHostUrl + row.original.attach_url : ''}
+                                       alt={row.original.attach_name}/>
+                          <AvatarFallback className='rounded-md text-gray-300'>
+                            <ImageOff size={24}/>
+                          </AvatarFallback>
+                        </Avatar>
+                      </PhotoView>
                     </div>
                   )
                 })}
-              </div> :
+              </div>
+              :
               <div className='w-full h-24 flex items-center justify-center text-gray-500'>No results.</div>
             }
             <div className='mt-4'>
@@ -169,40 +174,40 @@ export default function ResourceUpload({}: ResourceUploadProps) {
           </TabsContent>
         </div>
       </Tabs>
-      {files && files.length > 0 && <Separator className="my-4"/>}
-      <div className="grid grid-cols-6 gap-2 my-4 items-center">
-        <PhotoProvider>
-          {files?.map((file, i) => {
-            const removeFileFromSet = (index: number) => {
-              const newFiles = files?.filter((_, i) => index !== i);
-              setFiles(newFiles)
-            }
-            return (
-              <div key={i} className={cn('relative m-auto p-0 rounded-md border border-dashed')}>
-                <PhotoView src={URL.createObjectURL(file)}>
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                    className="w-[78px] h-[78px] p-0 rounded-md"
-                  />
-                </PhotoView>
-                <button
-                  type="button"
-                  className={cn(
-                    "absolute -top-2 -right-2"
-                  )}
-                  onClick={() => removeFileFromSet(i)}
-                >
-                  <span className="sr-only">remove item {i}</span>
-                  <div className='bg-background rounded-full'>
-                    <IconCircleXFilled size={18} className='cursor-pointer text-gray-500 hover:text-red-500'/>
-                  </div>
-                </button>
-              </div>
-            )
-          })}
-        </PhotoProvider>
+      {
+        files && files.length > 0 && <Separator className="my-4"/>
+      }
+      <div className="grid grid-cols-6 grid-rows-2 gap-2">
+        {files?.map((file, i) => {
+          const removeFileFromSet = (index: number) => {
+            const newFiles = files?.filter((_, i) => index !== i);
+            setFiles(newFiles)
+          }
+          return (
+            <div key={i} className={cn('relative aspect-square p-0 border rounded-md border-dashed')}>
+              <PhotoView src={URL.createObjectURL(file)}>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={file.name}
+                  className="w-full h-full aspect-square p-0 rounded-md"
+                />
+              </PhotoView>
+              <button
+                type="button"
+                className={cn(
+                  "absolute -top-2 -right-2"
+                )}
+                onClick={() => removeFileFromSet(i)}
+              >
+                <span className="sr-only">remove item {i}</span>
+                <div className='bg-background rounded-full'>
+                  <IconCircleXFilled size={18} className='cursor-pointer text-gray-500 hover:text-red-500'/>
+                </div>
+              </button>
+            </div>
+          )
+        })}
       </div>
-    </>
+    </PhotoProvider>
   )
 }

@@ -9,7 +9,7 @@ import {useRequest} from "ahooks";
 import {ProductCreate, ProductUpdate} from "@/apis/product.ts";
 import {Input} from "@/components/ui/input.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {ReceiptText} from "lucide-react";
+import {ImageOff, ReceiptText} from "lucide-react";
 import {Label} from "@/components/ui/label.tsx";
 import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
@@ -208,9 +208,11 @@ export default function SkuForm({...props}: SkuFormProps) {
                   {skuList.map((item) => (
                     <TableRow key={item.attr_hash}>
                       <TableCell className={'text-center'}>
-                        <Avatar className={'rounded-md m-auto'} onClick={() => setUploadOpen(true)}>
+                        <Avatar className={'rounded-md aspect-square m-auto'} onClick={() => setUploadOpen(true)}>
                           <AvatarImage src="https://github.com/shadcn.png" alt={item.attr_name}/>
-                          <AvatarFallback>{item.attr_name}</AvatarFallback>
+                          <AvatarFallback className='rounded-md aspect-square text-gray-300'>
+                            <ImageOff size={20}/>
+                          </AvatarFallback>
                         </Avatar>
                       </TableCell>
                       <TableCell className="font-medium text-center">{item.attr_name}</TableCell>
@@ -239,7 +241,7 @@ export default function SkuForm({...props}: SkuFormProps) {
 
       {uploadOpen &&
         <FormDialog
-          className='min-h-[320px]'
+          className='min-h-[350px]'
           width={'520px'}
           loading={false}
           open={uploadOpen}

@@ -6,8 +6,9 @@ import {DataTableColumnHeader} from "../components/data-table-column-header.tsx"
 import {DataTableRowActions} from "../components/data-table-row-actions.tsx";
 import dayjs from "dayjs";
 import {Badge} from "@/components/custom/badge.tsx";
-import ReactLogo from "@/assets/react.svg";
 import {Progress} from "@/components/ui/progress";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {ImageOff} from "lucide-react";
 
 export const columns: ColumnDef<ColumnSchemaType>[] = [
   {
@@ -52,9 +53,12 @@ export const columns: ColumnDef<ColumnSchemaType>[] = [
       const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
       return (
         <div className='w-[300px] flex'>
-          <img className='rounded-md object-cover h-[70px] w-[70px] border'
-               src={row.original.thumb_url ? resourceUrl + row.original.thumb_url : ReactLogo}
-               alt={row.original.desc}/>
+          <Avatar className={'rounded-md h-[70px] w-[70px] aspect-square m-auto'}>
+            <AvatarImage src={row.original.thumb_url ? resourceUrl + row.original.thumb_url : ''} alt={row.original.desc}/>
+            <AvatarFallback className='rounded-md aspect-square text-gray-300'>
+              <ImageOff size={24}/>
+            </AvatarFallback>
+          </Avatar>
           <div className={'ml-2 space-y-1'}>
             <div className='h-10 overflow-hidden'>{row.original.goods_title}</div>
             <div className={'space-x-1'}>
