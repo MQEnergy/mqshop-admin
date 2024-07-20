@@ -240,7 +240,7 @@ export default function SkuForm({...props}: SkuFormProps) {
       {uploadOpen &&
         <FormDialog
           className='min-h-[320px]'
-          width={'500px'}
+          width={'520px'}
           loading={false}
           open={uploadOpen}
           title={'图片管理'}

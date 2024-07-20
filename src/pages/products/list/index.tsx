@@ -122,7 +122,6 @@ export default function Index() {
     indexRes.run({page: 1, limit, noCache: true})
   }
 
-
   return (
     <TableContext.Provider value={{setInfo: handleInfo, trans: useTranslation(), onRefresh: handleRefresh}}>
       {/* breadcrumb */}

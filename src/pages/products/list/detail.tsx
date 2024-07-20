@@ -147,7 +147,7 @@ export default function Detail() {
             `md:h-[calc(100svh-150px)] lg:h-[calc(100svh-150px)] pb-4 overflow-y-scroll rounded-md scrollbar-hide`,
           )}>
           <div className="flex flex-row gap-4">
-            <div className="basis-7/12">
+            <div className="basis-7/12 min-w-[570px]">
               <Card className={'border-none shadow'}>
                 <CardHeader className='flex flex-row items-center justify-between'>
                   <CardTitle className='text-md font-medium flex items-center space-x-2'>
@@ -575,7 +575,7 @@ export default function Detail() {
               </Card>
             </div>
 
-            <div className="basis-5/12">
+            <div className="basis-5/12 min-w-[530px]">
               <Card className={'border-none shadow'}>
                 <CardHeader className='flex flex-row items-center justify-between'>
                   <CardTitle className='text-md font-medium flex items-center space-x-2'>
