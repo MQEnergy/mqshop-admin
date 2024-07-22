@@ -3,15 +3,15 @@ import FileUploadDropzone from "@/components/custom/image-uploader.tsx";
 import {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/custom/button.tsx";
-import {ClipboardPaste, ImageOff} from "lucide-react";
+import {CircleMinus, CirclePlus, ClipboardPaste, Eye, ImageOff, RotateCw, SquarePlus} from "lucide-react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {useDataTable} from "@/hooks/use-data-table.tsx";
 import {usePagination} from "@/hooks/use-pagination.tsx";
 import {useDebounce, useRequest} from "ahooks";
 import {AttachmentIndex, AttachmentUpload} from "@/apis/common.ts";
-import {ColumnDef} from "@tanstack/react-table";
+import {ColumnDef, Row} from "@tanstack/react-table";
 import {z} from "zod";
-import {PhotoProvider, PhotoView} from "react-photo-view";
+import {PhotoSlider} from "react-photo-view";
 import PaginationSinglePage from "@/components/custom/data-table/data-table-pagination-single-page.tsx";
 import {cn} from "@/lib/utils.ts";
 import {IconCircleXFilled} from "@tabler/icons-react";
@@ -45,6 +45,7 @@ export default function ResourceUpload({}: ResourceUploadProps) {
   // =========================== Params ==========================================
   const {t} = useTranslation()
   const [files, setFiles] = useState<File[] | null>([]);
+  const [resources, setResources] = useState<ColumnSchemaType[]>([]);
   const {onPaginationChange, page, limit, pagination} = usePagination(12);
   const [searchForm, setSearchForm] = useState<SearchInfo>({
     keyword: '',
@@ -62,6 +63,8 @@ export default function ResourceUpload({}: ResourceUploadProps) {
     {accessorKey: 'attach_size'},
     {accessorKey: 'status'},
   ]
+  const [visible, setVisible] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
 
   // =========================== API request ======================================
   const indexRes = useRequest(AttachmentIndex, {manual: true})
@@ -92,7 +95,7 @@ export default function ResourceUpload({}: ResourceUploadProps) {
   }
 
   const handleFileChange = (files: File[] | null) => {
-    if (!files || files.length == 0) {
+    if (!files || (files && files.length === 0)) {
       toast.error('上传失败')
       return
     }
@@ -100,6 +103,7 @@ export default function ResourceUpload({}: ResourceUploadProps) {
     formData.append('file', files[files.length - 1])
     formData.append('file_path', 'product')
     const runAsync: Promise<ApiResult<any>> = uploadRes.runAsync(formData);
+
     toast.promise(
       runAsync,
       {
@@ -107,17 +111,47 @@ export default function ResourceUpload({}: ResourceUploadProps) {
         success: (data: ApiResult<any>) => data.message,
         error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
-    ).then(() => {
+    ).then((res) => {
+      console.log(res)
+      setResources([
+        ...resources,
+        {
+          attach_name: res.data?.file_name || '',
+          attach_origin_name: res.data?.origin_name || '',
+          attach_url: res.data?.file_path || '',
+          attach_mine_type: res.data?.mime_type || '',
+          attach_extension: res.data?.extension || '',
+          attach_size: res.data?.file_size || 0,
+        }
+      ])
       setFiles(files)
     })
   }
 
-  const handleImgClick = (row: any) => {
-    console.log('handle', row)
+  const handleShowSlider = (index: number) => {
+    setPhotoIndex(index)
+    setVisible(true);
   }
 
+  const handleCloseSlider = () => {
+    setVisible(false);
+  }
+
+  const handleResourceAdd = (row: Row<any>) => {
+    setResources([
+      ...resources,
+      {
+        attach_name: row.original.attach_name,
+        attach_origin_name: row.original.attach_origin_name,
+        attach_url: row.original.attach_url,
+        attach_mine_type: row.original.attach_mine_type,
+        attach_extension: row.original.attach_extension,
+        attach_size: row.original.attach_size,
+      }
+    ])
+  }
   return (
-    <PhotoProvider>
+    <>
       <Tabs defaultValue="1" className="" onValueChange={handleTabChange}>
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="1">本地图片</TabsTrigger>
@@ -135,22 +169,52 @@ export default function ResourceUpload({}: ResourceUploadProps) {
                          onKeyword={(keyword: string) => setSearchForm({keyword})}/>
             {table.getRowModel().rows.length > 0 ?
               <div className='grid grid-cols-6 grid-rows-2 gap-2 my-4'>
-                {table.getRowModel().rows.map((row) => {
+                {table.getRowModel().rows.map((row, index) => {
                   return (
-                    <div key={row.original.id} className='relative aspect-square p-0 border rounded-md border-dashed'
-                         onClick={() => handleImgClick(row)}>
-                      <PhotoView src={row.original.attach_url ? uploadHostUrl + row.original.attach_url : ''}>
-                        <Avatar className='w-full h-full aspect-square p-0 rounded-md'>
-                          <AvatarImage src={row.original.attach_url ? uploadHostUrl + row.original.attach_url : ''}
-                                       alt={row.original.attach_name}/>
-                          <AvatarFallback className='rounded-md text-gray-300'>
-                            <ImageOff size={24}/>
-                          </AvatarFallback>
-                        </Avatar>
-                      </PhotoView>
+                    <div key={row.original.id}
+                         className='relative aspect-square p-0 border rounded-md border-dashed group'>
+                      <Avatar className='w-full h-full aspect-square p-0 rounded-md'>
+                        <AvatarImage src={row.original.attach_url ? uploadHostUrl + row.original.attach_url : ''}
+                                     alt={row.original.attach_name}/>
+                        <AvatarFallback className='rounded-md text-gray-300'>
+                          <ImageOff size={24}/>
+                        </AvatarFallback>
+                      </Avatar>
+                      <div
+                        className="absolute inset-0 bg-black bg-opacity-80 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="flex items-center justify-center h-full text-white space-x-2 cursor-pointer">
+                          <Eye size={16} onClick={() => handleShowSlider(index)}/>
+                          <SquarePlus size={16} onClick={() => handleResourceAdd(row)}/>
+                        </div>
+                      </div>
                     </div>
                   )
                 })}
+                <PhotoSlider
+                  images={table.getRowModel().rows.map((row) => ({
+                    src: row.original.attach_url ? uploadHostUrl + row.original.attach_url : '',
+                    key: row.original.id
+                  }))}
+                  visible={visible}
+                  onClose={handleCloseSlider}
+                  index={photoIndex}
+                  onIndexChange={setPhotoIndex}
+                  toolbarRender={({rotate, onRotate, onScale, scale}) => {
+                    return (
+                      <div className='flex flex-row space-x-3'>
+                        <CirclePlus size={19}
+                                    className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
+                                    onClick={() => onScale(scale + 0.2)}/>
+                        <CircleMinus size={19}
+                                     className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
+                                     onClick={() => onScale(scale - 0.2)}/>
+                        <RotateCw size={19}
+                                  className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
+                                  onClick={() => onRotate(rotate + 90)}/>
+                      </div>
+                    );
+                  }}
+                />
               </div>
               :
               <div className='w-full h-24 flex items-center justify-center text-gray-500'>No results.</div>
@@ -175,23 +239,21 @@ export default function ResourceUpload({}: ResourceUploadProps) {
         </div>
       </Tabs>
       {
-        files && files.length > 0 && <Separator className="my-4"/>
+        resources.length > 0 && <Separator className="my-4"/>
       }
       <div className="grid grid-cols-6 grid-rows-2 gap-2">
-        {files?.map((file, i) => {
+        {resources.map((file, i) => {
           const removeFileFromSet = (index: number) => {
-            const newFiles = files?.filter((_, i) => index !== i);
-            setFiles(newFiles)
+            const newFiles = resources.filter((_, i) => index !== i);
+            setResources(newFiles)
           }
           return (
             <div key={i} className={cn('relative aspect-square p-0 border rounded-md border-dashed')}>
-              <PhotoView src={URL.createObjectURL(file)}>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt={file.name}
-                  className="w-full h-full aspect-square p-0 rounded-md"
-                />
-              </PhotoView>
+              <img
+                src={uploadHostUrl + file.attach_url}
+                alt={file.name}
+                className="w-full h-full aspect-square p-0 rounded-md"
+              />
               <button
                 type="button"
                 className={cn(
@@ -207,7 +269,32 @@ export default function ResourceUpload({}: ResourceUploadProps) {
             </div>
           )
         })}
+        <PhotoSlider
+          images={resources.map((file, index) => ({
+            src: uploadHostUrl + file.attach_url,
+            key: index
+          }))}
+          visible={visible}
+          onClose={handleCloseSlider}
+          index={photoIndex}
+          onIndexChange={setPhotoIndex}
+          toolbarRender={({rotate, onRotate, onScale, scale}) => {
+            return (
+              <div className='flex flex-row space-x-3'>
+                <CirclePlus size={19}
+                            className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
+                            onClick={() => onScale(scale + 0.2)}/>
+                <CircleMinus size={19}
+                             className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
+                             onClick={() => onScale(scale - 0.2)}/>
+                <RotateCw size={19}
+                          className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
+                          onClick={() => onRotate(rotate + 90)}/>
+              </div>
+            );
+          }}
+        />
       </div>
-    </PhotoProvider>
+    </>
   )
 }
