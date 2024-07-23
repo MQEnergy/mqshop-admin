@@ -27,9 +27,9 @@ import {
 } from "@/components/ui/select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
-import {PlateEditor} from "@/components/custom/plate-editor.tsx";
 import SkuForm from "@/pages/products/list/sku-form.tsx";
 import ResourceUpload from "@/components/custom/resource-upload.tsx";
+import Tiptap from "@/components/custom/tiptap/tiptap.tsx";
 
 export default function Detail() {
   // =========================== Params ======================================
@@ -367,7 +367,7 @@ export default function Detail() {
                 {contentChecked &&
                   <CardContent>
                     <div className='border rounded-md'>
-                      <PlateEditor/>
+                      <Tiptap />
                     </div>
                   </CardContent>}
               </Card>

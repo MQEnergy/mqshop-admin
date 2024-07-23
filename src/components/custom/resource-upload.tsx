@@ -112,7 +112,7 @@ export default function ResourceUpload({}: ResourceUploadProps) {
         error: (err) => err.response?.data.message || err.message || 'Server Error'
       }
     ).then((res) => {
-      console.log(res)
+      setFiles(files)
       setResources([
         ...resources,
         {
@@ -124,7 +124,6 @@ export default function ResourceUpload({}: ResourceUploadProps) {
           attach_size: res.data?.file_size || 0,
         }
       ])
-      setFiles(files)
     })
   }
 
@@ -269,31 +268,6 @@ export default function ResourceUpload({}: ResourceUploadProps) {
             </div>
           )
         })}
-        <PhotoSlider
-          images={resources.map((file, index) => ({
-            src: uploadHostUrl + file.attach_url,
-            key: index
-          }))}
-          visible={visible}
-          onClose={handleCloseSlider}
-          index={photoIndex}
-          onIndexChange={setPhotoIndex}
-          toolbarRender={({rotate, onRotate, onScale, scale}) => {
-            return (
-              <div className='flex flex-row space-x-3'>
-                <CirclePlus size={19}
-                            className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
-                            onClick={() => onScale(scale + 0.2)}/>
-                <CircleMinus size={19}
-                             className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
-                             onClick={() => onScale(scale - 0.2)}/>
-                <RotateCw size={19}
-                          className='cursor-pointer opacity-75 transition-opacity duration-200 ease-linear hover:opacity-100'
-                          onClick={() => onRotate(rotate + 90)}/>
-              </div>
-            );
-          }}
-        />
       </div>
     </>
   )
