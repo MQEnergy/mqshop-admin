@@ -43,6 +43,8 @@
     "@tabler/icons-react": "^3.2.0",
     "@tanstack/react-table": "^8.16.0",
     "@tiptap/extension-character-count": "^2.5.5",
+    "@tiptap/extension-document": "^2.5.6",
+    "@tiptap/extension-dropcursor": "^2.5.6",
     "@tiptap/extension-highlight": "^2.5.5",
     "@tiptap/extension-image": "^2.5.5",
     "@tiptap/extension-link": "^2.5.5",

@@ -3,6 +3,12 @@
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.5rem;
+  min-height: 200px;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
   > * + * {
     //margin-top: 0.25em;
@@ -30,6 +36,7 @@
   p {
     margin: 0;
   }
+
   code {
     background-color: rgba(#616161, 0.1);
     color: #616161;

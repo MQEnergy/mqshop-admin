@@ -140,7 +140,7 @@ export default function MenuBar({editor}: { editor: Editor }) {
           {item.type === 'divider' ? <Separator className={'h-5'} orientation="vertical" /> : <MenuItem {...item} />}
         </Fragment>
       ))}
-      <Separator />
+      <Separator className='mt-1' />
     </div>
   )
 }
