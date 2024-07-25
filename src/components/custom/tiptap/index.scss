@@ -1,22 +1,20 @@
 /* Basic editor styles */
 .tiptap {
-  background: #f7f7f7;
+  width: 100%;
   padding: 0.75rem;
+  border-radius: 0.5rem;
 
   > * + * {
-    margin-top: 0.25em;
+    //margin-top: 0.25em;
+  }
+
+  em {
+    font-style: italic; /* 这会使 <em> 的文本不斜体 */
   }
 
   ul,
   ol {
     padding: 0 1rem;
-  }
-
-  ul {
-    list-style: initial;
-  }
-  ol {
-    list-style: desc;
   }
 
   h1,
@@ -26,9 +24,12 @@
   h5,
   h6 {
     line-height: 1.1;
-    @apply font-normal text-base m-0; /* 全局重置 */
+    margin-top: 1rem;
   }
 
+  p {
+    margin: 0;
+  }
   code {
     background-color: rgba(#616161, 0.1);
     color: #616161;
@@ -111,10 +112,12 @@
   }
 
   &__content {
+    margin: 0.5rem;
     flex: 1 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     min-height: 200px;
+    max-height: 500px;
     -webkit-overflow-scrolling: touch;
   }
 

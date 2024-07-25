@@ -41,6 +41,7 @@ export default function Detail() {
   const [contentChecked, setContentChecked] = useState<boolean>(false)
   // const [featureChecked, setFeatureChecked] = useState<boolean>(false)
   const [skuChecked, setSkuChecked] = useState<boolean>(false)
+  const [content, setContent] = useState<string>('')
 
   let defaultValues: DefaultValues<FormSchemaType> = {
     goods_title: '',
@@ -367,7 +368,7 @@ export default function Detail() {
                 {contentChecked &&
                   <CardContent>
                     <div className='border rounded-md'>
-                      <Tiptap />
+                      <Tiptap content={content} onContentChange={setContent} />
                     </div>
                   </CardContent>}
               </Card>
