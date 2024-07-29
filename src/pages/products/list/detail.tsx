@@ -29,7 +29,8 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {Label} from "@/components/ui/label";
 import SkuForm from "@/pages/products/list/sku-form.tsx";
 import ResourceUpload from "@/components/custom/resource-upload.tsx";
-import Tiptap from "@/components/custom/tiptap/tiptap.tsx";
+import NovelEditor from "@/components/custom/novel-editor/novel-editor.tsx";
+import {JSONContent} from "novel";
 
 export default function Detail() {
   // =========================== Params ======================================
@@ -41,7 +42,7 @@ export default function Detail() {
   const [contentChecked, setContentChecked] = useState<boolean>(false)
   // const [featureChecked, setFeatureChecked] = useState<boolean>(false)
   const [skuChecked, setSkuChecked] = useState<boolean>(false)
-  const [content, setContent] = useState<string>('')
+  const [content, setContent] = useState<JSONContent | null>(null)
 
   let defaultValues: DefaultValues<FormSchemaType> = {
     goods_title: '',
@@ -367,9 +368,7 @@ export default function Detail() {
                 </CardHeader>
                 {contentChecked &&
                   <CardContent>
-                    <div className='border rounded-md'>
-                      <Tiptap content={content} onContentChange={setContent} />
-                    </div>
+                    <NovelEditor initialContent={content} onChange={setContent}/>
                   </CardContent>}
               </Card>
               <Card className={'border-none shadow mt-4'}>

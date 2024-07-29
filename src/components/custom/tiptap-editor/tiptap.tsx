@@ -49,7 +49,7 @@ const Tiptap = ({content, onContentChange}: TiptapProps) => {
       {/*{editor && <MenuBubble editor={editor}/>}*/}
       {/*{editor && <MenuFloating editor={editor}/>}*/}
       <EditorContent className="editor__content" editor={editor}/>
-      <div
+      {editor && <div
         className={`flex justify-end p-2 items-center space-x-2 text-sm character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}>
         <svg
           height="20"
@@ -82,7 +82,7 @@ const Tiptap = ({content, onContentChange}: TiptapProps) => {
         <span>
           {editor.storage.characterCount.characters()} / {limit} 字符
         </span>
-      </div>
+      </div>}
     </div>
   )
 }
