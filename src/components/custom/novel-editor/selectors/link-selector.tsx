@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { PopoverContent } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
-import { Check, Trash } from "lucide-react";
-import { useEditor } from "novel";
-import { useEffect, useRef } from "react";
+import {Button} from "@/components/ui/button";
+import {PopoverContent} from "@/components/ui/popover";
+import {cn} from "@/lib/utils";
+import {Popover, PopoverTrigger} from "@radix-ui/react-popover";
+import {Check, Trash} from "lucide-react";
+import {useEditor} from "novel";
+import {useEffect, useRef} from "react";
 
 export function isValidUrl(url: string) {
   try {
@@ -14,6 +14,7 @@ export function isValidUrl(url: string) {
     return false;
   }
 }
+
 export function getUrlFromString(str: string) {
   if (isValidUrl(str)) return str;
   try {
@@ -24,14 +25,15 @@ export function getUrlFromString(str: string) {
     return null;
   }
 }
+
 interface LinkSelectorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
+export const LinkSelector = ({open, onOpenChange}: LinkSelectorProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { editor } = useEditor();
+  const {editor} = useEditor();
 
   // Autofocus on input by default
   useEffect(() => {
@@ -54,24 +56,22 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-60 p-0" sideOffset={10}>
-        <form
-          onSubmit={(e) => {
-            const target = e.currentTarget as HTMLFormElement;
-            e.preventDefault();
-            const input = target[0] as HTMLInputElement;
-            const url = getUrlFromString(input.value);
-            if (url) {
-              editor.chain().focus().setLink({ href: url }).run();
-              onOpenChange(false);
-            }
-          }}
-          className="flex  p-1 "
-        >
+        <div className="flex p-1">
           <input
             ref={inputRef}
             type="text"
             placeholder="Paste a link"
             className="flex-1 bg-background p-1 text-sm outline-none"
+            onKeyDown={(e) => {
+              if (e.code === 'Enter') {
+                const target = e.currentTarget;
+                const url = getUrlFromString(target.value);
+                if (url) {
+                  editor.chain().focus().setLink({href: url}).run();
+                  onOpenChange(false);
+                }
+              }
+            }}
             defaultValue={editor.getAttributes("link").href || ""}
           />
           {editor.getAttributes("link").href ? (
@@ -82,18 +82,25 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               className="flex h-8 items-center rounded-sm p-1 text-red-600 transition-all hover:bg-red-100 dark:hover:bg-red-800"
               onClick={() => {
                 editor.chain().focus().unsetLink().run();
+                // @ts-ignore
                 inputRef.current.value = "";
                 onOpenChange(false);
               }}
             >
-              <Trash className="h-4 w-4" />
+              <Trash className="h-4 w-4"/>
             </Button>
           ) : (
-            <Button size="icon" className="h-8">
-              <Check className="h-4 w-4" />
+            <Button type='button' size="icon" className="h-8" onClick={() => {
+              const url = inputRef.current?.value || '';
+              if (url) {
+                editor.chain().focus().setLink({href: url}).run();
+                onOpenChange(false);
+              }
+            }}>
+              <Check className="h-4 w-4"/>
             </Button>
           )}
-        </form>
+        </div>
       </PopoverContent>
     </Popover>
   );

@@ -42,7 +42,7 @@ export default function Detail() {
   const [contentChecked, setContentChecked] = useState<boolean>(false)
   // const [featureChecked, setFeatureChecked] = useState<boolean>(false)
   const [skuChecked, setSkuChecked] = useState<boolean>(false)
-  const [content, setContent] = useState<JSONContent | null>(null)
+  const [content, setContent] = useState<JSONContent | undefined>(undefined)
 
   let defaultValues: DefaultValues<FormSchemaType> = {
     goods_title: '',
@@ -351,13 +351,13 @@ export default function Detail() {
                   <Button size={'sm'} variant={'link'} className='text-indigo-500'
                           onClick={handleSkuDialog}>添加颜色或尺码等信息</Button>
                   {skuChecked &&
-                    <SkuForm width={'1000px'} height={'800px'} row={''} open={skuChecked} onOpen={setSkuChecked}/>}
+                      <SkuForm width={'1000px'} height={'800px'} row={''} open={skuChecked} onOpen={setSkuChecked}/>}
                 </CardHeader>
                 {skuChecked &&
-                  <CardContent>
-                    <div className='border rounded-md'>
-                    </div>
-                  </CardContent>}
+                    <CardContent>
+                        <div className='border rounded-md'>
+                        </div>
+                    </CardContent>}
               </Card>
               <Card className={'border-none shadow mt-4'}>
                 <CardHeader className='flex flex-row items-center justify-between'>
@@ -367,9 +367,9 @@ export default function Detail() {
                   <Switch checked={contentChecked} onCheckedChange={setContentChecked}/>
                 </CardHeader>
                 {contentChecked &&
-                  <CardContent>
-                    <NovelEditor initialContent={content} onChange={setContent}/>
-                  </CardContent>}
+                    <CardContent>
+                        <NovelEditor initialContent={content} onChange={setContent}/>
+                    </CardContent>}
               </Card>
               <Card className={'border-none shadow mt-4'}>
                 <CardHeader className='flex flex-row items-center justify-between'>
@@ -379,198 +379,198 @@ export default function Detail() {
                   <Switch checked={promoteChecked} onCheckedChange={setPromoteChecked}/>
                 </CardHeader>
                 {promoteChecked && <CardContent>
-                  <div className='grid grid-cols-2 gap-4'>
-                    <FormField
-                      control={form.control}
-                      name='detail_title'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>详细页标题</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='detail_desc'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>详细页描述</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input type='textarea' placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='goods_keyword'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>商品关键词</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input type='textarea' placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='goods_remark'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>商品备注</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input type='textarea' placeholder='请输入商品备注' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='integral'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>赠送积分</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='view_num'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>商品浏览量</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='collect_num'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>商品收藏量</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='like_num'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>商品点赞量</FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <Input placeholder='输入名称' {...field} />
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className='my-5 space-y-2'>
-                    <Label
-                      className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>服务保证</Label>
-                    <div className="space-y-4 p-4 rounded-md border">
-                      <FormField
-                        control={form.control}
-                        name="service_info"
-                        render={({field}) => (
-                          <FormItem
-                            className="flex flex-row items-center justify-between space-y-0">
-                            <FormDescription>可配送海外</FormDescription>
-                            <FormControl>
-                              <Switch
-                                checked={field.value as unknown as boolean}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="service_info"
-                        render={({field}) => (
-                          <FormItem
-                            className="flex flex-row items-center justify-between space-y-0">
-                            <FormDescription>店铺发货</FormDescription>
-                            <FormControl>
-                              <Switch
-                                checked={field.value as unknown as boolean}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="service_info"
-                        render={({field}) => (
-                          <FormItem
-                            className="flex flex-row items-center justify-between space-y-0">
-                            <FormDescription>7天无理由退货</FormDescription>
-                            <FormControl>
-                              <Switch
-                                checked={field.value as unknown as boolean}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="service_info"
-                        render={({field}) => (
-                          <FormItem
-                            className="flex flex-row items-center justify-between space-y-0">
-                            <FormDescription>闪电退款，极速审核</FormDescription>
-                            <FormControl>
-                              <Switch
-                                checked={field.value as unknown as boolean}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                    <div className='grid grid-cols-2 gap-4'>
+                        <FormField
+                            control={form.control}
+                            name='detail_title'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>详细页标题</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='detail_desc'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>详细页描述</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input type='textarea' placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='goods_keyword'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>商品关键词</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input type='textarea' placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='goods_remark'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>商品备注</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input type='textarea' placeholder='请输入商品备注' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='integral'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>赠送积分</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='view_num'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>商品浏览量</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='collect_num'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>商品收藏量</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='like_num'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>商品点赞量</FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <Input placeholder='输入名称' {...field} />
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                </div>
+                              </FormItem>
+                            )}
+                        />
                     </div>
-                  </div>
+                    <div className='my-5 space-y-2'>
+                        <Label
+                            className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>服务保证</Label>
+                        <div className="space-y-4 p-4 rounded-md border">
+                            <FormField
+                                control={form.control}
+                                name="service_info"
+                                render={({field}) => (
+                                  <FormItem
+                                    className="flex flex-row items-center justify-between space-y-0">
+                                    <FormDescription>可配送海外</FormDescription>
+                                    <FormControl>
+                                      <Switch
+                                        checked={field.value as unknown as boolean}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="service_info"
+                                render={({field}) => (
+                                  <FormItem
+                                    className="flex flex-row items-center justify-between space-y-0">
+                                    <FormDescription>店铺发货</FormDescription>
+                                    <FormControl>
+                                      <Switch
+                                        checked={field.value as unknown as boolean}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="service_info"
+                                render={({field}) => (
+                                  <FormItem
+                                    className="flex flex-row items-center justify-between space-y-0">
+                                    <FormDescription>7天无理由退货</FormDescription>
+                                    <FormControl>
+                                      <Switch
+                                        checked={field.value as unknown as boolean}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="service_info"
+                                render={({field}) => (
+                                  <FormItem
+                                    className="flex flex-row items-center justify-between space-y-0">
+                                    <FormDescription>闪电退款，极速审核</FormDescription>
+                                    <FormControl>
+                                      <Switch
+                                        checked={field.value as unknown as boolean}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
                 </CardContent>}
               </Card>
             </div>
@@ -718,136 +718,136 @@ export default function Detail() {
                   <Switch checked={shippingChecked} onCheckedChange={setShippingChecked}/>
                 </CardHeader>
                 {shippingChecked &&
-                  <CardContent>
-                    <div className='mb-4 space-y-2'>
-                      <Label
-                        className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>发货地址</Label>
+                    <CardContent>
+                        <div className='mb-4 space-y-2'>
+                            <Label
+                                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>发货地址</Label>
 
-                      <div className="grid grid-cols-3 space-x-2">
+                            <div className="grid grid-cols-3 space-x-2">
+                                <FormField
+                                    control={form.control}
+                                    name='shipping_province_id'
+                                    render={({field}) => (
+                                      <FormItem>
+                                        <FormLabel>省份<span className="text-destructive"> *</span></FormLabel>
+                                        <div className='w-full relative'>
+                                          <FormControl>
+                                            <Select onValueChange={field.onChange}
+                                                    defaultValue={field.value as unknown as string}>
+                                              <SelectTrigger>
+                                                <SelectValue placeholder="请选择省份"/>
+                                              </SelectTrigger>
+                                              <SelectContent>
+                                                <SelectGroup>
+                                                  <SelectLabel>Fruits</SelectLabel>
+                                                  <SelectItem value="1">Apple</SelectItem>
+                                                  <SelectItem value="2">Banana</SelectItem>
+                                                  <SelectItem value="3">Blueberry</SelectItem>
+                                                  <SelectItem value="4">Grapes</SelectItem>
+                                                  <SelectItem value="5">Pineapple</SelectItem>
+                                                </SelectGroup>
+                                              </SelectContent>
+                                            </Select>
+                                          </FormControl>
+                                          <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                        </div>
+                                      </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name='shipping_city_id'
+                                    render={({field}) => (
+                                      <FormItem>
+                                        <FormLabel>城市<span className="text-destructive"> *</span></FormLabel>
+                                        <div className='w-full relative'>
+                                          <FormControl>
+                                            <Select onValueChange={field.onChange}
+                                                    defaultValue={field.value as unknown as string}>
+                                              <SelectTrigger>
+                                                <SelectValue placeholder="请选择城市"/>
+                                              </SelectTrigger>
+                                              <SelectContent>
+                                                <SelectGroup>
+                                                  <SelectLabel>Fruits</SelectLabel>
+                                                  <SelectItem value="1">Apple</SelectItem>
+                                                  <SelectItem value="2">Banana</SelectItem>
+                                                  <SelectItem value="3">Blueberry</SelectItem>
+                                                  <SelectItem value="4">Grapes</SelectItem>
+                                                  <SelectItem value="5">Pineapple</SelectItem>
+                                                </SelectGroup>
+                                              </SelectContent>
+                                            </Select>
+                                          </FormControl>
+                                          <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                        </div>
+                                      </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name='shipping_area_id'
+                                    render={({field}) => (
+                                      <FormItem>
+                                        <FormLabel>区域<span className="text-destructive"> *</span></FormLabel>
+                                        <div className='w-full relative'>
+                                          <FormControl>
+                                            <Select onValueChange={field.onChange}
+                                                    defaultValue={field.value as unknown as string}>
+                                              <SelectTrigger>
+                                                <SelectValue placeholder="请选择区域"/>
+                                              </SelectTrigger>
+                                              <SelectContent>
+                                                <SelectGroup>
+                                                  <SelectLabel>Fruits</SelectLabel>
+                                                  <SelectItem value="1">Apple</SelectItem>
+                                                  <SelectItem value="2">Banana</SelectItem>
+                                                  <SelectItem value="3">Blueberry</SelectItem>
+                                                  <SelectItem value="4">Grapes</SelectItem>
+                                                  <SelectItem value="5">Pineapple</SelectItem>
+                                                </SelectGroup>
+                                              </SelectContent>
+                                            </Select>
+                                          </FormControl>
+                                          <FormMessage className='text-xs absolute left-0 pt-1'/>
+                                        </div>
+                                      </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
                         <FormField
-                          control={form.control}
-                          name='shipping_province_id'
-                          render={({field}) => (
-                            <FormItem>
-                              <FormLabel>省份<span className="text-destructive"> *</span></FormLabel>
-                              <div className='w-full relative'>
-                                <FormControl>
-                                  <Select onValueChange={field.onChange}
-                                          defaultValue={field.value as unknown as string}>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="请选择省份"/>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectGroup>
-                                        <SelectLabel>Fruits</SelectLabel>
-                                        <SelectItem value="1">Apple</SelectItem>
-                                        <SelectItem value="2">Banana</SelectItem>
-                                        <SelectItem value="3">Blueberry</SelectItem>
-                                        <SelectItem value="4">Grapes</SelectItem>
-                                        <SelectItem value="5">Pineapple</SelectItem>
-                                      </SelectGroup>
-                                    </SelectContent>
-                                  </Select>
-                                </FormControl>
-                                <FormMessage className='text-xs absolute left-0 pt-1'/>
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name='shipping_city_id'
-                          render={({field}) => (
-                            <FormItem>
-                              <FormLabel>城市<span className="text-destructive"> *</span></FormLabel>
-                              <div className='w-full relative'>
-                                <FormControl>
-                                  <Select onValueChange={field.onChange}
-                                          defaultValue={field.value as unknown as string}>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="请选择城市"/>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectGroup>
-                                        <SelectLabel>Fruits</SelectLabel>
-                                        <SelectItem value="1">Apple</SelectItem>
-                                        <SelectItem value="2">Banana</SelectItem>
-                                        <SelectItem value="3">Blueberry</SelectItem>
-                                        <SelectItem value="4">Grapes</SelectItem>
-                                        <SelectItem value="5">Pineapple</SelectItem>
-                                      </SelectGroup>
-                                    </SelectContent>
-                                  </Select>
-                                </FormControl>
-                                <FormMessage className='text-xs absolute left-0 pt-1'/>
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name='shipping_area_id'
-                          render={({field}) => (
-                            <FormItem>
-                              <FormLabel>区域<span className="text-destructive"> *</span></FormLabel>
-                              <div className='w-full relative'>
-                                <FormControl>
-                                  <Select onValueChange={field.onChange}
-                                          defaultValue={field.value as unknown as string}>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="请选择区域"/>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectGroup>
-                                        <SelectLabel>Fruits</SelectLabel>
-                                        <SelectItem value="1">Apple</SelectItem>
-                                        <SelectItem value="2">Banana</SelectItem>
-                                        <SelectItem value="3">Blueberry</SelectItem>
-                                        <SelectItem value="4">Grapes</SelectItem>
-                                        <SelectItem value="5">Pineapple</SelectItem>
-                                      </SelectGroup>
-                                    </SelectContent>
-                                  </Select>
-                                </FormControl>
-                                <FormMessage className='text-xs absolute left-0 pt-1'/>
-                              </div>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name='shipping_free'
-                      render={({field}) => (
-                        <FormItem>
-                          <FormLabel>是否包邮<span className="text-destructive"> *</span></FormLabel>
-                          <div className='w-full relative'>
-                            <FormControl>
-                              <RadioGroup onValueChange={field.onChange}
-                                          defaultValue={String(field.value)}>
-                                <div></div>
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem value="1" id="r1"/>
-                                  <Label htmlFor="r1">包邮</Label>
+                            control={form.control}
+                            name='shipping_free'
+                            render={({field}) => (
+                              <FormItem>
+                                <FormLabel>是否包邮<span className="text-destructive"> *</span></FormLabel>
+                                <div className='w-full relative'>
+                                  <FormControl>
+                                    <RadioGroup onValueChange={field.onChange}
+                                                defaultValue={String(field.value)}>
+                                      <div></div>
+                                      <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="1" id="r1"/>
+                                        <Label htmlFor="r1">包邮</Label>
+                                      </div>
+                                      <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="0" id="r2"/>
+                                        <Label htmlFor="r2">不包邮</Label>
+                                        {String(field.value) === '0' && (
+                                          <div className="flex items-center space-x-2">
+                                            <Input placeholder='请输入配送费'/>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </RadioGroup>
+                                  </FormControl>
+                                  <FormMessage className='text-xs absolute left-0 pt-1'/>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem value="0" id="r2"/>
-                                  <Label htmlFor="r2">不包邮</Label>
-                                  {String(field.value) === '0' && (
-                                    <div className="flex items-center space-x-2">
-                                      <Input placeholder='请输入配送费'/>
-                                    </div>
-                                  )}
-                                </div>
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage className='text-xs absolute left-0 pt-1'/>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                  </CardContent>}
+                              </FormItem>
+                            )}
+                        />
+                    </CardContent>}
               </Card>
             </div>
           </div>

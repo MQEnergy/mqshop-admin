@@ -1,22 +1,21 @@
-import { createImageUpload } from "novel/plugins";
-import { toast } from "sonner";
+import {createImageUpload} from "novel/plugins";
+import {AttachmentUpload} from "@/apis/common";
+import {toast} from "sonner";
+
 
 const onUpload = (file: File) => {
-  const promise = fetch("/api/upload", {
-    method: "POST",
-    headers: {
-      "content-type": file?.type || "application/octet-stream",
-      "x-vercel-filename": file?.name || "image.png",
-    },
-    body: file,
-  });
+  const formData = new FormData();
+  formData.append('file', file)
+  formData.append('file_path', 'product')
+
+  const promise = AttachmentUpload(formData)
 
   return new Promise((resolve, reject) => {
     toast.promise(
       promise.then(async (res) => {
         // Successfully uploaded image
-        if (res.status === 200) {
-          const { url } = (await res.json()) as { url: string };
+        if (res.errcode === 0) {
+          const url = res.data.file_path ? import.meta.env.VITE_RESOURCE_URL + res.data.file_path : res.data.file_path
           // preload the image
           const image = new Image();
           image.src = url;
@@ -24,11 +23,8 @@ const onUpload = (file: File) => {
             resolve(url);
           };
           // No blob store configured
-        } else if (res.status === 401) {
-          resolve(file);
-          throw new Error("`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead.");
-          // Unknown error
         } else {
+          resolve('');
           throw new Error("Error uploading image. Please try again.");
         }
       }),

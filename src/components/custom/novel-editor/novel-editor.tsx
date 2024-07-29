@@ -16,7 +16,6 @@ import {defaultExtensions} from "./extensions";
 import {ColorSelector} from "./selectors/color-selector";
 import {LinkSelector} from "./selectors/link-selector";
 import {NodeSelector} from "./selectors/node-selector";
-import {MathSelector} from "./selectors/math-selector";
 import {Separator} from "@/components/ui/separator";
 
 import {handleImageDrop, handleImagePaste} from "novel/plugins";
@@ -44,27 +43,28 @@ const NovelEditor = ({initialContent, onChange}: EditorProp) => {
   const [openAI, setOpenAI] = useState(false);
 
   //Apply Codeblock Highlighting on the HTML from editor.getHTML()
-  const highlightCodeblocks = (content: string) => {
-    const doc = new DOMParser().parseFromString(content, 'text/html');
-    doc.querySelectorAll('pre code').forEach((el) => {
-      // @ts-ignore
-      // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
-      // hljs.highlightElement(el);
-    });
-    return new XMLSerializer().serializeToString(doc);
-  };
+  // const highlightCodeblocks = (content: string) => {
+  //   const doc = new DOMParser().parseFromString(content, 'text/html');
+  //   doc.querySelectorAll('pre code').forEach((el) => {
+  //     // @ts-ignore
+  //     // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
+  //     // hljs.highlightElement(el);
+  //   });
+  //   return new XMLSerializer().serializeToString(doc);
+  // };
 
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
-    window.localStorage.setItem("html-content", highlightCodeblocks(editor.getHTML()));
+    // window.localStorage.setItem("html-content", highlightCodeblocks(editor.getHTML()));
+    window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
     setSaveStatus("Saved");
   }, 500);
 
   useEffect(() => {
-    const content = window.localStorage.getItem("novel-content");
+    const content = window.localStorage.getItem("novel-content") || `{"a":"asa"}`;
     if (content) onChange(JSON.parse(content));
   }, []);
 
@@ -82,7 +82,7 @@ const NovelEditor = ({initialContent, onChange}: EditorProp) => {
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="relative max-h-[500px] overflow-y-auto w-full max-w-screen-lg border bg-background rounded-md"
+          className="relative max-h-[1000px] overflow-y-auto w-full max-w-screen-lg border bg-background rounded-md"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -107,7 +107,7 @@ const NovelEditor = ({initialContent, onChange}: EditorProp) => {
               {suggestionItems.map((item) => (
                 <EditorCommandItem
                   value={item.title}
-                  onCommand={(val) => item.command(val)}
+                  onCommand={(val) => item.command?.(val)}
                   className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
                   key={item.title}
                 >
@@ -130,8 +130,6 @@ const NovelEditor = ({initialContent, onChange}: EditorProp) => {
             <Separator orientation="vertical"/>
 
             <LinkSelector open={openLink} onOpenChange={setOpenLink}/>
-            <Separator orientation="vertical"/>
-            <MathSelector/>
             <Separator orientation="vertical"/>
             <TextButtons/>
             <Separator orientation="vertical"/>

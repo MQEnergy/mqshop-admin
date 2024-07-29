@@ -2,7 +2,6 @@ import {
   Check,
   CheckSquare,
   ChevronDown,
-  Code,
   Heading1,
   Heading2,
   Heading3,
@@ -26,60 +25,53 @@ export type SelectorItem = {
 
 const items: SelectorItem[] = [
   {
-    name: "Text",
+    name: "文本", // Text
     icon: TextIcon,
-    command: (editor) => editor.chain().focus().clearNodes().run(),
+    command: (editor) => editor?.chain().focus().clearNodes().run(),
     // I feel like there has to be a more efficient way to do this – feel free to PR if you know how!
-    isActive: (editor) =>
-      editor.isActive("paragraph") && !editor.isActive("bulletList") && !editor.isActive("orderedList"),
+    isActive: (editor) => (editor?.isActive("paragraph") && !editor?.isActive("bulletList") && !editor?.isActive("orderedList")) || true,
   },
   {
-    name: "Heading 1",
+    name: "标题1", // Heading 1
     icon: Heading1,
-    command: (editor) => editor.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 1 }),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
+    isActive: (editor) => editor?.isActive("heading", { level: 1 }) || true,
   },
   {
-    name: "Heading 2",
+    name: "标题2",
     icon: Heading2,
-    command: (editor) => editor.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 2 }),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
+    isActive: (editor) => editor?.isActive("heading", { level: 2 }) || true,
   },
   {
-    name: "Heading 3",
+    name: "标题3",
     icon: Heading3,
-    command: (editor) => editor.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 3 }),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
+    isActive: (editor) => editor?.isActive("heading", { level: 3 }) || true,
   },
   {
-    name: "To-do List",
+    name: "待办列表",
     icon: CheckSquare,
-    command: (editor) => editor.chain().focus().clearNodes().toggleTaskList().run(),
-    isActive: (editor) => editor.isActive("taskItem"),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleTaskList().run(),
+    isActive: (editor) => editor?.isActive("taskItem") || true,
   },
   {
-    name: "Bullet List",
+    name: "无序列表",
     icon: ListOrdered,
-    command: (editor) => editor.chain().focus().clearNodes().toggleBulletList().run(),
-    isActive: (editor) => editor.isActive("bulletList"),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleBulletList().run(),
+    isActive: (editor) => editor?.isActive("bulletList") || true,
   },
   {
-    name: "Numbered List",
+    name: "有序列表",
     icon: ListOrdered,
-    command: (editor) => editor.chain().focus().clearNodes().toggleOrderedList().run(),
-    isActive: (editor) => editor.isActive("orderedList"),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleOrderedList().run(),
+    isActive: (editor) => editor?.isActive("orderedList") || true,
   },
   {
-    name: "Quote",
+    name: "引用",
     icon: TextQuote,
-    command: (editor) => editor.chain().focus().clearNodes().toggleBlockquote().run(),
-    isActive: (editor) => editor.isActive("blockquote"),
-  },
-  {
-    name: "Code",
-    icon: Code,
-    command: (editor) => editor.chain().focus().clearNodes().toggleCodeBlock().run(),
-    isActive: (editor) => editor.isActive("codeBlock"),
+    command: (editor) => editor?.chain().focus().clearNodes().toggleBlockquote().run(),
+    isActive: (editor) => editor?.isActive("blockquote") || true,
   },
 ];
 interface NodeSelectorProps {
