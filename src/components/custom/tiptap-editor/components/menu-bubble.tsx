@@ -1,6 +1,6 @@
 import {Editor, BubbleMenu} from "@tiptap/react";
 import {Fragment} from "react";
-import MenuItem from "@/components/custom/tiptap/components/menu-item.tsx";
+import MenuItem from "./menu-item.tsx";
 
 export default function MenuBubble({editor}: { editor: Editor }) {
   const items = [

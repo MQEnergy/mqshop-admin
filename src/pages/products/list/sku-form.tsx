@@ -45,7 +45,7 @@ export default function SkuForm({...props}: SkuFormProps) {
       ...info
     }
   })
-  const [skuList, setSkuList] = useState([
+  const [skuList] = useState([
     {
       id: 1,
       attr_name: "黑色 / M",

@@ -2,7 +2,7 @@ import {z} from 'zod'
 
 // We're keeping a simple non-relational schema here.
 // IRL, you will have a schema for your data models.
-export const columnSchema: z.ZodObject<any> = z.object({
+export const columnSchema = z.object({
   id: z.number(),
   brand_name: z.string(),
   logo_url: z.string(),

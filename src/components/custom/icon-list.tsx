@@ -71,5 +71,5 @@ function IconList({iconKeys, ...props}: IconListProps) {
       }} clickable/>
     </div>
   );
-};
+}
 export default IconList

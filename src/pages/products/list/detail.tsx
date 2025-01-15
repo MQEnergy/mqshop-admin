@@ -44,7 +44,7 @@ export default function Detail() {
   const [skuChecked, setSkuChecked] = useState<boolean>(false)
   const [content, setContent] = useState<JSONContent | undefined>(undefined)
 
-  let defaultValues: DefaultValues<FormSchemaType> = {
+  const defaultValues: DefaultValues<FormSchemaType> = {
     goods_title: '',
     goods_subtitle: '',
     cate_id: undefined,

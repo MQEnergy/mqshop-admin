@@ -1,6 +1,6 @@
 import {Editor, FloatingMenu} from "@tiptap/react";
 import {Fragment} from "react";
-import MenuItem from "@/components/custom/tiptap/components/menu-item.tsx";
+import MenuItem from "./menu-item.tsx";
 
 export default function MenuFloating({editor}: { editor: Editor }) {
   const items = [

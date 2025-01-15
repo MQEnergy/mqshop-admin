@@ -108,4 +108,4 @@ export function AvatarUploader(props: ImageUploaderProps) {
       </div>
     </div>
   );
-};
+}
