@@ -2,6 +2,9 @@
 基于React18 + Zustand + Vite + TS + RouterV6 + shadcn-UI的mqshop电商后台管理系统
 
 # 努力开发中，敬请期待...
+https://mqshop-admin.netlify.app/
+
+admin / admin888
 
 # 后端项目
 [https://github.com/MQEnergy/mqshop](https://github.com/MQEnergy/mqshop)
